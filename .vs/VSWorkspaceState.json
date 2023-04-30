@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\gmach_front",
+    "\\gmach_front\\src",
+    "\\gmach_front\\src\\Components"
   ],
   "PreviewInSolutionExplorer": false
 }
