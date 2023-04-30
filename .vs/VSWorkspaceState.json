@@ -1,9 +1,13 @@
 {
   "ExpandedNodes": [
+<<<<<<< HEAD
     "",
     "\\gmach_front",
     "\\gmach_front\\src",
     "\\gmach_front\\src\\Components"
+=======
+    ""
+>>>>>>> c14577d78f99524cce3f2284fdf8f5592e0af8c2
   ],
   "PreviewInSolutionExplorer": false
 }
