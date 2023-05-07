@@ -10,9 +10,8 @@ import NewUser from './Components/JavaScriptFiles/NewUser';
 export default function App() {
   return (
     <div >
-  
-   <LogIn/>
-   <NewUser/>
+      <LogIn/>
+      <NewUser/>
     </div>
   );
 }
