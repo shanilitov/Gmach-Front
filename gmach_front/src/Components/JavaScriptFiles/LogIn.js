@@ -1,9 +1,11 @@
-import Reat from "react";
+import Reat, { useContext } from "react";
 import BasicTextFields from "./BasicTextFields";
 import BasicButtons from "./BasicButtons";
 
 
 function LogIn() {
+  
+    
     const myStyle = {
         width: '60%',
         height: '50%',
@@ -18,7 +20,7 @@ function LogIn() {
             <h1>התחברות</h1>
             <BasicTextFields value="שם" type="text" />
             <BasicTextFields value="סיסמא" type="password" />
-            <BasicButtons value="התחבר" func="" />
+            <BasicButtons value="התחבר" onClick="loginClicked" />
         </div>)
 }
 
