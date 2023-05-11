@@ -20,7 +20,7 @@ function LogIn() {
             <h1>התחברות</h1>
             <BasicTextFields value="שם" type="text" />
             <BasicTextFields value="סיסמא" type="password" />
-            <BasicButtons value="התחבר" onClick="loginClicked" />
+            <BasicButtons value="התחבר" onClick="loginClicked"/>
         </div>)
 }
 
