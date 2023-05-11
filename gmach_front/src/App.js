@@ -7,6 +7,7 @@ import LogIn from './Components/JavaScriptFiles/LogIn';
 import NewUser from './Components/JavaScriptFiles/NewUser';
 import { Route } from '@mui/icons-material';
 import { Router } from '@mui/icons-material';
+import AddLoan from './Components/JavaScriptFiles/AddLoan';
 
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="/signIn" element={<NewUser/>}/>
         </Route>
       </Router>
+      
     </div>
   );
 
