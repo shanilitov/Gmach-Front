@@ -1,4 +1,4 @@
-import Reat, { useContext } from "react";
+import React, { useContext } from "react";
 import BasicTextFields from "./BasicTextFields";
 import BasicButtons from "./BasicButtons";
 
