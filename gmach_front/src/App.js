@@ -14,7 +14,7 @@ export default function App() {
     <div>
       <Router>
         <Route path="/">
-          <Route path="/logIn" element={<LogIn/>}/>
+          <Route path="/" element={<LogIn/>}/>
           <Route path="/signIn" element={<NewUser/>}/>
         </Route>
       </Router>
