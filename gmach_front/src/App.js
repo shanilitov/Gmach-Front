@@ -14,7 +14,6 @@ import Application from './Components/JavaScriptFiles/Application';
 export default function App() {
   return (
     <div>
-      <Bar/>
       <Application/>
       <Router>
         <Route path="/" element ={<Application/>}>
