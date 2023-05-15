@@ -15,7 +15,7 @@ function NewUser(){
             <BasicTextFields value="צור סיסמא" type="password" />
             <BasicTextFields value="חזור על הסיסמא" type="password" />
         </div>
-        <BasicButtons value="הרשם" func="" />
+        <BasicButtons value="הרשם" />
         
     </div>)
 }

@@ -10,13 +10,20 @@ import { Router } from '@mui/icons-material';
 
 
 export default function App() {
+  const [isRegistered, setIsRegistered] = React.useState(false);
+
   return (
     <div>
       <Router>
-        <Route path="/">
-          <Route path="/logIn" element={<LogIn/>}/>
-          <Route path="/signIn" element={<NewUser/>}/>
-        </Route>
+        <Switch>
+          <Route exact path="/registration">
+            {isRegistered ? <Redirect to="/" /> : <LogIn setIsRegistered={setIsRegistered} />} 
+          </Route>
+          <Route path="/">
+          {isRegistered ? <Home /> : <Redirect to="/registration" />}
+          </Route>
+          <Route path="/signIn" component={NewUser} />
+        </Switch>
       </Router>
     </div>
   );
