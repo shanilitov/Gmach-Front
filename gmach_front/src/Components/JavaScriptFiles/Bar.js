@@ -13,20 +13,18 @@ function Bar() {
   const picture = {
     width: "100%",
     height: "100px",
-    backgroundImage: 'url("logo3.jpg")',
+    backgroundImage: 'url("1.jpg")',
     gridColumn: '1 / span 2',
     gridRow: '1'
   };
   return (
     <div>
       <div style={myStyle}>
-        {" "}
-        <div style={picture}>
-
-          LOGO
-          <BasicButtons value={<CreateSvgIcon sx={{ backgroundColor:'white', gridColumn: '2 / span 3', gridRow:'1' }} />}  func=""></BasicButtons>
-        
+        <div>
+        <img src="./logo3.jpg"/>
         </div>
+        <BasicButtons value={<CreateSvgIcon sx={{ backgroundColor:'white', gridColumn: '2 / span 3', gridRow:'1' }} />}  func=""></BasicButtons>
+       
       </div>
     </div>
   );
