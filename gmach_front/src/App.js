@@ -14,7 +14,7 @@ import Application from './Components/JavaScriptFiles/Application';
 export default function App() {
   return (
     <div>
-      <Bar/>
+      {/* <Bar/>
       <Application/>
       <Router>
         <Route path="/" element ={<Application/>}>
@@ -22,7 +22,8 @@ export default function App() {
           <Route path="/signIn" element={<NewUser/>}/>
           <Route path="/app" element={<Application/>}/>
         </Route>
-      </Router>
+      </Router> */}
+      <Application />
       
     </div>
   );
