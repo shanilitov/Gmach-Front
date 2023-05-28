@@ -55,7 +55,8 @@ export default function App() {
           <Route path="/signIn" element={<NewUser/>}/>
           <Route path="/app" element={<Application/>}/>
         </Route>
-      </Router>
+      </Router> 
+      <Application />
       
     </div>
   );
