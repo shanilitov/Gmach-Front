@@ -3,6 +3,8 @@ import BasicTextFields from "../BasicTextFields";
 import BasicButtons from "../BasicButtons";
 
 function NewUser(){
+    //TODO: add function that sighn in the user!
+
     return(
     <div>
         <h1>הרשמה</h1>
