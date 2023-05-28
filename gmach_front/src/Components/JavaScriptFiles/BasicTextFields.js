@@ -11,7 +11,7 @@ let value=props.value
             noValidate
             autoComplete="off"
         >
-            <TextField id="outlined-basic" label={value}  variant="outlined" type={type} />
+            <TextField id="outlined-basic" label={value}  variant="outlined" type={type} onChange={props.func} content={props.text}    />
 
         </Box>
     );
