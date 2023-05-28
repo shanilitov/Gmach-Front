@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import React, { useContext } from "react";
 import BasicTextFields from "./BasicTextFields";
 import BasicButtons from "./BasicButtons";
 
@@ -20,7 +21,7 @@ function LogIn() {
             <h1>התחברות</h1>
             <BasicTextFields value="שם" type="text" />
             <BasicTextFields value="סיסמא" type="password" />
-            <BasicButtons value="התחבר"  />
+            <BasicButtons value="התחבר" onClick="loginClicked"/>
         </div>)
 }
 

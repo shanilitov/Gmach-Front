@@ -11,8 +11,9 @@ export default function BasicButtons(props) {
         <Stack spacing={5} direction="row">
         <Button variant="outlined"  size='large' onClick={func}>{value}</Button>
         </Stack>
+    
     );
 
 
-    window.open()
+    //window.open()
 }
