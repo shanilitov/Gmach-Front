@@ -1,8 +1,10 @@
 import React from "react";
-import BasicTextFields from "./BasicTextFields";
-import BasicButtons from "./BasicButtons";
+import BasicTextFields from "../BasicTextFields";
+import BasicButtons from "../BasicButtons";
 
 function NewUser(){
+    //TODO: add function that sighn in the user!
+
     return(
     <div>
         <h1>הרשמה</h1>
@@ -15,9 +17,8 @@ function NewUser(){
             <BasicTextFields value="צור סיסמא" type="password" />
             <BasicTextFields value="חזור על הסיסמא" type="password" />
         </div>
-        <BasicButtons value="הרשם" func="GmachApi.Controllers.SignIn()" />
+        <BasicButtons value="הרשם" />
         
     </div>)
 }
 export default NewUser;
-
