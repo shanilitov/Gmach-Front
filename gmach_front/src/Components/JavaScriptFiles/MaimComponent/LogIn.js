@@ -1,6 +1,6 @@
 import React, { useContext, useState, useNavigate } from "react";
-import BasicTextFields from "./BasicTextFields";
-import BasicButtons from "./BasicButtons";
+import BasicTextFields from "../HelpingComponent/BasicTextFields";
+import BasicButtons from "../HelpingComponent/BasicButtons";
 
 
 function LogIn() {

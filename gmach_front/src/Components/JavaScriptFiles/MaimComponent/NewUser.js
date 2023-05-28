@@ -1,6 +1,6 @@
 import React from "react";
-import BasicTextFields from "./BasicTextFields";
-import BasicButtons from "./BasicButtons";
+import BasicTextFields from "../BasicTextFields";
+import BasicButtons from "../BasicButtons";
 
 function NewUser(){
     return(

@@ -1,4 +1,4 @@
-import AlignItemsList from "./AlignItemsList"
+import AlignItemsList from "../AlignItemsList"
 
 export default function Deposits(props){
     let type= props.type

@@ -1,6 +1,6 @@
 import Bar from "./Bar";
 import VerticalTabs from "./VerticalTabs"
-import AlignItemsList from "./AlignItemsList";
+import AlignItemsList from "../AlignItemsList";
 import { Margin } from "@mui/icons-material";
 export default function Application(props) {
   /*user=props.user*/
