@@ -10,6 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 import './Components/JavaScriptFiles/MaimComponent/NewUser';
 import './Components/JavaScriptFiles/MaimComponent/Application';
 import Application from './Components/JavaScriptFiles/MaimComponent/Application';
+
 function App() {
   const [isRegistered, setIsRegistered] = React.useState(false);
 
@@ -17,7 +18,8 @@ function App() {
   return (
     <div>
 
-<Application/>
+          <Application/>
+
     </div>
   );
 
