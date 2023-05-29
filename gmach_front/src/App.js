@@ -1,16 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
-import './Components/CSSFiles/Style.css'
-import Asynchronous from './Components/JavaScriptFiles/AsynchronousFeild';
-import BasicTextFields from "./Components/JavaScriptFiles/BasicTextFields";
-import LogIn from './Components/JavaScriptFiles/LogIn';
-import ResponsiveAppBar from './Components/JavaScriptFiles/ResponsiveAppBar';
-import MenuAppBar from './Components/JavaScriptFiles/MenuAppBar';
-import { useContext } from 'react';
+import LogIn from './Components/JavaScriptFiles/MaimComponent/LogIn';
 import React from 'react';
-import NewUser from './Components/JavaScriptFiles/NewUser';
+import NewUser from './Components/JavaScriptFiles/MaimComponent/NewUser';
 import { Route } from '@mui/icons-material';
 import { Router } from '@mui/icons-material';
+import { Switch } from '@mui/material';
+import { Redirect } from 'react-router-dom';
 
 
 function App() {
@@ -19,15 +14,15 @@ function App() {
 
   return (
     <div>
-      
+     
     
-      <Router>
+      <Router> 
         <Switch>
           <Route exact path="/registration">
             {isRegistered ? <Redirect to="/" /> : <LogIn setIsRegistered={setIsRegistered} />} 
           </Route>
           <Route path="/">
-          {isRegistered ? <Home /> : <Redirect to="/registration" />}
+          {isRegistered ? <App /> : <Redirect to="/registration" />}
           </Route>
           <Route path="/signIn" component={NewUser} />
         </Switch>
