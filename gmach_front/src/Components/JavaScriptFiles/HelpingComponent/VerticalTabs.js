@@ -4,9 +4,9 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import AlignItemsList from "../AlignItemsList";
+import AlignItemsList from "../HelpingComponent/AlignItemsList";
 import Deposits from "../MaimComponent/Deposits";
-import Loans from "../Loans";
+import Loans from "../MaimComponent/Loans";
 
 
 function TabPanel(props) {

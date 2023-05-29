@@ -1,6 +1,6 @@
-import Bar from "./Bar";
-import VerticalTabs from "./VerticalTabs"
-import AlignItemsList from "../AlignItemsList";
+import Bar from "../HelpingComponent/Bar";
+import VerticalTabs from "../HelpingComponent/VerticalTabs";
+import AlignItemsList from "../HelpingComponent/AlignItemsList";
 import { Margin } from "@mui/icons-material";
 export default function Application(props) {
   /*user=props.user*/
