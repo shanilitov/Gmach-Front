@@ -5,7 +5,7 @@ import { Login, Route } from '@mui/icons-material';
 import { Router } from '@mui/icons-material';
 import { Switch } from '@mui/material';
 import NewUser from './Components/JavaScriptFiles/MaimComponent/NewUser';
-import { Redirect } from 'react-router-dom';
+import { Navigate, Redirect } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
 import './Components/JavaScriptFiles/MaimComponent/NewUser';
 import './Components/JavaScriptFiles/MaimComponent/Application';
@@ -18,7 +18,13 @@ function App() {
   return (
     <div>
 
-          <Application/>
+<Route exact path="/registration">
+            {isRegistered ? <Navigate to="/" /> : <LogIn setIsRegistered={setIsRegistered} />} 
+          </Route>
+          <Route path="/">
+          {isRegistered ? <App /> : <Navigate to="/registration" />}
+          </Route>
+          <Route path="/signIn" component={NewUser} />
 
     </div>
   );
