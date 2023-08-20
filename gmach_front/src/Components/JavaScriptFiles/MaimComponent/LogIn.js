@@ -1,6 +1,7 @@
 import React, { useContext, useState, useNavigate } from "react";
 import BasicTextFields from "../HelpingComponent/BasicTextFields";
 import BasicButtons from "../HelpingComponent/BasicButtons";
+import { Navigate } from "react-router-dom";
 
 
 function LogIn() {
@@ -9,7 +10,7 @@ function LogIn() {
     const [password, setpassword] = useState('');
     const navigate = useNavigate()
 
-    // TODO: Chane it! it's a reuse from my other project.
+    // TODO: Change it! it's a reuse from my other project.
     async function postData(url = '', data = {}) {
         const response = await fetch(url, {
             method: 'POST',

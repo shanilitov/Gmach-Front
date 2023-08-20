@@ -1,0 +1,32 @@
+#logIn{
+    width: 60%;
+    height: 50%;
+    margin-top: 25%;
+    margin-bottom: 25%;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.NewUserPage{
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    width: 20%;
+    padding: 5%;
+    background-color: rgb(47, 54, 77);
+}
+
+#h_newUser{
+    color: white;
+    font-size: xx-large;
+    text-align: center!important;
+    
+}
+.AllFeilds{
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    width: 80%;
+    padding: 5%;
+    background-color: rgb(231, 234, 243);
+}
