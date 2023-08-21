@@ -1,6 +1,7 @@
 import BasicButtons from "./BasicButtons";
 import CreateSvgIcon from "./CreateSvgIcon";
 
+
 function Bar() {
   const myStyle = {
     display: 'grid',
@@ -22,6 +23,7 @@ function Bar() {
         <div style={picture}>
         
         </div>
+
         <BasicButtons value={<CreateSvgIcon sx={{ backgroundColor:'white', gridColumn: '2 / span 3', gridRow:'1' }} />}  func=""></BasicButtons>
        
       </div>

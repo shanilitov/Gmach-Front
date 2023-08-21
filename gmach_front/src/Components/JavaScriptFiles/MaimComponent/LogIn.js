@@ -2,15 +2,21 @@ import React, { useContext, useState, useNavigate } from "react";
 import BasicTextFields from "../HelpingComponent/BasicTextFields";
 import BasicButtons from "../HelpingComponent/BasicButtons";
 import { Navigate } from "react-router-dom";
-
+import Bar from "../HelpingComponent/Bar";
+import logoPhoto from "../../../img/logoPhoto.png";
+import "../../../CSSFiles/StylePage.css"
+import SignUp from "./NewUser";
+import App from "../../../App";
 
 function LogIn() {
   
     const [name, setname] = useState('');
     const [password, setpassword] = useState('');
-    const navigate = useNavigate()
+    //const [isRegistered, setIsRegistered] = React.useState(true);
 
-    // TODO: Change it! it's a reuse from my other project.
+   // const navigate = useNavigate();
+
+    // TODO: Change it! it's a reuse from my other project. Shani.
     async function postData(url = '', data = {}) {
         const response = await fetch(url, {
             method: 'POST',
@@ -43,50 +49,47 @@ function LogIn() {
                 if (temp !== undefined) {
                     //if it's the admin he will see the admin viwe
                     if (temp.adamin) {
-                        navigate(`/admin`)
+                        Navigate(`/admin`)
                     }
                     //if it's a simple worker we will show the branch view
                     else {
-                        navigate(`/shop/${temp.user_name}/${temp.branch_id}`)
+                        Navigate(`/shop/${temp.user_name}/${temp.branch_id}`)
                     }
                 }
                 //if this is no user he will see an annoncment and stay in the same screen
                 else {
                     alert('please try again or go to sign-in if you still dont have an account')
-                    navigate(`/login`)
+                    Navigate(`/login`)
                 }
             })
     }
 
     const sighninClick = () => {
         console.log('go to sign-in')
-        navigate('/signin')
+        Navigate('/signin')
 
     }
     //here my code ends....
 
 
-    const myStyle = {
-        width: '60%',
-        height: '50%',
-        marginTop: '15%',
-        marginBottom: '25%',
-        marginLeft: '40%',
-        marginRight: '20%',
-    }
-
+   
     function loginClicked(){
         
     }
 
     return (
-        <div id="LogIn" style={myStyle}>
+        <div id="LogIn" >
+        <img src= {logoPhoto} alt="Logo" className ="photo" />
+        <div id="back">
+        <div className="LogInFields">
             <h1>התחברות</h1>
             {/* work on the onChange */}
             <BasicTextFields value="שם" type="text" onChange={(event) => { setname(event.target.value)}} />
             <BasicTextFields value="סיסמא" type="password" />
             <BasicButtons value="התחבר" onClick="loginClicked"/>
-            <a href="/sighnin">חדש במערכת? עבור להרשמה</a>
+            <a href="SignUp" >חדש במערכת? עבור להרשמה</a>
+        </div>
+        </div>
         </div>)
 }
 

@@ -2,6 +2,9 @@ import React from "react";
 import BasicTextFields from "../HelpingComponent/BasicTextFields";
 import BasicButtons from "../HelpingComponent/BasicButtons";
 import "../../../CSSFiles/StylePage.css"
+import AlignItemsList from "../HelpingComponent/AlignItemsList";
+import CreateSvgIcon from "../HelpingComponent/CreateSvgIcon";
+import ResponsiveAppBar from "../HelpingComponent/ResponsiveAppBar";
 function NewUser(){
     //TODO: add function that sighn in the user!
 
@@ -18,9 +21,13 @@ function NewUser(){
             <BasicTextFields value="כתובת מייל" type="text" />
             <BasicTextFields value="צור סיסמא" type="password" />
             <BasicTextFields value="חזור על הסיסמא" type="password" />
-            <BasicButtons value="הרשם" />
+            </div>
+            <div id="NewUserBtn">
+                <BasicButtons value="הרשם" />
             </div>
         </div>
+        
+        
     </div>)
 }
 export default NewUser;
