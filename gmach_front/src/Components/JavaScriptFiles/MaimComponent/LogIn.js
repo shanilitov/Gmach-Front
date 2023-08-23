@@ -85,7 +85,7 @@ function LogIn() {
             <h1>התחברות</h1>
             {/* work on the onChange */}
             <BasicTextFields value="שם" type="text" onChange={(event) => { setname(event.target.value)}} />
-            <BasicTextFields value="סיסמא" type="password" />
+            <BasicTextFields value="סיסמא" type="password" onChange = {(event)=>{setpassword(event.target.value)}}/>
             <BasicButtons value="התחבר" onClick="loginClicked"/>
             <a href="SignUp" >חדש במערכת? עבור להרשמה</a>
         </div>
