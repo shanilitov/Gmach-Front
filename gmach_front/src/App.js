@@ -18,8 +18,9 @@ import ResponsiveAppBar from "./Components/JavaScriptFiles/HelpingComponent/Resp
 import logoPhoto from "../src/img/logoPhoto.png";
 import Bar from "./Components/JavaScriptFiles/HelpingComponent/Bar";
 
+
 function App() {
-  const [isRegistered, setIsRegistered] = React.useState(true);
+  const [isRegistered, setIsRegistered] = React.useState(false);
 
   return (
     <div>
@@ -39,7 +40,7 @@ function App() {
                   )
                 }
               ></Route>
-              <Route path="/SignUp" element={<NewUser/>}></Route>
+              <Route path="/SignUp" element={<NewUser />}></Route>
               <Route path="/App" element={<Application/>}></Route>
             </Route>
           </Routes>

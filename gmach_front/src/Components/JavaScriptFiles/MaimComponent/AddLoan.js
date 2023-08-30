@@ -1,4 +1,4 @@
-import Reat from "react";
+import React from "react";
 import BasicTextFields from "./BasicTextFields";
 import BasicButtons from "./BasicButtons";
 import Asynchronous from "./AsynchronousFeild";

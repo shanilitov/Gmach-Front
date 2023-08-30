@@ -7,6 +7,9 @@ import Box from "@mui/material/Box";
 import AlignItemsList from "../HelpingComponent/AlignItemsList";
 import Deposits from "../MaimComponent/Deposits";
 import Loans from "../MaimComponent/Loans";
+import Blog from "../HelpingComponent/Blog"
+import ActionAreaCard from "./ActionAreaCard";
+import AboutUs from "./AboutUs";
 
 
 function TabPanel(props) {
@@ -20,11 +23,11 @@ function TabPanel(props) {
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
     >
-      {value === index&& (
+      {value === index && (
         <Box sx={{ p: 3 }}>
           <Typography>{children}</Typography>
         </Box>
-      ) }
+      )}
     </div>
   );
 }
@@ -39,7 +42,6 @@ function a11yProps(index) {
   return {
     id: `vertical-tab-${index}`,
     "aria-controls": `vertical-tabpanel-${index}`,
-    
   };
 }
 
@@ -60,6 +62,7 @@ export default function VerticalTabs() {
       }}
     >
       <Tabs
+      height="200%"
         orientation="vertical"
         variant="scrollable"
         value={value}
@@ -69,14 +72,21 @@ export default function VerticalTabs() {
       >
         <Tab label="השקעות" {...a11yProps(0)} />
         <Tab label="הלוואות" {...a11yProps(1)} />
+        <Tab label="פעילות העמותה" {...a11yProps(2)} />
+        <Tab label="פעילות העמותה" {...a11yProps(3)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        
-        <Deposits/>
+        <Deposits />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        
         <Loans />
+      </TabPanel>
+
+      <TabPanel value={value} index={2}>
+        <Blog />
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <AboutUs />
       </TabPanel>
     </Box>
   );
