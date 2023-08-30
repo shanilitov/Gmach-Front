@@ -36,12 +36,13 @@ function App() {
                     ((<Navigate to="/App" />),
                     (<LogIn setIsRegistered={setIsRegistered} />))
                   ) : (
-                    <Navigate to="/SignUp" />
+                    <Navigate to="/LogIn" />
                   )
                 }
               ></Route>
               <Route path="/SignUp" element={<NewUser />}></Route>
               <Route path="/App" element={<Application/>}></Route>
+              <Route path="/LogIn" element={<LogIn />}></Route>
             </Route>
           </Routes>
         </Router>

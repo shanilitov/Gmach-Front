@@ -7,7 +7,7 @@ import AlignItemsList from "../HelpingComponent/AlignItemsList";
 import CreateSvgIcon from "../HelpingComponent/CreateSvgIcon";
 import ResponsiveAppBar from "../HelpingComponent/ResponsiveAppBar";
 import { Password } from "@mui/icons-material";
-import ErrorAlert from "../HelpingComponent/errorAlert";
+import ErrorAlert from "../HelpingComponent/ErrorAlert";
 
 function NewUser() {
   //TODO: add function that sighn in the user!

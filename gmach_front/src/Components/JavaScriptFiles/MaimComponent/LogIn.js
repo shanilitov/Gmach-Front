@@ -78,9 +78,6 @@ function LogIn() {
         if(name !== '' && password !== ''){
             subClick()
         }
-        else{
-            alert('invalid field')
-        }
     }
 
     return (
