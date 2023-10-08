@@ -1,8 +1,8 @@
 import React from "react";
-import BasicTextFields from "./BasicTextFields";
-import BasicButtons from "./BasicButtons";
-import Asynchronous from "./AsynchronousFeild";
-import FloatingActionButtonZoom from "./FloatingActionButtonZoom";
+import BasicTextFields from "../HelpingComponent/BasicTextFields";
+import BasicButtons from "../HelpingComponent/BasicButtons";
+import Asynchronous from "../HelpingComponent/AsynchronousFeild";
+import FloatingActionButtonZoom from "../HelpingComponent/FloatingActionButtonZoom";
 
 function AddLoan(props){
     let date = new Date()
