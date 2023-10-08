@@ -61,6 +61,12 @@
     margin-left: 40%;
     padding-top: 5%;
 }
+#showAlert{
+    position: absolute;
+    margin-top: -50%;
+    z-index: 0;
+
+}
 .AllFeilds{
     margin-left: auto;
     margin-right: auto;
