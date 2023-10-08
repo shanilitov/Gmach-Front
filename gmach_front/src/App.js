@@ -20,7 +20,7 @@ import Bar from "./Components/JavaScriptFiles/HelpingComponent/Bar";
 
 
 function App() {
-  const [isRegistered, setIsRegistered] = React.useState(false);
+  const [isRegistered, setIsRegistered] = React.useState(true);
 
   return (
     <div>
