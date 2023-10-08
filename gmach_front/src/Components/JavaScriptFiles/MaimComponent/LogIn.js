@@ -32,11 +32,12 @@ function LogIn() {
     }
 
     const subClick = () => {
+        console.log('sub click')
         let data = {
             'name': name,
             'password': password
         }
-        postData('http://localhost:3600/login', data)// TODO: check what is my url
+        postData('http://localhost:60251', data)// TODO: check what is my url
             .then(ans => {
 
                 console.log('ans: ' + ans)
@@ -75,9 +76,16 @@ function LogIn() {
    
     function loginClicked(){
         console.log('login clicked')
-        if(name !== '' && password !== ''){
+        // if(name !== '' && password !== ''){
+        //     console.log('not empty')
+        //     subClick()
+        // }
+        if(name !== null && password !== null){
+            console.log("Not null")
             subClick()
         }
+            else
+            console.log("Not all")
     }
 
     return (
@@ -89,7 +97,7 @@ function LogIn() {
             {/* work on the onChange */}
             <BasicTextFields value="שם" type="text" onChange={(event) => { setname(event.target.value)}} />
             <BasicTextFields value="סיסמא" type="password" onChange={(event) => { setpassword(event.target.value)}}/>
-            <BasicButtons value="התחבר" onClick={loginClicked()}/>
+            <div  onClick={loginClicked}><BasicButtons value="התחבר"/></div>
             <a href="SignUp" >חדש במערכת? עבור להרשמה</a>
         </div>
         </div>
