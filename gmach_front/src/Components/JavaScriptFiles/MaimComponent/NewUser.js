@@ -10,11 +10,11 @@ import { Password } from "@mui/icons-material";
 import ErrorAlert from "../HelpingComponent/ErrorAlert";
 
 function NewUser() {
-  //TODO: add function that sighn in the user!
+  //TODO: add function that sign in the user!
 
   let alert = false;
   //let message = ""
-  let message ={ text: '' }
+  let message = {text:'Sorry, some details are missing. Please fill in all fields.'} ;
 
   const [showAlert, setShowAlert] = useState(false);
   const [userName, setUserName] = useState("");
@@ -36,14 +36,20 @@ function NewUser() {
       (validPassword !== "")
     ) {
       if (password != validPassword) {
+        message.text = "Sorry, Password fields doesn't match.";
         setShowAlert(true);
-        message.text = "Sorry, Password fileds doesn't match.";
       } else {
-        if (password.length < 6) {
+        if (password.length < 8) {
+          message.text = "Password must contains at least 8 chars.";
           setShowAlert(true);
-          message.text = "Password must contains at least 6 chars.";
         }
-        const user = {
+        if (phone.length !=10){
+          message.text = "Not valid phone number.";
+          setShowAlert(true);
+        }
+
+        //This object used to register user
+        const NewUser = {
           id: userId,
           name: userName,
           password: password,
@@ -51,17 +57,49 @@ function NewUser() {
           address: address,
           phone: phone,
         };
-      }
-    } else {
-      alert = true;
+        //This object used to check if current user already exist.
+        const user={
+          name: userName,
+          password: password,
+        };
+        let url = "http://localhost:3600/login"
+        let data = user
+
+        /*fetch(url).then(async (response) => {
+          try {
+            const data = await response.json();
+            console.log("response data?", data);
+            let bookName = data[0].bookName;
+            let url = new URL("http://localhost:3500/info/owner"),
+            params = { id: data[0].ornerId };
+           console.log({ params });
+            Object.keys(params).forEach((key) =>
+              url.searchParams.append(key, params[key])
+            );
+            fetch(url).then(async (response) => {
+              const ans = await response.json();
+              console.log(ans);//[{All owner's details.}]
+              console.log(ans[0].phone);//Owner's phone
+             let ownerPhone = ans[0].phone;
+             });
+          } catch (err) {
+            console.log(`ERROR ${err}`);
+          }
+      
+        }*/
+      }}
+     else {
       message.text = "Sorry, some details are missing. Please fill in all fields.";
+      alert = true;
       setShowAlert(true);
     }
   }
 
+  function AddANewUser(){}
+
   return (
     <div>
-      <div className="NewUserPage">
+      <div className = "NewUserPage">
         <h1 id="h_newUser">הרשמה</h1>
         <div className="AllFeilds" onBlur={() => setShowAlert(false)}>
           <BasicTextFields
@@ -123,7 +161,7 @@ function NewUser() {
       </div>
 
       <div id="NewUserBtn" onClick={checkNewUser}>
-        {showAlert === true ? <ErrorAlert msg={message} /> : <></>}
+        {showAlert === true ? <ErrorAlert msg = {message} /> : <></>}
         <BasicButtons value="הרשם" />
       </div>
     </div>
