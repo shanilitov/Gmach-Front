@@ -3,7 +3,7 @@ import BasicTextFields from "../HelpingComponent/BasicTextFields";
 import BasicButtons from "../HelpingComponent/BasicButtons";
 import Asynchronous from "../HelpingComponent/AsynchronousFeild";
 import FloatingActionButtonZoom from "../HelpingComponent/FloatingActionButtonZoom";
-
+/*
 function AddLoan(props){
     let date = new Date()
     let name = props.name;
@@ -14,7 +14,7 @@ function AddLoan(props){
     ]
     return(
         <div>
-            <FloatingActionButtonZoom />
+           <FloatingActionButtonZoom />
             <h1>פתיחת בקשת הלוואה חדשה</h1>
             <h2>{name}:שם</h2>
             <BasicTextFields value="סכום ההלוואה" type="number" />
@@ -23,3 +23,4 @@ function AddLoan(props){
     )
 }
 export default AddLoan;
+*/
