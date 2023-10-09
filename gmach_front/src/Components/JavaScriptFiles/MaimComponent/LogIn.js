@@ -37,7 +37,8 @@ function LogIn() {
             'name': name,
             'password': password
         }
-        postData('http://localhost:60251', data)// TODO: check what is my url
+        console.log(data)
+        postData('http://localhost:5000', data)// TODO: check what is my url
             .then(ans => {
 
                 console.log('ans: ' + ans)
@@ -95,7 +96,9 @@ function LogIn() {
         <div className="LogInFields">
             <h1>התחברות</h1>
             {/* work on the onChange */}
-            <BasicTextFields value="שם" type="text" onChange={(event) => { setname(event.target.value)}} />
+            <BasicTextFields value="שם" type="text" onChange={(event) => { 
+                console.log(event.target.value);
+                setname(event.target.value)}} />
             <BasicTextFields value="סיסמא" type="password" onChange={(event) => { setpassword(event.target.value)}}/>
             <div  onClick={loginClicked}><BasicButtons value="התחבר"/></div>
             <a href="SignUp" >חדש במערכת? עבור להרשמה</a>
