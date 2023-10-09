@@ -9,12 +9,12 @@ import SignUp from "./NewUser";
 import App from "../../../App";
 
 function LogIn() {
-  
+
     const [name, setname] = useState('');
     const [password, setpassword] = useState('');
     //const [isRegistered, setIsRegistered] = React.useState(true);
 
-   // const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     // TODO: Change it! it's a reuse from my other project. Shani.
     async function postData(url = '', data = {}) {
@@ -38,7 +38,7 @@ function LogIn() {
             'password': password
         }
         console.log(data)
-        postData('http://localhost:5000', data)// TODO: check what is my url
+        postData('http://localhost:5000/api/User/LogIn', data)// TODO: check what is my url
             .then(ans => {
 
                 console.log('ans: ' + ans)
@@ -74,36 +74,39 @@ function LogIn() {
     //here my code ends....
 
 
-   
-    function loginClicked(){
+
+    function loginClicked() {
         console.log('login clicked')
         // if(name !== '' && password !== ''){
         //     console.log('not empty')
         //     subClick()
         // }
-        if(name !== null && password !== null){
+        if (name !== null && password !== null) {
             console.log("Not null")
             subClick()
         }
-            else
+        else
             console.log("Not all")
     }
 
     return (
         <div id="LogIn" >
-        <img src= {logoPhoto} alt="Logo" className ="photo" />
-        <div id="back">
-        <div className="LogInFields">
-            <h1>התחברות</h1>
-            {/* work on the onChange */}
-            <BasicTextFields value="שם" type="text" onChange={(event) => { 
-                console.log(event.target.value);
-                setname(event.target.value)}} />
-            <BasicTextFields value="סיסמא" type="password" onChange={(event) => { setpassword(event.target.value)}}/>
-            <div  onClick={loginClicked}><BasicButtons value="התחבר"/></div>
-            <a href="SignUp" >חדש במערכת? עבור להרשמה</a>
-        </div>
-        </div>
+            <img src={logoPhoto} alt="Logo" className="photo" />
+            <div id="back">
+                <div className="LogInFields">
+                    <h1>התחברות</h1>
+                    {/* work on the onChange */}
+                    <BasicTextFields header="שם" type="text" func={(event) => {
+                        console.log(event.target.value);
+                        setname(event.target.value);
+                    }} />
+
+
+                    <BasicTextFields header="סיסמא" type="password" func={(event) => { setpassword(event.target.value) }} />
+                    <div onClick={loginClicked}><BasicButtons value="התחבר" /></div>
+                    <a href="SignUp" >חדש במערכת? עבור להרשמה</a>
+                </div>
+            </div>
         </div>)
 }
 
