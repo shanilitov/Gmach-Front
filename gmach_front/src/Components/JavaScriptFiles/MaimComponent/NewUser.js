@@ -62,32 +62,23 @@ function NewUser() {
           name: userName,
           password: password,
         };
-        let url = "http://localhost:3600/login"
+        let URL = "https://localhost:7275/api/User/SignIn"
         let data = user
 
-        /*fetch(url).then(async (response) => {
-          try {
-            const data = await response.json();
-            console.log("response data?", data);
-            let bookName = data[0].bookName;
-            let url = new URL("http://localhost:3500/info/owner"),
-            params = { id: data[0].ornerId };
-           console.log({ params });
-            Object.keys(params).forEach((key) =>
-              url.searchParams.append(key, params[key])
-            );
-            fetch(url).then(async (response) => {
-              const ans = await response.json();
-              console.log(ans);//[{All owner's details.}]
-              console.log(ans[0].phone);//Owner's phone
-             let ownerPhone = ans[0].phone;
-             });
-          } catch (err) {
-            console.log(`ERROR ${err}`);
-          }
-      
-        }*/
-      }}
+        console.log(`data to send: ${data}`);
+        let option = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        };
+        fetch(URL, option)
+          .then((response) => response.json())
+          .then((answer) => {
+            console.log(answer);
+          });
+        }}
      else {
       message.text = "Sorry, some details are missing. Please fill in all fields.";
       alert = true;
@@ -138,7 +129,7 @@ function NewUser() {
             type="email"
             id="emailField"
             onBlur={() => setShowAlert(false)}
-            onChange={(ev) => setEmail(ev.target.value)}
+            onChange = {(ev) => setEmail(ev.target.value)}
             required
           />
           <BasicTextFields
