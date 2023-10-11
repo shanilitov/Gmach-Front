@@ -19,14 +19,14 @@ function LogIn() {
     // TODO: Change it! it's a reuse from my other project. Shani.
     async function postData(url = '', data = {}) {
         let headers = new Headers();
-
+        
         headers.append('Content-Type', 'application/json');
-        headers.append('Accept', 'application/json');
+        headers.append('Accept', 'text/plain');
         // headers.append('Authorization', 'Basic ' + base64.encode(username + ":" + password));
         headers.append('Origin', 'http://localhost:3000');
         const response = await fetch(url, {
             method: 'POST',
-            mode: 'no-cors',
+            mode: 'cors',
             cache: 'no-cache',
             headers: headers,
             body: JSON.stringify(data)
@@ -41,8 +41,8 @@ function LogIn() {
             'name': name,
             'password': password
         }
-        console.log(data)
-        postData('http://localhost:5000/api/User/LogIn', data)// TODO: check what is my url
+        console.log(JSON.stringify(data))
+        postData('https://localhost:7275/api/User/LogIn', data)// TODO: check what is my url
         .then(response => response.json())
         .then(json => console.log(json))
         .catch(error => console.log('Authorization failed: ' + error.message));
