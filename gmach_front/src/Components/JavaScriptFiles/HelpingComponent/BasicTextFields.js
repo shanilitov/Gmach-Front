@@ -8,7 +8,7 @@ export default function BasicTextFields(props) {
     return (
         <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '25ch' }, }}
             noValidate
-            autoComplete="off"
+            autoComplete="on"
         >
             <TextField id="outlined-basic" label={value}  variant="outlined" type={type} onChange={func} content={text}    />
         </Box>
