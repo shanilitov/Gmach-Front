@@ -105,7 +105,7 @@ export default function NewLoanFile() {
               Your request has been forwarded to the system administrator.
               </Typography>
               <Typography variant="subtitle1">
-              Beezrat Hashem in the coming days you will receive an update to your email address.
+              Be'ezrat Hashem in the coming days you will receive an update to your email address.
 
               </Typography>
             </React.Fragment>
