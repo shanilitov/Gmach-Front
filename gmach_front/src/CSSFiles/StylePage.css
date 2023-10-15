@@ -89,3 +89,15 @@
     align-items: right;
     direction: rtl;
   }
+
+#space{
+    padding: 1.1%!important;
+    width: 100%!important;
+    background-color: #1976d2;
+}
+#space2{
+    padding: 0.2%!important;
+    width: 100%!important;
+    background-color: rgba(0, 0, 0, 0.38);
+    
+}

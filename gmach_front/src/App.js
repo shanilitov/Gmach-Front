@@ -17,6 +17,8 @@ import Application from "./Components/JavaScriptFiles/MaimComponent/Application"
 import ResponsiveAppBar from "./Components/JavaScriptFiles/HelpingComponent/ResponsiveAppBar";
 import logoPhoto from "../src/img/logoPhoto.png";
 import Bar from "./Components/JavaScriptFiles/HelpingComponent/Bar";
+import AddLoan from "./Components/JavaScriptFiles/MaimComponent/AddLoan";
+import NewLoanFile from "./Components/JavaScriptFiles/MaimComponent/NewLoanFile";
 
 
 function App() {
@@ -43,6 +45,7 @@ function App() {
               <Route path="/SignUp" element={<NewUser />}></Route>
               <Route path="/App" element={<Application/>}></Route>
               <Route path="/LogIn" element={<LogIn />}></Route>
+              <Route path="/AddLoan" element = {<NewLoanFile/>}></Route>
             </Route>
           </Routes>
         </Router>

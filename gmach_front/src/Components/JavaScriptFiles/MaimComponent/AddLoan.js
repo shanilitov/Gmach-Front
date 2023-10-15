@@ -3,7 +3,7 @@ import BasicTextFields from "../HelpingComponent/BasicTextFields";
 import BasicButtons from "../HelpingComponent/BasicButtons";
 import Asynchronous from "../HelpingComponent/AsynchronousFeild";
 import FloatingActionButtonZoom from "../HelpingComponent/FloatingActionButtonZoom";
-/*
+
 function AddLoan(props){
     let date = new Date()
     let name = props.name;
@@ -23,4 +23,3 @@ function AddLoan(props){
     )
 }
 export default AddLoan;
-*/

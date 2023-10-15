@@ -18,7 +18,7 @@ export default function Loans(props) {
         הלוואות
       </h2>
       <AlignItemsList></AlignItemsList>
-      <a href="AddLoan">Add Loan</a>
+      <h3>Need a loan? click <a href="/AddLoan">here.</a></h3>
     </div>
   )
 }
