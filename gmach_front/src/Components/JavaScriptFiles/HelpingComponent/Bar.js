@@ -1,3 +1,4 @@
+import { Navigate } from "react-router-dom";
 import BasicButtons from "./BasicButtons";
 import CreateSvgIcon from "./CreateSvgIcon";
 
@@ -24,7 +25,7 @@ function Bar() {
         
         </div>
 
-        <BasicButtons value={<CreateSvgIcon sx={{ backgroundColor:'white', gridColumn: '2 / span 3', gridRow:'1' }} />}  func=""></BasicButtons>
+        <BasicButtons value={<CreateSvgIcon sx={{ backgroundColor:'white', gridColumn: '2 / span 3', gridRow:'1' }} />}  func="" onClick={()=>Navigate("/") }></BasicButtons>
        
       </div>
     </div>

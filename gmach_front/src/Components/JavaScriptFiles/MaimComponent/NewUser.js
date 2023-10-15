@@ -130,9 +130,9 @@ function NewUser() {
 
   return (
     <div>
-      <div className="NewUserPage">
+      <div className="">
         <img src={logoPhoto} alt="Logo" className="photo" />
-        <h1 id="h_newUser">הרשמה</h1><div className="back">
+        <h1 id="h_newUser" color="blue" >הרשמה</h1><div className="back">
         <div className="NewUserFeilds" onBlur={() => setShowAlert(false)}>
           <BasicTextFields
             value="שם"
@@ -190,12 +190,13 @@ function NewUser() {
             required
           />
         </div>
-      </div>
-      </div>
-      <div id="NewUserBtn" onClick={checkNewUser}>
-        {showAlert === true ? <ErrorAlert msg={message} /> : <></>}
+        <div id="NewUserBtn" onClick={checkNewUser}>
         <BasicButtons value="הרשם" />
+        {showAlert === true ? <ErrorAlert msg={message} /> : <></>}
       </div>
+      </div>
+      </div>
+      
     </div>
   );
 }
