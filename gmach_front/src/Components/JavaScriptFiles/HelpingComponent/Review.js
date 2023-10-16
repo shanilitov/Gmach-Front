@@ -16,9 +16,9 @@ const payments = [
 ];
 
 export default function Review(props) {
-  /* const Guarantor1= props.Guarantor1
+ const Guarantor1= props.Guarantor1
    const Guarantor2= props.Guarantor2
-console.log("Guarantor1 is: "+Guarantor1 +" and Guarantor2 is: "+ Guarantor2)*/
+console.log("Guarantor1 is: "+Guarantor1 +" and Guarantor2 is: "+ Guarantor2)
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>

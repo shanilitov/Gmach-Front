@@ -63,7 +63,7 @@
 }
 #showAlert {
   position: absolute;
-  width:auto;
+  width: auto;
   margin-top: -50%;
   /*z-index: 0;*/
 }
@@ -74,30 +74,40 @@
   background-color: rgba(231, 234, 243);
 }
 
-
 #H_OfAboutUs {
   margin-right: 10%;
 }
-.AboutUs{
-    margin-left: 10%;
-    text-align: rtl;
+.AboutUs {
+  margin-left: 10%;
+  text-align: rtl;
 }
 .Container {
-    width: 100%;
-    padding: 10%;
-    margin-left: 10%;
-    align-items: right;
-    direction: rtl;
-  }
-
-#space{
-    padding: 1.1%!important;
-    width: 100%!important;
-    background-color: #1976d2;
+  width: 100%;
+  padding: 10%;
+  margin-left: 10%;
+  align-items: right;
+  direction: rtl;
 }
-#space2{
-    padding: 0.2%!important;
-    width: 100%!important;
-    background-color: rgba(0, 0, 0, 0.38);
-    
+
+#space {
+  padding: 1.1% !important;
+  width: 100% !important;
+  background-color: #1976d2;
+}
+#space2 {
+  padding: 0.2% !important;
+  width: 100% !important;
+  background-color: rgba(0, 0, 0, 0.38);
+}
+.spaceInAddressPage{
+    height: 2%;
+    margin-top: 7%;
+}
+.LoanDuring{
+    margin-top: 2%;
+    padding: 1.5%;
+}
+.H_BankDetails {
+  padding: 2%;
+  margin-top: 3%;
 }

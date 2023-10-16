@@ -15,6 +15,9 @@ import AddressForm from "../HelpingComponent/AddressForm";
 import PaymentForm from "../HelpingComponent/PaymentForm";
 import Review from "../HelpingComponent/Review";
 import "../../../CSSFiles/StylePage.css";
+import { useState } from "react";
+import ErrorAlert from "../HelpingComponent/ErrorAlert";
+
 
 function Copyright() {
   return (
@@ -35,24 +38,6 @@ const steps = [
   "Review your request",
 ];
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <AddressForm />;
-    case 1:
-      return <PaymentForm />;
-    case 2:
-      return (
-        <Review
-          Guarantor1={AddressForm.Guarantor1}
-          Guarantor2={AddressForm.Guarantor2}
-        />
-      );
-    default:
-      throw new Error("Unknown step");
-  }
-}
-
 export default function NewLoanFile() {
   const [activeStep, setActiveStep] = React.useState(0);
 
@@ -63,6 +48,22 @@ export default function NewLoanFile() {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+  const [val, setVal] = useState("initial value")
+
+
+  function getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <AddressForm onChange={(value)=> setVal(value)}/>;
+      case 1:
+        return <PaymentForm />;
+      case 2:
+        return <Review />;
+      default:
+        throw new Error("Unknown step");
+    }
+  }
+
 
   return (
     <React.Fragment>
@@ -78,7 +79,9 @@ export default function NewLoanFile() {
       >
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            <strong><h2>Plus Minus</h2></strong>
+            <strong>
+              <h2>Plus Minus</h2>
+            </strong>
           </Typography>
         </Toolbar>
         <div id="space"></div>
@@ -90,7 +93,7 @@ export default function NewLoanFile() {
           sx={{ my: { xs: 4, md: 20 }, p: { xs: 2, md: 3 } }}
         >
           <Typography component="h1" variant="h4" align="center">
-            Loan application
+            Apply for a loan
           </Typography>
           <Stepper activeStep={activeStep} sx={{ pt: 6, pb: 5 }}>
             {steps.map((label) => (
@@ -102,11 +105,15 @@ export default function NewLoanFile() {
           {activeStep === steps.length ? (
             <React.Fragment>
               <Typography variant="h5" gutterBottom>
-              Your request has been forwarded to the system administrator.
+                <strong>
+                  Your request has been forwarded to the system administrator.
+                </strong>
               </Typography>
               <Typography variant="subtitle1">
-              Be'ezrat Hashem in the coming days you will receive an update to your email address.
-
+                Be'ezrat Hashem in the coming days you will receive an update to
+                your email address.
+                <br />
+                Apply number: <strong>#12D9e74</strong>
               </Typography>
             </React.Fragment>
           ) : (
@@ -126,6 +133,7 @@ export default function NewLoanFile() {
                 >
                   {activeStep === steps.length - 1 ? "Send" : "Next"}
                 </Button>
+                {val}
               </Box>
             </React.Fragment>
           )}
