@@ -89,9 +89,9 @@ function NewUser() {
         password: password,
       };
 
-      let URL = "https://localhost:7275/api/User/SignIn";
       //let URL  ="https://localhost:7275"
-      let data = user;
+      let URL = "https://localhost:7275/api/User/SignIn";
+      let data = NewUser;
 
       let option = {
         method: "POST",
@@ -101,12 +101,14 @@ function NewUser() {
         body: JSON.stringify(data),
       };
       console.log("Before fetch. data: " + data.name, data.password);
-      console.log(alert);
-      if (alert != false) {
+      console.log(showAlert);
+      if (showAlert != true) {
+        console.log("Before fetch")
         fetch(URL, option) //Check if it a valid user
+        .then(console.log("Fetch occure..."))
           .then((response) => response.json())
           .then((answer) => {
-            console.log(answer);
+            console.log("answer is: "+answer);
             if (answer == "Not ok") {
               URL = "https://localhost:7275/api/User/SignIn";
               data = NewUser;
@@ -190,8 +192,8 @@ function NewUser() {
             required
           />
         </div>
-        <div id="NewUserBtn" onClick={checkNewUser}>
-        <BasicButtons value="הרשם" />
+        <div id="NewUserBtn" /*onClick={checkNewUser}*/>
+        <BasicButtons value="הרשם" function = {checkNewUser}/>
         {showAlert === true ? <ErrorAlert msg={message} /> : <></>}
       </div>
       </div>
