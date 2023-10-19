@@ -33,10 +33,13 @@ export default function AddressForm(props) {
   const [message, setMessage] = useState("");
   const [time, setTime] = useState("00-00-0000");
 
-  const handleClickAway = () => {
+/* const handleClickAway = () => {
     setShowDate(false);
   };
+*/
+// 93: <ClickAwayListener onClickAway={handleClickAway}></ClickAwayListener >
 
+          
   function GuarantorsDetails() {
     if ((GuarantorName1 != "") & (GuarantorName2 != "")) {
     } else {
@@ -90,7 +93,6 @@ export default function AddressForm(props) {
             label="For six monthes"
             control={<Radio />}
           />
-          <ClickAwayListener onClickAway={handleClickAway}></ClickAwayListener >
             <FormControlLabel
               value="firth"
               label="other"
