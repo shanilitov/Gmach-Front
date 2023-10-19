@@ -70,7 +70,7 @@ export default function NewLoanFile () {
       <CssBaseline />
       <AppBar
         position="fixed"
-        color="default"
+        color="primary"
         elevation={0}
         sx={{
           position: "fixed",

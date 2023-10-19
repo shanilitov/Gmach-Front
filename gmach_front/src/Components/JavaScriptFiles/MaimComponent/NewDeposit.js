@@ -11,9 +11,9 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import AddressForm from '../HelpingComponent/AddressForm';
-import PaymentForm from '../HelpingComponent/PaymentForm';
-import Review from '../HelpingComponent/Review';
+import Details from '../HelpingComponent/Details';
+import DepositPaymentForm from '../HelpingComponent/DepositPaymentForm';
+import ReviewDeposit from '../HelpingComponent/ReviewDeposit';
 
 function Copyright() {
   return (
@@ -33,11 +33,11 @@ const steps = ['Your details', 'Payment details', 'Review your deposit'];
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <AddressForm />;
+      return <Details />;
     case 1:
-      return <PaymentForm />;
+      return <DepositPaymentForm />;
     case 2:
-      return <Review />;
+      return <ReviewDeposit />;
     default:
       throw new Error('Unknown step');
   }
@@ -68,7 +68,7 @@ export default function NewDeposit() {
       >
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            Company name
+            Plus Minus
           </Typography>
         </Toolbar>
       </AppBar>
