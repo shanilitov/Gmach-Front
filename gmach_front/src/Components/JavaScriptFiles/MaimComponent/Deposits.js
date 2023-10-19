@@ -20,6 +20,7 @@ export default function Deposits(props) {
       <AlignItemsList />
       <AlignItemsList />
       <AlignItemsList />
+      <h6>Want to add a amount for deposit? click <a href="/NewDeposit">here</a>.</h6>
     </div>
   )
 }

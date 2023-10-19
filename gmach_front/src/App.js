@@ -19,6 +19,7 @@ import logoPhoto from "../src/img/logoPhoto.png";
 import Bar from "./Components/JavaScriptFiles/HelpingComponent/Bar";
 import AddLoan from "./Components/JavaScriptFiles/MaimComponent/AddLoan";
 import NewLoanFile from "./Components/JavaScriptFiles/MaimComponent/NewLoanFile";
+import NewDeposit from "./Components/JavaScriptFiles/MaimComponent/NewDeposit";
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
               <Route path="/App" element={<Application/>}></Route>
               <Route path="/LogIn" element={<LogIn />}></Route>
               <Route path="/AddLoan" element = {<NewLoanFile/>}></Route>
+              <Route path="/NewDeposit" element={<NewDeposit/>}/>
             </Route>
           </Routes>
         </Router>

@@ -16,7 +16,7 @@ import PropTypes from "prop-types";
 import Radio from "@mui/material/Radio";
 import { styled } from "@mui/material/styles";
 import RadioGroup, { useRadioGroup } from "@mui/material/RadioGroup";
-import {ClickAwayListener} from "@mui/material";
+import { ClickAwayListener } from "@mui/material";
 
 export default function AddressForm(props) {
   const [GuarantorName1, setGuarantorName1] = useState("");
@@ -48,7 +48,7 @@ export default function AddressForm(props) {
 
   function tryMe() {
     //if (GuarantorName1 == "" || GuarantorName2 == "")
-    props.onChange("your value here");
+    props.onChange(LoanAmount);
   }
 
   return (
@@ -75,47 +75,48 @@ export default function AddressForm(props) {
           <FormControlLabel
             value="first"
             label="For a month"
-            onClick={()=>{setTime("+1")}}
+            onClick={() => { setTime("+1") }}
             control={<Radio />}
           />
           <FormControlLabel
             value="second"
             label="For two monthes"
-            onClick={()=>{setTime("+2")}}
+            onClick={() => { setTime("+2") }}
             control={<Radio />}
           />
           <FormControlLabel
             value="Third"
-            onClick={()=>{setTime("+6")}}
+            onClick={() => { setTime("+6") }}
             label="For six monthes"
             control={<Radio />}
           />
-           <ClickAwayListener onClickAway={handleClickAway}>
-          <FormControlLabel
-            value="firth"
-            label="other"
-            onClick={() => {
-              setShowDate(true);
-            }}
-            control={<Radio />}
-          />
-          </ClickAwayListener>
+          <ClickAwayListener onClickAway={handleClickAway}>
+            <FormControlLabel
+              value="firth"
+              label="other"
+              onClick={() => {
+                setShowDate(true);
+              }}
+              control={<Radio />}
+            />
+
+            {showDate == true ? (
+              <TextField
+                id="standard-basic"
+                label=""
+                type="date"
+                variant="standard"
+                helperText="Choose loan repayment date."
+                func={(ev) => setTime(ev)}
+              />
+            ) : (
+              <></>
+            )} </ClickAwayListener >
+
         </RadioGroup>
-        {showDate == true ? (
-          <TextField
-            id="standard-basic"
-            label=""
-            type="date"
-            variant="standard"
-            helperText = "Choose loan repayment date."
-            func={(ev)=>setTime(ev)}
-          />
-        ) : (
-          <></>
-        )}
+
       </div>
-         
-          <FormControl fullWidth sx={{ m: 1 }} variant="standard"  onChange={(ev)=>{setLoanAmount(ev)}}>
+      <FormControl fullWidth sx={{ m: 1 }} variant="standard" onChange={(ev) => { setLoanAmount(ev.toString()) }}>
         <InputLabel htmlFor="standard-adornment-amount">Loan amount</InputLabel>
         <Input
           id="standard-adornment-amount"
@@ -130,7 +131,7 @@ export default function AddressForm(props) {
       <div>
         <h4>First Guarantor:</h4>
       </div>
-      
+
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -252,6 +253,7 @@ export default function AddressForm(props) {
             />
           </div>
         </Grid>
+        <div><ErrorAlert msg={"LoanAmount is: " + LoanAmount.toString()} /></div>
       </Grid>
 
       {showAlert == true ? <ErrorAlert msg={message} /> : <></>}
