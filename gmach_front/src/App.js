@@ -23,35 +23,36 @@ import NewDeposit from "./Components/JavaScriptFiles/MaimComponent/NewDeposit";
 
 
 function App() {
-  const [isRegistered, setIsRegistered] = React.useState(true);
+  const [isRegistered, setIsRegistered] = React.useState(false);
 
   return (
     <div>
       <div></div>
-        <Router>
-          <Routes>
-            <Route>
-              <Route
-                exact
-                path="/"
-                element={
-                  isRegistered ? (
-                    ((<Navigate to="/App" />),
-                    (<LogIn setIsRegistered={setIsRegistered} />))
-                  ) : (
-                    <Navigate to="/LogIn" />
-                  )
-                }
-              ></Route>
-              <Route path="/SignUp" element={<NewUser />}></Route>
-              <Route path="/App" element={<Application/>}></Route>
-              <Route path="/LogIn" element={<LogIn />}></Route>
-              <Route path="/AddLoan" element = {<NewLoanFile/>}></Route>
-              <Route path="/NewDeposit" element={<NewDeposit/>}/>
+      <Router>
+        <Routes>
+          <Route>
+            <Route
+              exact path="/"
+              element={<Navigate to="/App" />}
+            ></Route>
+            <Route path="/SignUp" element={<NewUser />}></Route>
+            <Route path="/App" element={<Application />}></Route>
+            <Route path="/LogIn" element={<LogIn />}></Route>
+            <Route
+              path='/AddLoan'
+              element={
+                isRegistered ? (<NewLoanFile />)
+                  : (<Navigate to="/LogIn" />)}>
             </Route>
-          </Routes>
-        </Router>
-    
+            <Route
+              path="/NewDeposit"
+              element={
+                isRegistered ? (<NewDeposit />)
+                  : (<Navigate to="/LogIn" />)} />
+          </Route>
+        </Routes>
+      </Router>
+
     </div>
   );
 }

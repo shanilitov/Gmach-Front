@@ -7,6 +7,9 @@ import AddLoan from "./AddLoan"
 
 export default function Application(props) {
   const user = props.user
+
+  
+
   const container = {
     display: "grid",
     gridTemplateColumns: "50% 50%",
