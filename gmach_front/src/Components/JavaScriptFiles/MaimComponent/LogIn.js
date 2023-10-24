@@ -38,7 +38,7 @@ function LogIn() {
     const subClick = () => {
         console.log('sub click')
         let data = {
-            'name': name,
+            'userName': name,
             'password': password
         }
         console.log(JSON.stringify(data))
@@ -46,12 +46,12 @@ function LogIn() {
             .then(response => response.json())
             .then(json => console.log(json))
             .catch(error => console.log('Authorization failed: ' + error.message));
-        
-            //todo: add here navigate to "/App" if its sucess, with the user details
-            //and change the IsRegisted to true.
 
-            //example:
-            // .then(ans => {
+        //todo: add here navigate to "/App" if its sucess, with the user details
+        //and change the IsRegisted to true.
+
+        //example:
+        // .then(ans => {
 
         //     console.log('ans: ' + ans)
         //     //ans = [{"id":1,"user_name":"malca","password":"123","branch_id":null,"adamin":1}]
