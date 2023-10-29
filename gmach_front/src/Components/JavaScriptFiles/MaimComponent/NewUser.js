@@ -137,14 +137,14 @@ function NewUser() {
         <h1 id="h_newUser" color="blue" >הרשמה</h1><div className="back">
         <div className="NewUserFeilds" onBlur={() => setShowAlert(false)}>
           <BasicTextFields
-            value="שם"
+            header="שם"
             type="text"
             func={(ev) => setUserName(ev.target.value)}
             onBlur={() => setShowAlert(false)}
             required
           />
           <BasicTextFields
-            value="תעודת זהות"
+            header="תעודת זהות"
             type="number"
             id="idField"
             func={(ev) => setUserId(ev.target.value)}
@@ -152,15 +152,14 @@ function NewUser() {
             required
           />
           <BasicTextFields
-            value="כתובת"
+            header="כתובת"
             type="text"
-            id="addressField"
             func={(ev) => setAddress(ev.target.value)}
             onBlur={() => setShowAlert(false)}
             required
           />
           <BasicTextFields
-            value="טלפון"
+            header="טלפון"
             type="number"
             id="phoneField"
             onBlur={() => setShowAlert(false)}
@@ -168,7 +167,7 @@ function NewUser() {
             required
           />
           <BasicTextFields
-            value="כתובת מייל"
+            header="כתובת מייל"
             type="email"
             id="emailField"
             onBlur={() => setShowAlert(false)}
@@ -176,7 +175,7 @@ function NewUser() {
             required
           />
           <BasicTextFields
-            value="צור סיסמא"
+            header="צור סיסמא"
             type="password"
             id="passwordField"
             onBlur={() => setShowAlert(false)}
@@ -184,7 +183,7 @@ function NewUser() {
             required
           />
           <BasicTextFields
-            value="חזור על הסיסמא"
+            header="חזור על הסיסמא"
             type="password"
             id="validField"
             onBlur={() => setShowAlert(false)}

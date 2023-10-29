@@ -8,7 +8,7 @@ export default function ErrorAlert({msg}) {
   console.log("msg.text is: "+ msg)
   //console.log(message.msgText)
   return (
-    <Stack sx={{ width: "100%" }} spacing={2}>
+    <Stack sx={{ width: "auto" }} spacing={1}>
       <Alert severity="error">{`${msg}`}</Alert>
     </Stack>
   );
