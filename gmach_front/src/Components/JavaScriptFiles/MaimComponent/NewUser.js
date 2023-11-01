@@ -76,17 +76,17 @@ function NewUser() {
 
       //This object used to register user
       const NewUser = {
-        id: userId,
-        name: userName,
-        password: password,
-        email: email,
-        address: address,
-        phone: phone,
+        UserEmail: email,
+        UserPhone: phone,
+        UserAddress: address,
+        UserIdentityNumber: userId,
+        UserName: userName,
+        UserPassword: password
       };
       //This object used to check if current user already exist.
       const user = {
-        name: userName,
-        password: password,
+        UserName: userName,
+        Password: password,
       };
 
       //let URL  ="https://localhost:7275"
@@ -100,41 +100,70 @@ function NewUser() {
         },
         body: JSON.stringify(data),
       };
-      console.log("Before fetch. data: " + data.name, data.password);
+      console.log("Before fetch. data: ", data, data.name, data.password);
       console.log(showAlert);
       if (showAlert != true) {
         console.log("Before fetch")
-        fetch(URL, option) //Check if it a valid user
-        .then(console.log("Fetch occure..."))
+        fetch(URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...NewUser, // spread the existing fields
+            // add the new fields                                   
+            /* UserEmail: email,
+             UserPhone: phone,
+             UserAddress: address,
+             UserIdentityNumber: userId,
+             UserName: userName,
+             UserPassword: password
+            */ //Don't need to add this fields because they already exist in NewUser object.
+          }),
+        })
           .then((response) => response.json())
           .then((answer) => {
-            console.log("answer is: "+answer);
-            if (answer == "Not ok") {
+            console.log(answer);
+            console.log("Fetch occurred... answer is: " + answer);
+            // handle the response from the server
+            if (answer === "OK") {
+              console.log("User already exists!");
+            } else {
               URL = "https://localhost:7275/api/User/SignIn";
               data = NewUser;
               fetch(URL, option)
                 .then((response) => response.json())
                 .then((ans) => {
-                  if (ans == "OK") console.log("User registred!");
+                  if (ans === "OK") console.log("User registered!");
                   //Finish!!
+                })
+                .catch((error) => {
+                  console.error('Error:', error);
                 });
             }
+          })
+          .catch((error) => {
+            console.error('Error:', error);
           });
-      }
-    } else {
-      setMessage("Sorry, some details are missing. Please fill in all fields.");
-      alert = true;
-      setShowAlert(true);
+        
     }
   }
 
-  function AddANewUser() {}
 
-  return (
-    <div>
-      <div className="">
-        <img src={logoPhoto} alt="Logo" className="photo" />
-        <h1 id="h_newUser" color="blue" >הרשמה</h1><div className="back">
+    else {
+    setMessage("Sorry, some details are missing. Please fill in all fields.");
+    alert = true;
+    setShowAlert(true);
+  }
+}
+
+function AddANewUser() { }
+
+return (
+  <div>
+    <div className="">
+      <img src={logoPhoto} alt="Logo" className="photo" />
+      <h1 id="h_newUser" color="blue" >הרשמה</h1><div className="back">
         <div className="NewUserFeilds" onBlur={() => setShowAlert(false)}>
           <BasicTextFields
             header="שם"
@@ -192,14 +221,14 @@ function NewUser() {
           />
         </div>
         <div id="NewUserBtn" /*onClick={checkNewUser}*/>
-        <BasicButtons value="הרשם" function = {checkNewUser}/>
-        {showAlert === true ? <ErrorAlert msg={message} /> : <></>}
+          <BasicButtons value="הרשם" function={checkNewUser} />
+          {showAlert === true ? <ErrorAlert msg={message} /> : <></>}
+        </div>
       </div>
-      </div>
-      </div>
-      
     </div>
-  );
+
+  </div>
+);
 }
 export default NewUser;
 //TODO: Check user input. In ID field- after each number check that user entered a number and not a letter. SARA.
