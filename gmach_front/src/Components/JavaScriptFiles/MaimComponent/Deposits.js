@@ -9,28 +9,18 @@ export default function Deposits(props) {
   let deposits = props.items
   const [showAlert, setShowAlert] = useState(false);  
 
-    let sums = ["5000$", "10,500$", "32,000$0", "25,000$" ]/*props.sum*/
+    let sums = ["5000$", "10,500$", "32,000$", "25,000$" ]/*props.sum*/
     let dates = ["25/11/2023", "04/11/2023", "31/12/2023", "01/02/2024" ]/*props.date*/
     let today = new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear();    
     let i_sums = 0;
     let i_dates = 0;
     
-    React.useEffect(() => {
-      console.log(index, dates[index])
-      if (today === dates[index] || new Date(today).getTime() > new Date(dates[index]).getTime()){
-        console.log("today === dates[i_dates]: "+today === dates[i_dates])
-        console.log("new Date(today).getTime() > new Date(dates[i_dates]).getTime(): "+new Date(today).getTime() > new Date(dates[i_dates]).getTime())
-        setShowAlert(true);
-      }
-      else{
-        setShowAlert(false);  
-      }
-    }, [today, dates, i_dates]);
 
 
     const depositInfo = sums.map((sum, index) => (
-        <div key={index}>
-          <AlignItemsList amount={`Deposit amount: ${sum.toString()}`} date={`Withdrawal date: ${new Date(dates[index]).getDate().toString()}/${(new Date(dates[index]).getMonth() + 1).toString()}/${new Date(dates[index]).getFullYear().toString()}`} showAlert={showAlert}/>
+      console.log("Date is: "+dates[index]),
+      <div key={index}>
+          <AlignItemsList amount={`Deposit amount: ${sum.toString()}`} date={`Withdrawal date: ${new Date(dates[index]).getDate()}/${new Date(dates[index]).getMonth()}/${new Date(dates[index]).getFullYear()}`} showAlert={showAlert}/>{/*${new Date(dates[index]).getDate().toString()}/${(new Date(dates[index]).getMonth() + 1).toString()}/${new Date(dates[index]).getFullYear().toString()}*/}
         </div>
     ));
 
