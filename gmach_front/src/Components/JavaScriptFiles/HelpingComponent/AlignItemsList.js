@@ -34,7 +34,7 @@ export default function AlignItemsList(props) {
                 Deposit
               </Typography>
               <h2>{props.amount}</h2>
-              <h2>{props.date}</h2>
+              <h2>{props.date.toString()}</h2>
               {props.showAlert ? <Alert type="info" msg="Deposit can be extended" />: <></>}
 
              {/*<Deposit/>*/}

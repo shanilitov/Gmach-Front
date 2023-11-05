@@ -4,7 +4,7 @@ import React,{ useState } from "react";
 export default function Deposits(props) {
   // TODO: ask from the server for the deposit of the client, and display them in the current template.
   // TODO: add option to open a new investment.
-
+  //console.log(new Date().getDate())
   let type = props.type
   let deposits = props.items
   const [showAlert, setShowAlert] = useState(false);  
@@ -16,11 +16,14 @@ export default function Deposits(props) {
     let i_dates = 0;
     
     React.useEffect(() => {
-      console.log(i_dates, dates[i_dates])
-      if (today === dates[i_dates++] || new Date(today).getTime() > new Date(dates[i_dates++]).getTime()){
+      console.log(index, dates[index])
+      if (today === dates[index] || new Date(today).getTime() > new Date(dates[index]).getTime()){
         console.log("today === dates[i_dates]: "+today === dates[i_dates])
         console.log("new Date(today).getTime() > new Date(dates[i_dates]).getTime(): "+new Date(today).getTime() > new Date(dates[i_dates]).getTime())
         setShowAlert(true);
+      }
+      else{
+        setShowAlert(false);  
       }
     }, [today, dates, i_dates]);
 
