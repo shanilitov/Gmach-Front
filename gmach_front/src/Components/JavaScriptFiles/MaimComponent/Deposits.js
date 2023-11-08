@@ -19,8 +19,9 @@ export default function Deposits(props) {
 
     const depositInfo = sums.map((sum, index) => (
       console.log("Date is: "+dates[index]),
+      console.log("Index is: "+index),
       <div key={index}>
-          <AlignItemsList amount={`Deposit amount: ${sum.toString()}`} date={`Withdrawal date: ${new Date(dates[index]).getDate()}/${new Date(dates[index]).getMonth()}/${new Date(dates[index]).getFullYear()}`} showAlert={showAlert}/>{/*${new Date(dates[index]).getDate().toString()}/${(new Date(dates[index]).getMonth() + 1).toString()}/${new Date(dates[index]).getFullYear().toString()}*/}
+          <AlignItemsList amount={`Deposit amount: ${sum.toString()}`} date={`Withdrawal date: ${new Date(dates[index])}`}/>
         </div>
     ));
 
