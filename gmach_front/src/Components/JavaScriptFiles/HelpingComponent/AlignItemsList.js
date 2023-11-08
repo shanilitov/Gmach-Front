@@ -12,14 +12,14 @@ import {useState} from 'react';
 
 export default function AlignItemsList(props) {  
   let type=props.type
-  let today = new Date().getDate()+"/"+(new Date().getMonth()+1)+"/"+new Date().getFullYear();
-  let date = new Date(props.date);
+  let today = new Date().toLocaleDateString('en-GB');// Format("dd/MM/yyyy")
+  let date = new Date(props.date).toLocaleDateString('en-GB');// Format("dd/MM/yyyy")
   const [showAlert, setShowAlert] = useState(props.showAlert);
   console.log("Show alert is: "+props.showAlert)
 
   React.useEffect(() => {
     if (today == date || new Date(date).getTime()<new Date().getTime()){
-      console.log("new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear() =  "+new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear())
+      console.log("today is: "+today) 
       console.log("new Date(date).getTime()<new Date().getTime()"+new Date(date).getTime()<new Date().getTime())
       setShowAlert(true); 
     }
@@ -48,7 +48,7 @@ export default function AlignItemsList(props) {
                 Deposit
               </Typography>
               <h2>{props.amount}</h2>
-              <p>{props.date.toString()}</p>
+              <p>Withdrawal date: {date}</p>
               {showAlert ? <Alert type="info" msg="Deposit can be extended" />: <></>}
 
              {/*<Deposit/>*/}

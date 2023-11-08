@@ -21,7 +21,7 @@ export default function Deposits(props) {
       console.log("Date is: "+dates[index]),
       console.log("Index is: "+index),
       <div key={index}>
-          <AlignItemsList amount={`Deposit amount: ${sum.toString()}`} date={`Withdrawal date: ${new Date(dates[index])}`}/>
+          <AlignItemsList amount={`Deposit amount: ${sum.toString()}`} date={new Date(dates[index])} />
         </div>
     ));
 
