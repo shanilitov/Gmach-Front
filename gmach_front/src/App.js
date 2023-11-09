@@ -23,7 +23,7 @@ import NewDeposit from "./Components/JavaScriptFiles/MaimComponent/NewDeposit";
 
 
 function App() {
-  const [isRegistered, setIsRegistered] = React.useState(false);
+  const [isRegistered, setIsRegistered] = React.useState(true);
   
   return (
     <div>

@@ -9,8 +9,8 @@ export default function Deposits(props) {
   let deposits = props.items
   const [showAlert, setShowAlert] = useState(false);  
 
-    let sums = ["5000$", "10,500$", "32,000$", "25,000$" ]/*props.sum*/
-    let dates = ["25/11/2023", "04/11/2023", "31/12/2023", "01/02/2024" ]/*props.date*/
+    let sums = ["5000", "10500", "32000", "225000" ]/*props.sum*/
+    let dates = ["25/11/2023", "04/11/2023", "3/12/2023", "01/02/2024" ]/*props.date*/ //TODO: Check why the date is not displayed correctly.
     let today = new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear();    
     let i_sums = 0;
     let i_dates = 0;

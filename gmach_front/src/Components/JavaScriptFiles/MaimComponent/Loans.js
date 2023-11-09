@@ -17,7 +17,7 @@ export default function Loans(props) {
       >
         הלוואות
       </h2>
-      <AlignItemsList></AlignItemsList>
+      <AlignItemsList amount={`Loan amount: 5000$`} date = {new Date()}></AlignItemsList>
       <p>Need a loan? click <a href="/AddLoan">here.</a></p>
     </div>
   )
