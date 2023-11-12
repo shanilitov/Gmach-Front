@@ -1,5 +1,6 @@
 import AlignItemsList from "../HelpingComponent/AlignItemsList";
 import React,{ useState } from "react"; 
+import moment from 'moment';
 
 export default function Deposits(props) {
   // TODO: ask from the server for the deposit of the client, and display them in the current template.
@@ -10,7 +11,7 @@ export default function Deposits(props) {
   const [showAlert, setShowAlert] = useState(false);  
 
     let sums = ["5000", "10500", "32000", "225000" ]/*props.sum*/
-    let dates = ["25/11/2023", "04/11/2023", "3/12/2023", "01/02/2024" ]/*props.date*/ //TODO: Check why the date is not displayed correctly.
+    let dates = ["25/11/2023", "04/11/2023", "30/12/2023", "01/02/2024" ]/*props.date*/ //TODO: Check why the date is not displayed correctly.
     let today = new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear();    
     let i_sums = 0;
     let i_dates = 0;
@@ -18,10 +19,10 @@ export default function Deposits(props) {
 
 
     const depositInfo = sums.map((sum, index) => (
-      console.log("Date is: "+dates[index]),
+      console.log("Before sent:\nDate is: "+dates[index]),
       console.log("Index is: "+index),
       <div key={index}>
-          <AlignItemsList amount={`Deposit amount: ${sum.toString()}`} date={new Date(dates[index])} />
+          <AlignItemsList amount={`Deposit amount: ${sum.toString()}`} date={ moment(dates[index],'DD/MM/YYYY').format('DD/MM/YYYY')} />
         </div>
     ));
 

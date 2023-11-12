@@ -19,67 +19,45 @@ export default function AlignItemsList(props) {
     const num = parseInt(str.replace(/,/g, ''));
     return num.toLocaleString('en-US');
   }
-
+  console.log("Props.date after casting is: "+ props.date+ " and in moment it is: "+moment(props.date,'MM-DD-YYYY').format('DD/MM/YYYY'));  
   let titles = ["Small Deposit", "Medium Deposit", "Large Deposit", "Extra Large Deposit"]
-  let today = new Date().toLocaleDateString('en-GB');// Format("dd/MM/yyyy")
-  let date = new Date(props.date).toLocaleDateString('en-GB');// Format("dd/MM/yyyy")
+  let today = new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear() ;
+  let date = props.date; //moment(props.date is in format: 'DD/MM/YYYY';
+  console.log("Date came from props is: " + props.date+" and now: "+date);
   let str = props.amount;
   str = str.split(": ");
   let sum = addCommasToNumberString(str[1]);
-  
- 
-  /*for (let i=0; i<sum.length();i++){
-    console.log(i,sum[i])
-
-  }*/
-  //let i_size = 0;
-
 
   React.useEffect(() => {
-    if (today == date || new Date(date).getTime() < new Date().getTime()) {
-      console.log("today is: ", today)
-      console.log("new Date(date).getTime()<new Date().getTime()", new Date(date).getTime() < new Date().getTime())
+    if (today === date || moment(date, 'DD/MM/YYYY').isBefore(moment())) {
       setShowAlert(true);
     }
     let amount = props.amount;
     amount = amount.toString();
-    console.log("amount is: ", amount)
     amount = amount.split(": ");
-    console.log("amount is: ", amount)
     amount = amount[1].split("$");
-    console.log("amount is: ", amount)
     amount = amount[0].split(",");
-    let IntAmount = parseInt(amount[0]); //Cast amount of deposit to int.
-    console.log("IntAmount is: ", IntAmount)
+    let IntAmount = parseInt(amount[0]);
     if (IntAmount <= 100000) {
       if (IntAmount <= 50000) {
         if (IntAmount <= 10000) {
-          console.log("AmountSize is: ", 0)
           setAmountSize(0)
         }
         else {
-          console.log("AmountSize is: ", 1)
           setAmountSize(1)
         }
 
       }
       else {
-        console.log("AmountSize is: ", 2)
         setAmountSize(2)
       }
 
     }
     else {
-      console.log("AmountSize is: ", 3)
       setAmountSize(3)
     }
 
   }, [today, date],)
-
- 
-
-  
-  //const [showAlert, setShowAlert] = useState(props.showAlert);  
 
   return (
     <List sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper' }}>
@@ -100,11 +78,8 @@ export default function AlignItemsList(props) {
                 {titles[AmountSize]}
               </Typography>
               <h2>Deposit amount: {sum}</h2>
-              <h3>Withdrawal date: {moment(props.date, 'DD/MM/YYYY').format('MM/DD/YYYY')}</h3>
+              <h3>Withdrawal date: {date}</h3>
               {showAlert ? <Alert type="info" msg="Deposit can be extended" /> : <></>}
-
-              {/*<Deposit/>*/}
-              {/* {" — I'll be in your neighborhood doing errands this…"}*/}
             </React.Fragment>
           }
         />
