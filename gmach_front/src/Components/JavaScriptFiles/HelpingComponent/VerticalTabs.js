@@ -68,14 +68,14 @@ export default function VerticalTabs() {
         value={value}
         onChange={handleChange}
         aria-label="Vertical tabs example"
-        sx={{ borderRight: 1, borderColor: "divider" }}
+        sx={{ borderRight: 3, borderColor: "divider" }}
       >
         <Tab label="השקעות" {...a11yProps(0)} />
         <Tab label="הלוואות" {...a11yProps(1)} />
         <Tab label="פעילות העמותה" {...a11yProps(2)} />
         <Tab label="פעילות העמותה" {...a11yProps(3)} />
       </Tabs>
-      <TabPanel value={value} index={0}>
+      <TabPanel  value={value} index={0}>
         <Deposits />
       </TabPanel>
       <TabPanel value={value} index={1}>

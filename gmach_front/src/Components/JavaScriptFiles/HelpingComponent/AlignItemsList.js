@@ -32,6 +32,7 @@ export default function AlignItemsList(props) {
     if (today === date || moment(date, 'DD/MM/YYYY').isBefore(moment())) {
       setShowAlert(true);
     }
+    
     let amount = props.amount;
     amount = amount.toString();
     amount = amount.split(": ");
@@ -60,7 +61,7 @@ export default function AlignItemsList(props) {
   }, [today, date],)
 
   return (
-    <List sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper' }}>
+    <List sx={{ width: '100%', maxWidth: 600, bgcolor: 'background.paper' }}>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
           <Avatar alt="ProfileImg" src="/static/images/avatar/1.jpg" />
@@ -75,7 +76,7 @@ export default function AlignItemsList(props) {
                 variant="body2"
                 color="text.primary"
               >
-                {titles[AmountSize]}
+                {props.name}
               </Typography>
               <h2>Deposit amount: {sum}</h2>
               <h3>Withdrawal date: {date}</h3>
