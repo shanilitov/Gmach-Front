@@ -21,6 +21,7 @@ import AddLoan from "./Components/JavaScriptFiles/MaimComponent/AddLoan";
 import NewLoanFile from "./Components/JavaScriptFiles/MaimComponent/NewLoanFile";
 import NewDeposit from "./Components/JavaScriptFiles/MaimComponent/NewDeposit";
 import Blog from "./Components/JavaScriptFiles/MaimComponent/Blog";
+import AboutUs from "./Components/JavaScriptFiles/HelpingComponent/AboutUs";
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
             <Route path="/SignUp" element={<NewUser />}></Route>
             <Route path="/App" element={<Blog />}></Route>
             <Route path="/LogIn" element={<LogIn />}></Route>
+            <Route path="/AboutUs" element={<AboutUs />}></Route>
             <Route
               path='/AddLoan'
               element={
