@@ -10,6 +10,7 @@ import Deposit from './Deposit';
 import Alert from './Alert';
 import { useState } from 'react';
 import moment from 'moment';
+import DialogOfDetails from './DialogOfDetails';
 
 export default function AlignItemsList(props) {
   const [showAlert, setShowAlert] = useState(props.showAlert);
@@ -19,11 +20,11 @@ export default function AlignItemsList(props) {
     const num = parseInt(str.replace(/,/g, ''));
     return num.toLocaleString('en-US');
   }
-  console.log("Props.date after casting is: "+ props.date+ " and in moment it is: "+moment(props.date,'MM-DD-YYYY').format('DD/MM/YYYY'));  
+  console.log("Props.date after casting is: " + props.date + " and in moment it is: " + moment(props.date, 'MM-DD-YYYY').format('DD/MM/YYYY'));
   let titles = ["Small Deposit", "Medium Deposit", "Large Deposit", "Extra Large Deposit"]
-  let today = new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear() ;
+  let today = new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear();
   let date = props.date; //moment(props.date is in format: 'DD/MM/YYYY';
-  console.log("Date came from props is: " + props.date+" and now: "+date);
+  console.log("Date came from props is: " + props.date + " and now: " + date);
   let str = props.amount;
   str = str.split(": ");
   let sum = addCommasToNumberString(str[1]);
@@ -32,7 +33,7 @@ export default function AlignItemsList(props) {
     if (today === date || moment(date, 'DD/MM/YYYY').isBefore(moment())) {
       setShowAlert(true);
     }
-    
+
     let amount = props.amount;
     amount = amount.toString();
     amount = amount.split(": ");
@@ -61,10 +62,10 @@ export default function AlignItemsList(props) {
   }, [today, date],)
 
   return (
-    <List sx={{ width: '100%', maxWidth: 600, bgcolor: 'background.paper' }}>
-      <ListItem alignItems="flex-start">
+    <List sx={{ width: '100%', maxWidth: 600, bgcolor: 'Background.paper'  }}>
+      <ListItem alignItems="flex-start" >
         <ListItemAvatar>
-          <Avatar alt="ProfileImg" src="/static/images/avatar/1.jpg" />
+          <Avatar alt="ProfileImg" src="https://cucuvia.com/UploadImages-HE/Org27/Catalog38/1.jpg" />
         </ListItemAvatar>
         <ListItemText
           primary={titles[AmountSize]}
@@ -78,15 +79,16 @@ export default function AlignItemsList(props) {
               >
                 {props.name}
               </Typography>
-              <h2>Deposit amount: {sum}</h2>
+              <h2 style={{color: 'rgb(0,32,96)'} }>Deposit amount: {sum}</h2>
               <h3>Withdrawal date: {date}</h3>
               {showAlert ? <Alert type="info" msg="Deposit can be extended" /> : <></>}
             </React.Fragment>
           }
         />
       </ListItem>
+     <div className='dialogBox'> <DialogOfDetails type="deposit" /></div> 
       <Divider variant="inset" component="li" />
-
     </List>
+    
   );
 }

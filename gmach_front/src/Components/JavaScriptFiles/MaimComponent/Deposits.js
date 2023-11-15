@@ -23,6 +23,7 @@ export default function Deposits(props) {
       console.log("Index is: "+index),
       <div key={index}>
           <AlignItemsList amount={`Deposit amount: ${sum.toString()}`} date={ moment(dates[index],'DD/MM/YYYY').format('DD/MM/YYYY')} />
+        <div className="SpaceBetweenCards"></div>
         </div>
     ));
 
@@ -35,7 +36,7 @@ export default function Deposits(props) {
           gridRow: "1",
         }}
       >
-        השקעות
+        Deposits
       </h2>
       {depositInfo}
       <p>Want to add a amount for deposit? click <a href="/NewDeposit">here</a>.</p>

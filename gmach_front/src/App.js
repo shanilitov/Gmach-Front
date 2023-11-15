@@ -20,10 +20,11 @@ import Bar from "./Components/JavaScriptFiles/HelpingComponent/Bar";
 import AddLoan from "./Components/JavaScriptFiles/MaimComponent/AddLoan";
 import NewLoanFile from "./Components/JavaScriptFiles/MaimComponent/NewLoanFile";
 import NewDeposit from "./Components/JavaScriptFiles/MaimComponent/NewDeposit";
+import Blog from "./Components/JavaScriptFiles/MaimComponent/Blog";
 
 
 function App() {
-  const [isRegistered, setIsRegistered] = React.useState(true);
+  const [isRegistered, setIsRegistered] = React.useState(false);
   
   return (
     <div>
@@ -36,7 +37,7 @@ function App() {
               element={<Navigate to="/App" />}
             ></Route>
             <Route path="/SignUp" element={<NewUser />}></Route>
-            <Route path="/App" element={<Application />}></Route>
+            <Route path="/App" element={<Blog />}></Route>
             <Route path="/LogIn" element={<LogIn />}></Route>
             <Route
               path='/AddLoan'

@@ -43,7 +43,7 @@ export default function LoanCard(props) {
         <List sx={{ width: '100%', maxWidth: 600, bgcolor: 'background.paper' }}>
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                    <Avatar alt="ProfileImg" src="/static/images/avatar/1.jpg" />
+                    <Avatar alt="ProfileImg" src="https://digital-finance.co.il/wp-content/uploads/2021/01/%D7%94%D7%9C%D7%95%D7%95%D7%90%D7%94-%D7%9C%D7%A4%D7%99-%D7%A1%D7%9B%D7%95%D7%9D.jpg" />
                 </ListItemAvatar>
                 <ListItemText
                     primary={title}
