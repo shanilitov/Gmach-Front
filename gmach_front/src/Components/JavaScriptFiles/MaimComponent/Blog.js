@@ -15,7 +15,8 @@ import Footer from '../HelpingComponent/Footer';
 import post1 from '../HelpingComponent/blog-post.1.md';
 import post2 from '../HelpingComponent/blog-post.2.md';
 import post3 from '../HelpingComponent/blog-post.3.md';
-
+import Bar from '../HelpingComponent/Bar';
+import CustomBar from '../HelpingComponent/CustomBar';
 const sections = [
   { title: 'Technology', url: '#' },
   { title: 'Design', url: '#' },
@@ -88,6 +89,8 @@ const defaultTheme = createTheme();
 
 export default function Blog() {
   return (
+    <>
+    <CustomBar/>
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <Container maxWidth="lg">
@@ -115,5 +118,7 @@ export default function Blog() {
         description="Something here to give the footer a purpose!"
       />
     </ThemeProvider>
+    </>
+
   );
 }

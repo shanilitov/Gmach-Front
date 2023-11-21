@@ -6,13 +6,21 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import { useNavigate } from 'react-router-dom';
+import Bar from './Bar';
 
 function Header(props) {
   const { sections, title } = props;
+  const navigate = useNavigate();
+
+  const changeNavigate = () => {
+    navigate("/signUp");
+  };
+
 
   return (
     <React.Fragment>
-      <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Toolbar sx={{ borderBottom: 5, borderColor: 'divider' }}>
         <Button size="small">Subscribe</Button>
         <Typography
           component="h2"
@@ -22,12 +30,12 @@ function Header(props) {
           noWrap
           sx={{ flex: 1 }}
         >
-          {title}
+          {"Plus Minus"}
         </Typography>
         <IconButton>
           <SearchIcon />
         </IconButton>
-        <Button variant="outlined" size="small">
+        <Button variant="outlined" onClick={changeNavigate} size="small">
           Sign up
         </Button>
       </Toolbar>

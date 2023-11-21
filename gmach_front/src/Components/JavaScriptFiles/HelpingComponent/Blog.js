@@ -8,33 +8,36 @@ import InfoIcon from "@mui/icons-material/Info";
 
 export default function TitlebarImageList() {
   return (
-    <ImageList sx={{ width: 1300, height: 850 }}>
-      <ImageListItem key="Subheader" cols={2}>
-        <ListSubheader component="div"><strong>Our services:</strong></ListSubheader>
-      </ImageListItem>
-      {itemData.map((item) => (
-        <ImageListItem key={item.img}>
-          <img
-            src={`${item.img}?w=248&fit=crop&auto=format`}
-            srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-            alt={item.title}
-            loading="lazy"
-          />
-          <ImageListItemBar
-            title={item.title}
-            subtitle={item.author}
-            actionIcon={
-              <IconButton
-                sx={{ color: "rgba(255, 255, 255, 0.54)" }}
-                aria-label={`info about ${item.title}`}
-              >
-                <InfoIcon />
-              </IconButton>
-            }
-          />
+    <div>
+     
+      <ImageList sx={{ width: 1300, height: 850 }}>
+        <ImageListItem key="Subheader" cols={2}>
+          <ListSubheader component="div"><strong>Our services:</strong></ListSubheader>
         </ImageListItem>
-      ))}
-    </ImageList>
+        {itemData.map((item) => (
+          <ImageListItem key={item.img}>
+            <img
+              src={`${item.img}?w=248&fit=crop&auto=format`}
+              srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+              alt={item.title}
+              loading="lazy"
+            />
+            <ImageListItemBar
+              title={item.title}
+              subtitle={item.author}
+              actionIcon={
+                <IconButton
+                  sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+                  aria-label={`info about ${item.title}`}
+                >
+                  <InfoIcon />
+                </IconButton>
+              }
+            />
+          </ImageListItem>
+        ))}
+      </ImageList>
+    </div>
   );
 }
 
@@ -51,10 +54,10 @@ const itemData = [
     /*img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
     title: "Burger",
     author: "@rollelflex_graphy726",*/
-    img:"C:/Users/דאום/Pictures/Saved Pictures/כל מיני/poject",
-    title:"",
-    auther:"",
-    
+    img: "C:/Users/דאום/Pictures/Saved Pictures/כל מיני/poject",
+    title: "",
+    auther: "",
+
   },
   {
     img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",

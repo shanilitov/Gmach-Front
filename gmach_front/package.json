@@ -46,7 +46,7 @@
     ]
   },
   "devDependencies": {
-    "react-router-dom": "^6.11.2"
+    "react-router-dom": "^6.19.0"
   },
   "overrides": {
     "react-swipeable-views": {

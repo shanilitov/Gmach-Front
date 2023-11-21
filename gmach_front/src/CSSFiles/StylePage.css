@@ -9,9 +9,46 @@
   width: 100%;
 }
 
+.CustomBar{
+  margin-top: 0%!important;
+  margin-bottom: 5%!important;
+  position: sticky;
+  width: 100%;
+  height: 30%;
+  background-color: #1976d2;
+}
+.CustomBarsmall{
+  margin-top: 0%!important;
+  margin-bottom: 5%!important;
+  position: sticky;
+  width: 100%;
+  height: 10%;
+  background-color: #1976d2;
+}
+.Bar{
+  margin-top: 0%!important;
+  margin-bottom: 5%!important;
+  position: sticky;
+  width: 100%;
+}
+ 
+#logo{
+  height:  90%!important;
+  width: 50%!important;
+  margin-left: 1%;
+  margin-top: -1%;
+
+}
+
+#homeBtn{
+  padding: 2%;
+height: 80%;
+}
+
 .photo {
   height: auto;
-  width: 100% !important;
+  height: 10px;
+  width: 10px !important;
   margin-left: 0%;
   margin-right: 0%;
   position: absolute;
@@ -80,21 +117,42 @@
   background-color: rgba(231, 234, 243);
 }
 
-#H_OfAboutUs {
+.Container{
+  display: flex;
+  flex-direction: row;
+}
+
+.Container1 {
+  flex: 1;
+  color: #002060;
+  margin-left: 10%;
   margin-right: 10%;
+  width: 80%;
+  padding: 2%;
+  align-items: center;
 }
 
-.AboutUs {
-  margin-left: 10%;
-  text-align: rtl;
+.AboutContent {
+  flex: 1;
+  /*margin-left: 2%;
+  margin-right: 10%;*/
 }
 
-.Container {
-  width: 100%;
-  padding: 10%;
-  margin-left: 10%;
-  align-items: right;
-  direction: rtl;
+
+.AboutPicture {
+  width: auto;
+  max-width: 90%;
+}
+
+#AboutPicture2{
+  margin-left: 50%;
+
+}
+
+ 
+#H_OfAboutUs{
+  margin-right: 10%;
+  margin-left: 2%;
 }
 
 #space {

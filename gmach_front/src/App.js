@@ -25,7 +25,7 @@ import AboutUs from "./Components/JavaScriptFiles/HelpingComponent/AboutUs";
 
 
 function App() {
-  const [isRegistered, setIsRegistered] = React.useState(false);
+  const [isRegistered, setIsRegistered] = React.useState(true);
   
   return (
     <div>
@@ -40,6 +40,7 @@ function App() {
             <Route path="/SignUp" element={<NewUser />}></Route>
             <Route path="/App" element={<Blog />}></Route>
             <Route path="/LogIn" element={<LogIn />}></Route>
+            <Route path="/Register" element={<Application />}></Route>
             <Route path="/AboutUs" element={<AboutUs />}></Route>
             <Route
               path='/AddLoan'
