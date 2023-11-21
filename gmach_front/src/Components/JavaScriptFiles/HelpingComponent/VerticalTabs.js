@@ -53,12 +53,14 @@ export default function VerticalTabs() {
   };
 
   return (
+
     <Box
       sx={{
         flexGrow: 1,
         bgcolor: "background.paper",
         display: "flex",
         height: 300,
+        marginTop: "13%",
       }}
     >
       <Tabs
@@ -75,7 +77,8 @@ export default function VerticalTabs() {
         <Tab label="פעילות העמותה" {...a11yProps(2)} />
         <Tab label="פעילות העמותה" {...a11yProps(3)} />
       </Tabs>
-      <TabPanel  value={value} index={0}>
+      
+      <TabPanel  value={value} index={0} >
         <Deposits />
       </TabPanel>
       <TabPanel value={value} index={1}>

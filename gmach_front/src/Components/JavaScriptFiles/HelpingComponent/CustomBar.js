@@ -29,16 +29,16 @@ function CustomBar() {
             window.removeEventListener('scroll', handleScroll);
         };
     }, [isScrolled]);
-    
-   
+
+
 
 
     return (
-        <div className='CustomBar' >
+        <nav className='CustomBar' >
             <div>
                 <img src={logo} alt='Logo' />
             </div>
-        </div>
+        </nav>
     );
 }
 
