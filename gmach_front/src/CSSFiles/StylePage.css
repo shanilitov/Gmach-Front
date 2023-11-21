@@ -9,17 +9,46 @@
   width: 100%;
 }
 
-.CustomBar{
+/*.CustomBar{
   margin-top: 0%!important;
   margin-bottom: 5%!important;
   position: sticky;
   width: 100%;
   height: 30%;
   background-color: #1976d2;
-}
-.CustomBarsmall{
+}*/
+.CustomBar{
+  background-color: #1976d2;
+  height: 20%!important;
+  width: 100%;
   margin-top: 0%!important;
+  position: sticky;
+  margin-bottom: 5%;
+}
+
+.CustomBar.small {
+  height: 30%;
+}
+
+.CustomBar div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.CustomBar h2 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.CustomBar img {
+  width: 80%;
+  height: 80%;
+}
+
+.CustomBarsmall{
   margin-bottom: 5%!important;
+  margin-top: 0%!important;
   position: sticky;
   width: 100%;
   height: 10%;
