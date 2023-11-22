@@ -22,7 +22,8 @@ const sections = [
   { title: 'Activity', url: '/Graphes' }, //Grafes- show the activity in company in grafs.
   { title: 'Searches', url: '/Searches' }, //Blog2- talking about searches in economy.
   { title: 'Our services', url: '/Services' },//Blog3- talking about the services that we give.
- 
+ { title: 'Contact us', url: '/ContactUs' },//Blog4- details how to contact us.
+ { title: 'Articles', url: '/Articles' },//Articles that talking about economy etc.
 ];
 
 const mainFeaturedPost = {
@@ -36,10 +37,10 @@ const mainFeaturedPost = {
 
 const featuredPosts = [
   {
-    title: 'Smart economy',
+    title: '8 simple ways to save money. ',
     date: 'Nov 12',
     description:
-      'What causes 77% of the population to live with debt?',
+      'Saving is easier when you have a plan—follow these steps to create one',
     image: 'https://www.creditunion.co.il/wp-content/uploads/2015/12/shutterstock_237828910.jpg',
     imageLabel: 'Image Text',
   },

@@ -27,6 +27,8 @@ function Bar() {
     marginBottom: "30%",
     paddingBottom: "1%",
   };
+
+  
     const picture = {
     height: '100%',
     width: '100%',

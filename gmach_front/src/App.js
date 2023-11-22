@@ -21,8 +21,10 @@ import AddLoan from "./Components/JavaScriptFiles/MaimComponent/AddLoan";
 import NewLoanFile from "./Components/JavaScriptFiles/MaimComponent/NewLoanFile";
 import NewDeposit from "./Components/JavaScriptFiles/MaimComponent/NewDeposit";
 import Blog from "./Components/JavaScriptFiles/MaimComponent/Blog";
+import MiniBlog from "./Components/JavaScriptFiles/HelpingComponent/Blog";       
 import AboutUs from "./Components/JavaScriptFiles/HelpingComponent/AboutUs";
 import Graphes from "./Components/JavaScriptFiles/HelpingComponent/Graphes";
+import Articles from "./Components/JavaScriptFiles/HelpingComponent/Articles";
 
 
 function App() {
@@ -44,6 +46,8 @@ function App() {
             <Route path="/Register" element={<Application />}></Route>
             <Route path="/AboutUs" element={<AboutUs />}></Route>
             <Route path="/Graphes" element={<Graphes />}></Route>
+            <Route path="/Services" element={<MiniBlog />}></Route>
+            <Route path="/Articles" element={<Articles />}></Route>
             <Route
               path='/AddLoan'
               element={

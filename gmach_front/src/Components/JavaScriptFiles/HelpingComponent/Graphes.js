@@ -2,8 +2,23 @@ import * as React from 'react';
 import { useEffect, useRef } from 'react';
 import Chart from "chart.js/auto";
 import Bar from './Bar';
+import "../../../CSSFiles/StylePage.css";
+import Toolbar from '@mui/material/Toolbar';
+import Link from '@mui/material/Link';
+
+
 
 export default function Graphes() {
+
+    const sections = [
+        { title: 'About us', url: '/AboutUs' },//Blog1- talking about the company.
+        { title: 'Activity', url: '/Graphes' }, //Grafes- show the activity in company in grafs.
+        { title: 'Searches', url: '/Searches' }, //Blog2- talking about searches in economy.
+        { title: 'Our services', url: '/Services' },//Blog3- talking about the services that we give.
+        { title: 'Contact us', url: '/ContactUs' },//Blog4- details how to contact us.
+        { title: 'Articles', url: '/Articles' },//Articles that talking about economy etc.
+    ];
+
     //Canvas 1 :
     const chartRef = useRef(null);
     const chartInstanceRef = useRef(null); // Add a reference to the chart instance
@@ -13,7 +28,7 @@ export default function Graphes() {
 
     useEffect(() => {
         const xValues = ["Yanuar", "Februar", "Merch", "April"];
-        const yValues = [55, 49, 44, 24];
+        const yValues = [55, 42, 49, 33];
         const barColors = ["rgb(0, 32, 96)", "rgb(223, 221, 53)", "rgba(0, 32, 96, 0.5)", "rgba(223, 221, 53, 0.5)"];
 
         if (chartRef.current) {
@@ -42,7 +57,7 @@ export default function Graphes() {
                         legend: { display: false },
                         title: {
                             display: true,
-                            text: "Number of people who take loans from 'PlusMinus' in the last quarter"
+                            text: ""
                         }
                     }
                 }
@@ -94,9 +109,36 @@ export default function Graphes() {
     return (
         <div>
             <Bar />,
-            <div style={{ padding: "2%", width: "50%" }}></div>
-            <canvas ref={chartRef} id="myChart" style={{ width: '100%', maxWidth: '500px', marginTop: "10%", height: "90px" }}></canvas>
-            <canvas ref={chart2Ref} id="myChart2" style={{ width: '80%', maxWidth: '700px', height: "80px" }}></canvas>
+            <div style={{ zIndex: "99", height: "5%", backgroundColor:"rgba(0, 32, 96, 0.5)", marginTop: "9%", color: "rgb(223, 221, 53)", position: "fixed", width: "100%", padding: "1%"}}>
+                <Toolbar
+                    component="nav"
+                    variant="dense"
+                    sx={{ justifyContent: 'space-between', overflowX: 'auto' }}
+                >
+                    {sections.map((section) => (
+                        <Link
+                            color="inherit"
+                            noWrap
+                            key={section.title}
+                            variant="body2"
+                            href={section.url}
+                            sx={{ p: 1, flexShrink: 0 }}
+                        >
+                            {section.title}
+                        </Link>
+                    ))}
+                </Toolbar>
+            </div>
+            <div style={{ padding: "2%", width: "50%", display: "grid", alignContent: " space-between" }}></div>
+            <div className="p_chart" >
+                <p >Number of people who take loans from 'PlusMinus' in the last quarter</p>
+            </div>
+            <canvas ref={chartRef} id="myChart" style={{ width: '100%', maxWidth: '500px', marginTop: "3%", height: "90px" }}></canvas>
+
+            <div className="p_chart">
+                <p  >The average loan amount in the last quarter</p>
+            </div>
+            <canvas ref={chart2Ref} id="myChart2" style={{ width: '80%', maxWidth: '700px', height: "80px", marginTop: "3%" }}></canvas>
         </div>
     )
 }

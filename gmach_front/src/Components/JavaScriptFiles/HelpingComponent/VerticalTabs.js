@@ -77,7 +77,7 @@ export default function VerticalTabs() {
         <Tab label="פעילות העמותה" {...a11yProps(2)} />
         <Tab label="פעילות העמותה" {...a11yProps(3)} />
       </Tabs>
-      
+
       <TabPanel  value={value} index={0} >
         <Deposits />
       </TabPanel>
@@ -89,7 +89,7 @@ export default function VerticalTabs() {
         <Blog />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <AboutUs />
+        
       </TabPanel>
     </Box>
   );
