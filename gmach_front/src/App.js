@@ -25,6 +25,7 @@ import MiniBlog from "./Components/JavaScriptFiles/HelpingComponent/Blog";
 import AboutUs from "./Components/JavaScriptFiles/HelpingComponent/AboutUs";
 import Graphes from "./Components/JavaScriptFiles/HelpingComponent/Graphes";
 import Articles from "./Components/JavaScriptFiles/HelpingComponent/Articles";
+import Contact from "./Components/JavaScriptFiles/HelpingComponent/Contact";
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
             <Route path="/Graphes" element={<Graphes />}></Route>
             <Route path="/Services" element={<MiniBlog />}></Route>
             <Route path="/Articles" element={<Articles />}></Route>
+            <Route path="/ContactUs" element={<Contact />}></Route>
             <Route
               path='/AddLoan'
               element={
