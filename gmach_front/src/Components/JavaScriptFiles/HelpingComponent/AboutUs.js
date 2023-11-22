@@ -5,8 +5,9 @@ import Bar from "./Bar";
 export default function AboutUs() {
     return (
         <div className="AboutUs">
+            <Bar/>
             <div className="Container">
-                <div className="Container1">
+                <div className="Container1"  style={{marginTop: "10%"}}>
                     <img className="AboutPicture" src="https://www.roseandcrownpa.com/wp-content/uploads/2023/01/%D7%94%D7%A9%D7%A7%D7%A2%D7%94-%D7%9B%D7%A1%D7%A4%D7%99%D7%AA-1.png" />
                     <h2 id="H_OfAboutUs">What is our purpose?</h2>
                     <div className="AboutContent">

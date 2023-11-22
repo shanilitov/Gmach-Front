@@ -17,10 +17,9 @@ function Header(props) {
     navigate("/signUp");
   };
 
-
   return (
     <React.Fragment>
-      <Toolbar sx={{ borderBottom: 5, borderColor: 'divider',position:'sticky' }}>
+      <Toolbar sx={{ borderBottom: 10, borderColor: 'divider',margionTop: "35%", }}>
         <Button size="small">Subscribe</Button>
         <Typography
           component="h2"
@@ -30,11 +29,11 @@ function Header(props) {
           noWrap
           sx={{ flex: 1 }}
         >
-          {"Plus Minus"}
+          {"Less for you it's more for others, let's help other!!"}
         </Typography>
-        <IconButton>
+        {/*<IconButton>
           <SearchIcon />
-        </IconButton>
+        </IconButton>*/}
         <Button variant="outlined" onClick={changeNavigate} size="small">
           Sign up
         </Button>

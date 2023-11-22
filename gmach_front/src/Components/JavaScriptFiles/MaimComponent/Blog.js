@@ -18,16 +18,11 @@ import post3 from '../HelpingComponent/blog-post.3.md';
 import Bar from '../HelpingComponent/Bar';
 import CustomBar from '../HelpingComponent/CustomBar';
 const sections = [
-  { title: 'Technology', url: '#' },
-  { title: 'Design', url: '#' },
-  { title: 'Culture', url: '#' },
-  { title: 'Business', url: '#' },
-  { title: 'Politics', url: '#' },
-  { title: 'Opinion', url: '#' },
-  { title: 'Science', url: '#' },
-  { title: 'Health', url: '#' },
-  { title: 'Style', url: '#' },
-  { title: 'Travel', url: '#' },
+  { title: 'About us', url: '/AboutUs' },//Blog1- talking about the company.
+  { title: 'Activity', url: '/Graphes' }, //Grafes- show the activity in company in grafs.
+  { title: 'Searches', url: '/Searches' }, //Blog2- talking about searches in economy.
+  { title: 'Our services', url: '/Services' },//Blog3- talking about the services that we give.
+ 
 ];
 
 const mainFeaturedPost = {
@@ -91,6 +86,7 @@ export default function Blog() {
   return (
     <>
     <CustomBar/>
+    <div style={{marginTop: '22%'}}>
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <Container maxWidth="lg">
@@ -118,6 +114,7 @@ export default function Blog() {
         description="Something here to give the footer a purpose!"
       />
     </ThemeProvider>
+    </div>
     </>
 
   );

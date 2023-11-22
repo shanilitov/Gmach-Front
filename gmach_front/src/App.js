@@ -22,6 +22,7 @@ import NewLoanFile from "./Components/JavaScriptFiles/MaimComponent/NewLoanFile"
 import NewDeposit from "./Components/JavaScriptFiles/MaimComponent/NewDeposit";
 import Blog from "./Components/JavaScriptFiles/MaimComponent/Blog";
 import AboutUs from "./Components/JavaScriptFiles/HelpingComponent/AboutUs";
+import Graphes from "./Components/JavaScriptFiles/HelpingComponent/Graphes";
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
             <Route path="/LogIn" element={<LogIn />}></Route>
             <Route path="/Register" element={<Application />}></Route>
             <Route path="/AboutUs" element={<AboutUs />}></Route>
+            <Route path="/Graphes" element={<Graphes />}></Route>
             <Route
               path='/AddLoan'
               element={

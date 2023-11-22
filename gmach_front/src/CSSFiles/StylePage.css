@@ -72,10 +72,18 @@
 
 }
 
+#navbar {
+  
+}
+
 #homeBtn{
   padding: 2%;
   margin-top: 30%;
 height: 80%;
+}
+
+.CBarLogo{
+  
 }
 
 .photo {
@@ -222,4 +230,5 @@ height: 80%;
 
 .SpaceBetweenCards {
   margin-top: 5%;
+  color: rgb(223, 221, 53);
 }
