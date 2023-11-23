@@ -8,6 +8,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import Bar from "./Bar";
 import Toolbar from '@mui/material/Toolbar';
 import Link from '@mui/material/Link';
+import Footer from "./Footer";
 
 
 export default function TitlebarImageList() {
@@ -73,6 +74,7 @@ export default function TitlebarImageList() {
         ))}
       </ImageList>
       </div>
+      <Footer/>
     </div>
   );
 }
