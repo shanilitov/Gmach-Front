@@ -287,3 +287,10 @@ height: 80%;
 .item{
   text-decoration-color:rgba(223, 221, 53, 0.5) ;
 }
+.contactFields{
+  margin-top: 5%;
+}
+.EditNoteField{
+  margin-top: 5%;
+  width: 400%;
+}
