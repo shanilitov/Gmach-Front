@@ -5,6 +5,7 @@ import Bar from './Bar';
 import "../../../CSSFiles/StylePage.css";
 import Toolbar from '@mui/material/Toolbar';
 import Link from '@mui/material/Link';
+import Footer from './Footer';
 
 
 
@@ -139,6 +140,7 @@ export default function Graphes() {
                 <p  >The average loan amount in the last quarter</p>
             </div>
             <canvas ref={chart2Ref} id="myChart2" style={{ width: '80%', maxWidth: '700px', height: "80px", marginTop: "3%" }}></canvas>
+        <Footer/>
         </div>
     )
 }

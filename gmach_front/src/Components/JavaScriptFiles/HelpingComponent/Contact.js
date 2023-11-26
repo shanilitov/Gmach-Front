@@ -7,7 +7,11 @@ import Link from '@mui/material/Link';
 import ContactField from './ContactField';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
-import  { useState } from 'react';
+import { useState } from 'react';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import CallIcon from '@mui/icons-material/Call';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import Footer from './Footer';
 
 function Contact() {
     const sections = [
@@ -43,35 +47,34 @@ function Contact() {
                     ))}
                 </Toolbar>
             </div>
-        <div style={{ marginTop: "15%", display: "inline-block", width: "50%", marginLeft: "25%" }}>
-            <h1>Contact us</h1>
-            {(content === 'fields') ? (
-                <div className='contactFields'>
-                    <ContactField text="Name" type="text" icon="AccountCircle" />
-                    <ContactField text="Email" type="email" icon="DraftsIcon" />
-                    <ContactField text="Phone" type="tel" icon="PhoneIcon" />
-                    <ContactField text="Message" type="text" icon="EditNoteIcon" />
+            <div style={{ marginTop: "15%", display: "inline-block", width: "50%", marginLeft: "25%", color: '#002060' }}>
+                {(content === 'fields') ? (
                     <div className='contactFields'>
-                        <Button variant="outlined" endIcon={<SendIcon />} onClick={()=>{setContent('send')}}>
-                            Send
-                        </Button>
-                    </div>
+                        <h1 >Contact us</h1>
+                        <ContactField text="Name" type="text" icon="AccountCircle" />
+                        <ContactField text="Email" type="email" icon="DraftsIcon" />
+                        <ContactField text="Phone" type="tel" icon="PhoneIcon" />
+                        <ContactField text="Message" type="text" icon="EditNoteIcon" />
+                        <div className='contactFields'>
+                            <Button variant="outlined" endIcon={<SendIcon />} onClick={() => { setContent('send') }}>
+                                Send
+                            </Button>
+                        </div>
+                        <h3>Here you can find all the information about our company.</h3>
+                        <div className='contactDetails'><h4><LocationOnIcon sx={{ color: "rgb(223, 221, 53)" }} /> 1st Street, New York City, USA</h4></div>
+                        <div className='contactDetails'><h4><CallIcon  sx={{ color: "rgb(223, 221, 53)" }}/> 123456789</h4></div>
+                        <div className='contactDetails'><h4><MailOutlineIcon  sx={{ color: "rgb(223, 221, 53)" }}/> library.project.me@gmail.com </h4></div>
 
-                </div>
-            ) : (
-                <div className='contentSend'>
-                    <h1>Thank you for contacting us!</h1>
-                    <h2>We will contact you as soon as possible.</h2>
-                </div>
-            )}
-           <h2>Here you can find all the information about our company.</h2>
-            <h3>Address: 1st Street, New York City, USA</h3>
-            <h3>Phone: 123456789</h3>
-            <h3>Email: library.project.me@gmail.com </h3>
-            <h3>Facebook: https://www.facebook.com/library.project.me</h3>
-            <h3>Twitter: https://twitter.com/library.project.me</h3>
-            <h3>Instagram: https://www.instagram.com/library.project.me</h3>
-        </div>
+                    </div>
+                ) : (
+                    <div className='contentSend'>
+                        <h1>Thank you for contacting us!</h1>
+                        <h2>We will contact you as soon as possible.</h2>
+                    </div>
+                )}
+
+            </div>
+            <Footer />
         </div>
     );
 }

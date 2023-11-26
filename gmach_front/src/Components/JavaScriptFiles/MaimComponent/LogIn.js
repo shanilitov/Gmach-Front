@@ -81,7 +81,7 @@ function LogIn() {
 
     const sighninClick = () => {
         console.log('go to sign-in')
-        Navigate('/signin')
+        Navigate('/SignUp')
 
     }
     //here my code ends....
@@ -102,6 +102,7 @@ function LogIn() {
             console.log("Not all")
     }
 
+    
     return (
         <div id="LogIn" >
             <img src={logoPhoto} alt="Logo" className="photo" />

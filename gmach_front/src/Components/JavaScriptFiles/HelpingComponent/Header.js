@@ -14,7 +14,7 @@ function Header(props) {
   const navigate = useNavigate();
 
   const changeNavigate = () => {
-    navigate("/signUp");
+    navigate("/LogIn");
   };
 
   return (
@@ -35,7 +35,7 @@ function Header(props) {
           <SearchIcon />
         </IconButton>*/}
         <Button variant="outlined" onClick={changeNavigate} size="small">
-          Sign up
+          Log In
         </Button>
       </Toolbar>
       <Toolbar

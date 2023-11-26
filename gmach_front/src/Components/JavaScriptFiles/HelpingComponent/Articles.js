@@ -3,6 +3,7 @@ import Bar from './Bar';
 import "../../../CSSFiles/StylePage.css";
 import Toolbar from '@mui/material/Toolbar';
 import Link from '@mui/material/Link';
+import Footer from './Footer';
 
 
 function Articles() {
@@ -111,6 +112,7 @@ function Articles() {
 
 
                 </div></div>
+                <Footer/>
         </div >
     );
 }
