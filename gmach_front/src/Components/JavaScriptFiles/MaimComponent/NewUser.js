@@ -9,6 +9,8 @@ import ResponsiveAppBar from "../HelpingComponent/ResponsiveAppBar";
 import { Password } from "@mui/icons-material";
 import ErrorAlert from "../HelpingComponent/ErrorAlert";
 import logoPhoto from "../../../img/logoPhoto.png";
+import { Navigate } from "react-router-dom";
+
 
 
 
@@ -134,8 +136,11 @@ function NewUser() {
               fetch(URL, option)
                 .then((response) => response.json())
                 .then((ans) => {
-                  if (ans === "OK") console.log("User registered!");
+                  console.log(ans)
+                  // if (ans === "OK") console.log("User registered!");
                   //Finish!!
+                  console.log("registerd")
+
                 })
                 .catch((error) => {
                   console.error('Error:', error);
