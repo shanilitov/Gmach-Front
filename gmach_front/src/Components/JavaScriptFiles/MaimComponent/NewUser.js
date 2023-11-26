@@ -9,6 +9,7 @@ import ResponsiveAppBar from "../HelpingComponent/ResponsiveAppBar";
 import { Password } from "@mui/icons-material";
 import ErrorAlert from "../HelpingComponent/ErrorAlert";
 import logoPhoto from "../../../img/logoPhoto.png";
+import CircularIntegration from "../HelpingComponent/CircularIntegration";
 
 
 
@@ -104,131 +105,117 @@ function NewUser() {
       console.log(showAlert);
       if (showAlert != true) {
         console.log("Before fetch")
-        fetch(URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...NewUser, // spread the existing fields
-            // add the new fields                                   
-            /* UserEmail: email,
-             UserPhone: phone,
-             UserAddress: address,
-             UserIdentityNumber: userId,
-             UserName: userName,
-             UserPassword: password
-            */ //Don't need to add this fields because they already exist in NewUser object.
-          }),
-        })
-          .then((response) => response.json())
-          .then((answer) => {
-            console.log(answer);
-            console.log("Fetch occurred... answer is: " + answer);
-            // handle the response from the server
-            if (answer === "OK") {
-              console.log("User already exists!");
-            } else {
-              URL = "https://localhost:7275/api/User/SignIn";
-              data = NewUser;
-              fetch(URL, option)
-                .then((response) => response.json())
-                .then((ans) => {
-                  if (ans === "OK") console.log("User registered!");
-                  //Finish!!
-                })
+        try {
+          fetch(URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              ...NewUser, // spread the existing fields
+              //Don't need to add this fields because they already exist in NewUser object.
+            }),
+          })
+            .then((response) => {
+              response.json().then((data) => {
+                console.log("Server responsed!! Data: " + data);
+              })
+
                 .catch((error) => {
                   console.error('Error:', error);
+                })
+                .finally(() => {
+                  console.log("Finally");
                 });
-            }
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
-        
+            })
+        }
+        catch (Error) {
+          console.log("Error.message  ", Error.message);
+        }
+      }
+      //Wheh ShowAlert is true, the user can't register and we show him this error message.
+      else {
+        setMessage("Sorry, some details are missing. Please fill in all fields.");
+        alert = true;
+        setShowAlert(true);
+      }
     }
-  }
 
 
-    else {
-    setMessage("Sorry, some details are missing. Please fill in all fields.");
-    alert = true;
-    setShowAlert(true);
-  }
-}
-
-function AddANewUser() { }
-
-return (
-  <div>
-    <div className="">
-      <img src={logoPhoto} alt="Logo" className="photo" />
-      <h1 id="h_newUser" color="blue" >הרשמה</h1><div className="back">
-        <div className="NewUserFeilds" onBlur={() => setShowAlert(false)}>
-          <BasicTextFields
-            header="שם"
-            type="text"
-            func={(ev) => setUserName(ev.target.value)}
-            onBlur={() => setShowAlert(false)}
-            required
-          />
-          <BasicTextFields
-            header="תעודת זהות"
-            type="number"
-            id="idField"
-            func={(ev) => setUserId(ev.target.value)}
-            onBlur={() => setShowAlert(false)}
-            required
-          />
-          <BasicTextFields
-            header="כתובת"
-            type="text"
-            func={(ev) => setAddress(ev.target.value)}
-            onBlur={() => setShowAlert(false)}
-            required
-          />
-          <BasicTextFields
-            header="טלפון"
-            type="number"
-            id="phoneField"
-            onBlur={() => setShowAlert(false)}
-            func={(ev) => setPhone(ev.target.value)}
-            required
-          />
-          <BasicTextFields
-            header="כתובת מייל"
-            type="email"
-            id="emailField"
-            onBlur={() => setShowAlert(false)}
-            func={(ev) => setEmail(ev.target.value)}
-            required
-          />
-          <BasicTextFields
-            header="צור סיסמא"
-            type="password"
-            id="passwordField"
-            onBlur={() => setShowAlert(false)}
-            func={(ev) => setPassword(ev.target.value)}
-            required
-          />
-          <BasicTextFields
-            header="חזור על הסיסמא"
-            type="password"
-            id="validField"
-            onBlur={() => setShowAlert(false)}
-            func={(ev) => setValidPassword(ev.target.value)}
-            required
-          />
+    return (
+      <div>
+        <div className="">
+          Sara
+          <img src={logoPhoto} alt="Logo" className="photo" />
+          <h1 id="h_newUser" color="blue" >הרשמה</h1><div className="back">
+            <div className="NewUserFeilds" onBlur={() => setShowAlert(false)}>
+              <BasicTextFields
+                header="שם"
+                type="text"
+                func={(ev) => setUserName(ev.target.value)}
+                onBlur={() => setShowAlert(false)}
+                required
+              />
+              <BasicTextFields
+                header="תעודת זהות"
+                type="number"
+                id="idField"
+                func={(ev) => setUserId(ev.target.value)}
+                onBlur={() => setShowAlert(false)}
+                required
+              />
+              <BasicTextFields
+                header="כתובת"
+                type="text"
+                func={(ev) => setAddress(ev.target.value)}
+                onBlur={() => setShowAlert(false)}
+                required
+              />
+              <BasicTextFields
+                header="טלפון"
+                type="number"
+                id="phoneField"
+                onBlur={() => setShowAlert(false)}
+                func={(ev) => setPhone(ev.target.value)}
+                required
+              />
+              <BasicTextFields
+                header="כתובת מייל"
+                type="email"
+                id="emailField"
+                onBlur={() => setShowAlert(false)}
+                func={(ev) => setEmail(ev.target.value)}
+                required
+              />
+              <BasicTextFields
+                header="צור סיסמא"
+                type="password"
+                id="passwordField"
+                onBlur={() => setShowAlert(false)}
+                func={(ev) => setPassword(ev.target.value)}
+                required
+              />
+              <BasicTextFields
+                header="חזור על הסיסמא"
+                type="password"
+                id="validField"
+                onBlur={() => setShowAlert(false)}
+                func={(ev) => setValidPassword(ev.target.value)}
+                required
+              />
+            </div>
+            <div id="NewUserBtn" /*onClick={checkNewUser}*/>
+              <BasicButtons value="הרשם" function={checkNewUser} />
+              {showAlert === true ? <ErrorAlert msg={message} /> : <></>}
+            </div>
+          </div>
         </div>
-        <div id="NewUserBtn" /*onClick={checkNewUser}*/>
-          <BasicButtons value="הרשם" function={checkNewUser} />
-          {showAlert === true ? <ErrorAlert msg={message} /> : <></>}
-        </div>
+
       </div>
-    </div>
-
-  </div>
-);
+    );
+  }
 }
 export default NewUser;
 //TODO: Check user input. In ID field- after each number check that user entered a number and not a letter. SARA.
+
+//<CircularIntegration />
