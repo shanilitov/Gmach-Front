@@ -10,10 +10,39 @@ import { Password } from "@mui/icons-material";
 import ErrorAlert from "../HelpingComponent/ErrorAlert";
 import logoPhoto from "../../../img/logoPhoto.png";
 import CircularIntegration from "../HelpingComponent/CircularIntegration";
+import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 
 function NewUser() {
+
+  //Navigate in case user register
+  const navigate = useNavigate();
+  const NavigateFunc = (data) => {
+    navigate('/App', { state: { props: data } })
+  }
+
+  //chack if the values are good filled
+  function isInputValid() {
+    return true;
+    if (password.length < 8) {
+      setMessage("Password must contain at least 8 characters.");
+      return false;
+    }
+    if (phone.length !== 10) {
+      setMessage("Not a valid phone number.");
+      return false;
+    }
+    if (!email.includes("@gmail.com")) {
+      setMessage("Not a valid email address.");
+      return false;
+    }
+    return true;
+  }
+
+
+
 
   let alert = false;
 
@@ -28,6 +57,8 @@ function NewUser() {
   const [validPassword, setValidPassword] = useState("");
 
   function checkNewUser() {
+
+    //help consols:
     console.log("userName: " + userName);
     console.log("phone: " + phone);
     console.log("userId: " + userId);
@@ -35,106 +66,85 @@ function NewUser() {
     console.log("email: " + email);
     console.log("password:" + password);
     console.log("validPassword: " + validPassword);
-    if (
-      (userName !== "") &
-      (userId !== "") &
-      (address !== "") &
-      (phone !== "") &
-      (email !== "") &
-      (password !== "") &
-      (validPassword !== "")
-    ) {
-      console.log("All field are different of ''");
-      if (password != validPassword) {
-        console.log("Sorry, Password fields doesn't match.");
-        setMessage("Sorry, Password fields doesn't match.");
-        console.log("message.text: " + message);
-        setShowAlert(true);
-      }
-    }
-    else {
-      if (password.length < 8) {
-        setMessage("Password must contains at least 8 chars.");
-        console.log("Password must contains at least 8 chars.");
-        console.log("message.text: " + message);
-        setShowAlert(true);
-      }
-      if (phone.length != 10) {
-        console.log("Not valid phone number.");
-        setMessage("Not valid phone number.");
-        setShowAlert(true);
-        console.log("message.text: " + message);
-      }
-      if (!email.includes("@gmail.com")) {
-        console.log("Not valid email address.");
-        setMessage("Not valid email address.");
-        setShowAlert(true);
-      }
-    }
 
+    if (isInputValid()) {
+      //This object used to register user
+      const NewUser = {
+        UserEmail: email,
+        UserPhone: phone,
+        UserAddress: address,
+        UserIdentityNumber: userId,
+        UserName: userName,
+        UserPassword: password
+      };
+      //This object used to check if current user already exist.
+      const user = {
+        UserName: userName,
+        Password: password,
+      };
 
-    //This object used to register user
-    const NewUser = {
-      UserEmail: email,
-      UserPhone: phone,
-      UserAddress: address,
-      UserIdentityNumber: userId,
-      UserName: userName,
-      UserPassword: password
-    };
-    //This object used to check if current user already exist.
-    const user = {
-      UserName: userName,
-      Password: password,
-    };
+      let URL = "https://localhost:7275/api/User/SignIn";
+      let data = NewUser;
 
-    //let URL  ="https://localhost:7275"
-    let URL = "https://localhost:7275/api/User/SignIn";
-    let data = NewUser;
-
-    let option = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
-    console.log("Before fetch. data: ", data, data.name, data.password);
-    console.log(showAlert);
-    if (showAlert != true) {
-      console.log("Before fetch")
-      try {
-        fetch(URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...NewUser, // spread the existing fields
-            //Don't need to add this fields because they already exist in NewUser object.
-          }),
-        })
-          .then((response) => {
-            response.json().then((data) => {
-              console.log("Server responsed!! Data: " + data);
-            })
-
-              .catch((error) => {
-                console.error('Error:', error);
-              })
-              .finally(() => {
-                console.log("Finally");
-              });
+      let option = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      };
+      console.log("Before fetch. data: ", data, data.name, data.password);
+      console.log(showAlert);
+      if (showAlert != true) {
+        console.log("Before fetch")
+        try {
+          fetch(URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              ...NewUser, // spread the existing fields
+              //Don't need to add this fields because they already exist in NewUser object.
+            }),
           })
+            .then((response) => {
+              response.json().then((data) => {
+                console.log("Server responsed!! Data: " + JSON.stringify(data));
+                if (data.userId === 0) {
+                  console.log("User Exist!")
+                }
+                else {
+                  if (data.userId < 0) {
+                    console.log("Error in server!")
+                  }
+                  else {
+                    NavigateFunc(data)
+                  }
+
+                }
+              })
+
+                .catch((error) => {
+                  console.error('Error:', error);
+                })
+                .finally(() => {
+                  console.log("Finally");
+                });
+            })
+        }
+        catch (Error) {
+          console.log("Error.message  ", Error.message);
+        }
       }
-      catch (Error) {
-        console.log("Error.message  ", Error.message);
+      //Wheh ShowAlert is true, the user can't register and we show him this error message.
+      else {
+        setMessage("Sorry, some details are missing. Please fill in all fields.");
+        alert = true;
+        setShowAlert(true);
       }
     }
-    //Wheh ShowAlert is true, the user can't register and we show him this error message.
     else {
-      setMessage("Sorry, some details are missing. Please fill in all fields.");
-      alert = true;
       setShowAlert(true);
     }
   }
