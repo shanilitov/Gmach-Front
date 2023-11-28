@@ -82,7 +82,7 @@ export default function VerticalTabs() {
         <Deposits />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Loans />
+        <Loans id="2"/>
       </TabPanel>
 
       <TabPanel value={value} index={2}>

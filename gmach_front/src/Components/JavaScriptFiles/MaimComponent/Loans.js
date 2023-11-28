@@ -7,18 +7,52 @@ export default function Loans(props) {
   // TODO: change the addLoan to a nicer view.
   // TODO: add option to see the state of loan application.
   let type = props.type
+  let id = props.id
   //let Loans = props.items
-  let Loans = ["50000", "10000", "2000", "22000" ]/*props.sum*/
-  let Dates = ["16/11/2023", "4/11/2023", "30/12/2023", "01/02/2024" ]/*props.date*/ 
+  const [Loans, setLoans] = React.useState([])
+  const [Dates, setDates] = React.useState([])
+
+  fetch(`https://localhost:7275/api/LoanDetails/${id}`, {//TODO: Add useParams() to get the id of the user.
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(id),
+  })
+    .then((response) => {
+      response.json().then((data) => {
+        console.log("Server responsed!! Data: " + JSON.stringify(data));
+        setLoans(data);
+        if (length(Loans) === 0) {
+          console.log("No loans!")
+        }
+        if (length(Loans) < 0) {
+          console.log("Error in server!")
+        }
+
+      }
+        , (error) => {
+          console.log("Error: " + error)
+        })
+
+        .catch((error) => {
+          console.error('Error:', error);
+        })
+        .finally(() => {
+          console.log("Finally");
+        });
+    })
+
+
 
   const LoansInfo = Loans.map((loan, index) => (
-    console.log("Index is: "+index),
+    console.log("Index is: " + index),
     <div key={index}>
-      <LoanCard loan = {Loans[index]} date = {Dates[index]}/>
+      <LoanCard loan={Loans[index]} date={Dates[index]} />
     </div>
   ));
 
- 
+
 
   return (
     <div>
@@ -31,7 +65,7 @@ export default function Loans(props) {
       >
         הלוואות
       </h2>
-     {LoansInfo}
+      {LoansInfo}
       <p>Need a loan? click <a href="/AddLoan">here.</a></p>
     </div>
   )
