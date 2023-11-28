@@ -43,7 +43,9 @@ function getStepContent(step) {
   }
 }
 
-export default function NewDeposit() {
+export default function NewDeposit(user) {
+
+  
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {

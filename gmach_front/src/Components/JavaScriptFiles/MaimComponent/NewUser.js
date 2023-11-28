@@ -20,7 +20,7 @@ function NewUser() {
   //Navigate in case user register
   const navigate = useNavigate();
   const NavigateFunc = (data) => {
-    navigate('/App', { state: { props: data } })
+    navigate('/App', {'user':data} )
   }
 
   //chack if the values are good filled
@@ -136,7 +136,7 @@ function NewUser() {
           console.log("Error.message  ", Error.message);
         }
       }
-      //Wheh ShowAlert is true, the user can't register and we show him this error message.
+      //When ShowAlert is true, the user can't register and we show him this error message.
       else {
         setMessage("Sorry, some details are missing. Please fill in all fields.");
         alert = true;

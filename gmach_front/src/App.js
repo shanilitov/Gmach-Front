@@ -28,8 +28,20 @@ import Articles from "./Components/JavaScriptFiles/HelpingComponent/Articles";
 import Contact from "./Components/JavaScriptFiles/HelpingComponent/Contact";
 
 
-function App() {
-  const [isRegistered, setIsRegistered] = React.useState(true);
+function App(props) {
+  //if any user registered or not 
+  const [isRegistered, setIsRegistered] = React.useState(false);
+  const [user, setUser] = React.useState({})
+
+  //check if any user sent as a props
+  React.useEffect(()=>{
+    if(props.user){
+      console.log(props.user)
+      setUser(props.user)
+      setIsRegistered(true)
+    }
+  })
+  
   
   return (
     <div>
@@ -42,7 +54,7 @@ function App() {
               element={<Navigate to="/App" />}
             ></Route>
             <Route path="/SignUp" element={<NewUser />}></Route>
-            <Route path="/App" element={<Blog />}></Route>
+            <Route path="/App" element={<Blog user isRegistered/>}></Route>
             <Route path="/LogIn" element={<LogIn />}></Route>
             <Route path="/Register" element={<Application />}></Route>
             <Route path="/AboutUs" element={<AboutUs />}></Route>
@@ -53,13 +65,13 @@ function App() {
             <Route
               path='/AddLoan'
               element={
-                isRegistered ? (<NewLoanFile />)
+                isRegistered ? (<NewLoanFile user/>)
                   : (<Navigate to="/LogIn" />)}>
             </Route>
             <Route
               path="/NewDeposit"
               element={
-                isRegistered ? (<NewDeposit />)
+                isRegistered ? (<NewDeposit user/>)
                   : (<Navigate to="/LogIn" />)} />
           </Route>
         </Routes>
@@ -70,32 +82,4 @@ function App() {
 }
 export default App;
 
-/**
- * Sara.
- * New (21/08/23):
- *   <Route exact path="/registration">
-        {isRegistered ? (
-          <Navigate to="/" />
-        ) : (
-          <LogIn setIsRegistered = {setIsRegistered} />
-        )}
-      </Route>
-      <Route path="/">
-        {isRegistered ? <App /> : <Navigate to="/registration" />}
-      </Route>
-      <Route path="/" component={LogIn} />
-      <Route path="/NewUser" component={NewUser} />
-      
- * /
-
-/**
- * Old.
- * Shani.
- *  <Route exact path="/registration">
-            {isRegistered ? <Redirect to="/" /> : <LogIn setIsRegistered={setIsRegistered} />} 
-          </Route>
-          <Route path="/">
-          {isRegistered ? <App /> : <Redirect to="/registration" />}
-          </Route>
-          <Route path="/signIn" component={NewUser} />
- */
+ 
