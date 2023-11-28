@@ -19,7 +19,6 @@ function LogIn() {
     // TODO: Change it! it's a reuse from my other project. Shani.
     async function postData(url = '', data = {}) {
         let headers = new Headers();
-
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'text/plain');
         // headers.append('Authorization', 'Basic ' + base64.encode(username + ":" + password));
