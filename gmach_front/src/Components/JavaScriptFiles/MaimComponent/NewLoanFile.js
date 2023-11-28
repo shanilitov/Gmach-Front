@@ -38,7 +38,9 @@ const steps = [
   "Review your request",
 ];
 
-export default function NewLoanFile () {
+export default function NewLoanFile (props) {
+
+  const [user, setUser] = useState(props.user)
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {

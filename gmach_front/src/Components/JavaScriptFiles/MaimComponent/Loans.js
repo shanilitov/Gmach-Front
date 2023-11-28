@@ -1,16 +1,18 @@
 import AlignItemsList from "../HelpingComponent/AlignItemsList"
 import Asynchronous from "../HelpingComponent/AsynchronousFeild"
 import LoanCard from "../HelpingComponent/LoanCard"
+import { useState } from "react";
 
 export default function Loans(props) {
   // TODO: Ask from the server for the client real loans, and change the displaytion to them.
   // TODO: change the addLoan to a nicer view.
   // TODO: add option to see the state of loan application.
   let type = props.type
-  let id = props.id
-  //let Loans = props.items
-  const [Loans, setLoans] = React.useState([])
-  const [Dates, setDates] = React.useState([])
+  let user = props.user
+  let id = user.id
+
+  const [Loans, setLoans] = useState([])
+  const [Dates, setDates] = useState([])
 
   fetch(`https://localhost:7275/api/LoanDetails/${id}`, {//TODO: Add useParams() to get the id of the user.
     method: "POST",
@@ -23,12 +25,12 @@ export default function Loans(props) {
       response.json().then((data) => {
         console.log("Server responsed!! Data: " + JSON.stringify(data));
         setLoans(data);
-        if (length(Loans) === 0) {
-          console.log("No loans!")
-        }
-        if (length(Loans) < 0) {
-          console.log("Error in server!")
-        }
+        // if (length(Loans) === 0) {
+        //   console.log("No loans!")
+        // }
+        // if (length(Loans) < 0) {
+        //   console.log("Error in server!")
+        // }
 
       }
         , (error) => {

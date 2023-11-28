@@ -4,9 +4,12 @@ import BasicButtons from "../HelpingComponent/BasicButtons";
 import Asynchronous from "../HelpingComponent/AsynchronousFeild";
 import FloatingActionButtonZoom from "../HelpingComponent/FloatingActionButtonZoom";
 
+
+
 function AddLoan(props){
     let date = new Date()
-    let name = props.name;
+    const user = props.user
+    let name = user.UserName
     const optionsToSelect = [
         {title:'הלואה לחודש', date: date.setMonth(date.getMonth() + 1)},
         {title:'הלואה לחודשיים', date: date.setMonth(date.getMonth() + 2)},
