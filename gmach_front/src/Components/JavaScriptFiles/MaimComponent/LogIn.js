@@ -36,9 +36,15 @@ function LogIn() {
             body: JSON.stringify(data)
         });
         console.log(response)
+        if(response.status === 200){
+            console.log("server sent: ", response.json()[2])
+            console.log("Success")
+            //navigate('/Register')
+        }
         return response.json()
     }
 
+   
     const subClick = () => {
         console.log('sub click')
         let data = {
