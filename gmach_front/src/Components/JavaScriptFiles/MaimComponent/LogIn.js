@@ -1,22 +1,27 @@
-import React, { useContext, useState, useNavigate } from "react";
+import React, { useContext, useState } from "react";
 import BasicTextFields from "../HelpingComponent/BasicTextFields";
 import BasicButtons from "../HelpingComponent/BasicButtons";
-import { Navigate } from "react-router-dom";
 import Bar from "../HelpingComponent/Bar";
 import logoPhoto from "../../../img/logoPhoto.png";
 import "../../../CSSFiles/StylePage.css"
 import SignUp from "./NewUser";
 import App from "../../../App";
+import { useNavigate } from "react-router-dom";
+
 
 function LogIn() {
 
     const [name, setname] = useState('');
     const [password, setpassword] = useState('');
-    //const [isRegistered, setIsRegistered] = React.useState(true);
 
-    // const navigate = useNavigate();
 
-    // TODO: Change it! it's a reuse from my other project. Shani.
+    //Navigate in case user register
+    const navigate = useNavigate();
+    const NavigateFunc = (data) => {
+        navigate('/Register', {props: { 'user': data }})
+    }
+
+
     async function postData(url = '', data = {}) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -41,58 +46,30 @@ function LogIn() {
             'password': password
         }
         console.log(JSON.stringify(data))
-        postData('https://localhost:7275/api/User/LogIn', data)// TODO: check what is my url
-            .then(response => response.json())
-            .then(json => console.log(json))
-            .catch(error => console.log('Authorization failed: ' + error.message));
+        try {
+            postData('https://localhost:7275/api/User/LogIn', data)// TODO: check what is my url
+                .then((data) => {
+                    console.log("Server responsed!! Data: " + JSON.stringify(data));
 
-        //todo: add here navigate to "/App" if its sucess, with the user details
-        //and change the IsRegisted to true.
+                    if (data === undefined) {
+                        console.log("Error in server!")
+                    }
+                    else {
+                        NavigateFunc(data)
+                    }
+                })
+                .catch(error => console.log('Authorization failed: ' + error.message));
 
-        //example:
-        // .then(ans => {
-
-        //     console.log('ans: ' + ans)
-        //     //ans = [{"id":1,"user_name":"malca","password":"123","branch_id":null,"adamin":1}]
-        //     let temp = JSON.parse(ans)
-        //     console.log(temp)
-        //     temp = temp[0]
-        //     console.log(temp)
-
-        //     if (temp !== undefined) {
-        //         //if it's the admin he will see the admin viwe
-        //         if (temp.adamin) {
-        //             Navigate(`/admin`)
-        //         }
-        //         //if it's a simple worker we will show the branch view
-        //         else {
-        //             Navigate(`/shop/${temp.user_name}/${temp.branch_id}`)
-        //         }
-        //     }
-        //     //if this is no user he will see an annoncment and stay in the same screen
-        //     else {
-        //         alert('please try again or go to sign-in if you still dont have an account')
-        //         Navigate(`/login`)
-        //     }
-        // })
-
+        }
+        catch (Error) {
+            console.log("Error.message  ", Error.message);
+        }
     }
-
-    const sighninClick = () => {
-        console.log('go to sign-in')
-        Navigate('/SignUp')
-
-    }
-    //here my code ends....
-
 
 
     function loginClicked() {
         console.log('login clicked')
-        // if(name !== '' && password !== ''){
-        //     console.log('not empty')
-        //     subClick()
-        // }
+
         if (name !== null && password !== null) {
             console.log("Not null")
             subClick()
@@ -101,7 +78,7 @@ function LogIn() {
             console.log("Not all")
     }
 
-    
+
     return (
         <div id="LogIn" >
             <img src={logoPhoto} alt="Logo" className="photo" />
