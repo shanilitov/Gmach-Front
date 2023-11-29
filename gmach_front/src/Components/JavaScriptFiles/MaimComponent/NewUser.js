@@ -20,12 +20,12 @@ function NewUser() {
   //Navigate in case user register
   const navigate = useNavigate();
   const NavigateFunc = (data) => {
-    navigate('/App', {'user':data} )
+    navigate('/Register', {'user':data} )
   }
 
   //chack if the values are good filled
   function isInputValid() {
-    return true; // just till we finish
+    //return true; // just till we finish
     if (password.length < 8) {
       setMessage("Password must contain at least 8 characters.");
       return false;
