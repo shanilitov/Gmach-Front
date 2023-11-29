@@ -30,7 +30,7 @@ import Contact from "./Components/JavaScriptFiles/HelpingComponent/Contact";
 
 function App(props) {
   //if any user registered or not 
-  const [isRegistered, setIsRegistered] = React.useState(false);
+  const [isRegistered, setIsRegistered] = React.useState(true);
   const [user, setUser] = React.useState({})
 
   //check if any user sent as a props

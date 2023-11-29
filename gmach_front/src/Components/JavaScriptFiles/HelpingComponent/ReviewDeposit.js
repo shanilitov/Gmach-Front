@@ -4,6 +4,16 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Grid from '@mui/material/Grid';
+import InputLabel from '@mui/material/InputLabel';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormControl from '@mui/material/FormControl';
+import { useState } from 'react';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
+
+
 
 const products = [
   {
@@ -38,51 +48,40 @@ const payments = [
 ];
 
 export default function Review() {
+  const [LoanAmount, setLoanAmount] = useState(0);
+  const [showDate, setShowDate] = useState(false);
+  const [time, setTime] = useState("00-00-0000");
+  const [showAlert, setShowAlert] = useState(false);
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        Order summary
+        Enter amount and date
       </Typography>
-      <List disablePadding>
-        {products.map((product) => (
-          <ListItem key={product.name} sx={{ py: 1, px: 0 }}>
-            <ListItemText primary={product.name} secondary={product.desc} />
-            <Typography variant="body2">{product.price}</Typography>
-          </ListItem>
-        ))}
-        <ListItem sx={{ py: 1, px: 0 }}>
-          <ListItemText primary="Total" />
-          <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-            $34.06
-          </Typography>
-        </ListItem>
-      </List>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-            Shipping
-          </Typography>
-          <Typography gutterBottom>John Smith</Typography>
-          <Typography gutterBottom>{addresses.join(', ')}</Typography>
-        </Grid>
-        <Grid item container direction="column" xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-            Payment details
-          </Typography>
-          <Grid container>
-            {payments.map((payment) => (
-              <React.Fragment key={payment.name}>
-                <Grid item xs={6}>
-                  <Typography gutterBottom>{payment.name}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography gutterBottom>{payment.detail}</Typography>
-                </Grid>
-              </React.Fragment>
-            ))}
-          </Grid>
-        </Grid>
-      </Grid>
-    </React.Fragment>
+      <FormControl fullWidth sx={{ m: 1 }} variant="standard" onChange={(ev) => { setLoanAmount(ev.target.value) }}>
+        <InputLabel htmlFor="standard-adornment-amount">Deposit amount</InputLabel>
+        <Input
+          id="standard-adornment-amount"
+          type="number"
+          startAdornment={<InputAdornment position="start">$</InputAdornment>}
+        />
+      </FormControl>
+
+      <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+        Date to get my money back
+      </Typography>
+
+
+      <TextField
+        id="standard-basic"
+        label=""
+        type="date"
+        variant="standard"
+        helperText="Expected withdrawal date."
+        func={(ev) => setTime(ev)}
+      />
+
+ 
+    </React.Fragment >
   );
 }
