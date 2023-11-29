@@ -12,9 +12,15 @@ function LogIn() {
 
     const [name, setname] = useState('');
     const [password, setpassword] = useState('');
+
+    //const navigate = useNavigate();
+    /*const changeNavigate = (path) => {
+        console.log('navigate to ' + path)
+        navigate(path)
+    }*/
+
     //const [isRegistered, setIsRegistered] = React.useState(true);
 
-    // const navigate = useNavigate();
 
     // TODO: Change it! it's a reuse from my other project. Shani.
     async function postData(url = '', data = {}) {
@@ -31,9 +37,15 @@ function LogIn() {
             body: JSON.stringify(data)
         });
         console.log(response)
+        if(response.status === 200){
+            console.log("server sent: ", response.json()[2])
+            console.log("Success")
+            //navigate('/Register')
+        }
         return response.json()
     }
 
+   
     const subClick = () => {
         console.log('sub click')
         let data = {
@@ -41,13 +53,13 @@ function LogIn() {
             'password': password
         }
         console.log(JSON.stringify(data))
-        postData('https://localhost:7275/api/User/LogIn', data)// TODO: check what is my url
+        postData('https://localhost:7275/api/User/LogIn', data)
             .then(response => response.json())
-            .then(json => console.log(json))
+            .then(json => console.log("JSON: ",json))
             .catch(error => console.log('Authorization failed: ' + error.message));
 
-        //todo: add here navigate to "/App" if its sucess, with the user details
-        //and change the IsRegisted to true.
+        //todo: add here navigate to "/App" if its Success, with the user details
+        //and change the IsRegisted to be true.
 
         //example:
         // .then(ans => {
