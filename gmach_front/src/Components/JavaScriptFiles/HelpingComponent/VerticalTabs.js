@@ -45,9 +45,9 @@ function a11yProps(index) {
   };
 }
 
-export default function VerticalTabs() {
+export default function VerticalTabs(props) {
   const [value, setValue] = React.useState(0);
-
+  const User = props.user;
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -64,7 +64,7 @@ export default function VerticalTabs() {
       }}
     >
       <Tabs
-      height="200%"
+        height="200%"
         orientation="vertical"
         variant="scrollable"
         value={value}
@@ -78,18 +78,18 @@ export default function VerticalTabs() {
         <Tab label="פעילות העמותה" {...a11yProps(3)} />
       </Tabs>
 
-      <TabPanel  value={value} index={0} >
-        <Deposits />
+      <TabPanel value={value} index={0} >
+        <Deposits user={User} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Loans id="2"/>
+        <Loans id="2" user={User} />
       </TabPanel>
 
       <TabPanel value={value} index={2}>
-        <Blog />
+        <Blog user={User} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        
+
       </TabPanel>
     </Box>
   );

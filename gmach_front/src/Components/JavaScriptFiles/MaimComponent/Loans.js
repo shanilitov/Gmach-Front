@@ -11,7 +11,9 @@ export default function Loans(props) {
   // TODO: add option to see the state of loan application.
   let type = props.type
   let user = props.user
-  let id = 1
+  console.log("User is: ", user)
+  let id = user.id
+  console.log("Id is: ", id)  
 
   const [Dates, setDates] = useState([])
   const [Loans, setLoans] = useState(null);

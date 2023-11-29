@@ -13,6 +13,7 @@ function LogIn() {
 
     const [name, setname] = useState('');
     const [password, setpassword] = useState('');
+    const [user, setUser] = useState({});
 
 
     //Navigate in case user register
@@ -36,10 +37,11 @@ function LogIn() {
             body: JSON.stringify(data)
         });
         console.log(response)
-        if(response.status === 200){
-            console.log("server sent: ", response.json()[2])
+        if(response.ok){
+            const jsonData = await response.json();
+            console.log("server sent: ", jsonData)
             console.log("Success")
-            //navigate('/Register')
+           setUser(jsonData)
         }
         return response.json()
     }

@@ -31,7 +31,7 @@ import Contact from "./Components/JavaScriptFiles/HelpingComponent/Contact";
 function App(props) {
   //if any user registered or not 
   const [isRegistered, setIsRegistered] = React.useState(true);
-  const [user, setUser] = React.useState({})
+  const [User, setUser] = React.useState({})
 
   //check if any user sent as a props
   React.useEffect(()=>{
@@ -56,7 +56,7 @@ function App(props) {
             <Route path="/SignUp" element={<NewUser />}></Route>
             <Route path="/App" element={<Blog user isRegistered/>}></Route>
             <Route path="/LogIn" element={<LogIn />}></Route>
-            <Route path="/Register" element={<Application />}></Route>
+            <Route path="/Register" element={<Application user={User} />}></Route>
             <Route path="/AboutUs" element={<AboutUs />}></Route>
             <Route path="/Graphes" element={<Graphes />}></Route>
             <Route path="/Services" element={<MiniBlog />}></Route>
@@ -65,13 +65,13 @@ function App(props) {
             <Route
               path='/AddLoan'
               element={
-                isRegistered ? (<NewLoanFile user/>)
+                isRegistered ? (<NewLoanFile user={User}/>)
                   : (<Navigate to="/LogIn" />)}>
             </Route>
             <Route
               path="/NewDeposit"
               element={
-                isRegistered ? (<NewDeposit user/>)
+                isRegistered ? (<NewDeposit user={User}/>)
                   : (<Navigate to="/LogIn" />)} />
           </Route>
         </Routes>

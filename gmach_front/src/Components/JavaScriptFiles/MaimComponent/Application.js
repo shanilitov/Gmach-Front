@@ -9,7 +9,7 @@ import * as React from "react";
 
 export default function Application(props) {
   
-  const [user, setUser] = React.useState({})
+  const [User, setUser] = React.useState({})
 
   //check if any user sent as a props
   React.useEffect(()=>{
@@ -31,8 +31,8 @@ export default function Application(props) {
     <div>
       <Bar />
       <div style={{ display: 'grid', gridTemplateColumns: 'auto auto auto auto auto  ', marginRight: '10%', width: '100%' }} >
-        <div style={{ gridColumn: '1 /span 4' }} ><VerticalTabs /></div>
-        <div style={{ gridColumns: '5/ span 6' }}>  {user.userName} ,שלום</div>
+        <div style={{ gridColumn: '1 /span 4' }} ><VerticalTabs user={User}/></div>
+        <div style={{ gridColumns: '5/ span 6' }}>  {User.userName} ,שלום</div>
       </div>
       <div>
 
