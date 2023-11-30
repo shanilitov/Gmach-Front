@@ -20,7 +20,9 @@ function NewUser() {
   //Navigate in case user register
   const navigate = useNavigate();
   const NavigateFunc = (data) => {
-    navigate('/Register', {'user':data} )
+    let id  = data.userId
+    let name  = data.userName
+    navigate(`/Register/${id}/${name}` )
   }
 
   //chack if the values are good filled

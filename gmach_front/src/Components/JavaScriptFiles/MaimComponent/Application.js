@@ -12,7 +12,11 @@ export default function Application(props) {
 
   const { id } = useParams();
   const { name } = useParams();
-  console.log("ID id: ", id);
+  
+  React.useEffect(()=>{
+    console.log("ID id: ", id);
+  })
+  
 
 
   const container = {

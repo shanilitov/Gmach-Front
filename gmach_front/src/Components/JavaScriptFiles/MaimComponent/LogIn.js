@@ -19,10 +19,11 @@ function LogIn() {
     const [user, setUser] = useState({});
 
 
+
     //Navigate in case user register
     const navigate = useNavigate();
-    const NavigateFunc = (id, nane) => {
-        navigate(`/Register/${id}/${nane}`)
+    const NavigateFunc = (id, name) => {
+        navigate(`/Register/${id}/${name}`)
     }
 
     async function FetchData() {
