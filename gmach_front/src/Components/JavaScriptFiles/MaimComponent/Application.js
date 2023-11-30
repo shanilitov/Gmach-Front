@@ -27,7 +27,7 @@ export default function Application(props) {
           <h2><strong>Hello, {name}</strong></h2>
         </div>
         <div style={{ marginTop: "10px" }}>
-          <VerticalTabs />
+          <VerticalTabs userId={id} userName={name} />
         </div>
       </div>
       <div></div>

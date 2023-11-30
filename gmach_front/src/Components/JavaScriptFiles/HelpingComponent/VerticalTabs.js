@@ -47,7 +47,8 @@ function a11yProps(index) {
 
 export default function VerticalTabs(props) {
   const [value, setValue] = React.useState(0);
-  const User = props.user;
+  const userId = props.userId;
+  const userName = props.userName;
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -79,14 +80,14 @@ export default function VerticalTabs(props) {
       </Tabs>
 
       <TabPanel value={value} index={0} >
-        <Deposits user={User} />
+        <Deposits id={userId} name={userName} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Loans id="2" user={User} />
+        <Loans id={userId} name={userName} />
       </TabPanel>
 
       <TabPanel value={value} index={2}>
-        <Blog user={User} />
+        <Blog id={userId} />
       </TabPanel>
       <TabPanel value={value} index={3}>
 

@@ -63,9 +63,9 @@ function App(props) {
             <Route path="/Articles" element={<Articles />}></Route>
             <Route path="/ContactUs" element={<Contact />}></Route>
             <Route
-              path='/AddLoan'
+              path='/AddLoan/:id'
               element={
-                isRegistered ? (<NewLoanFile user={User}/>)
+                isRegistered ? (<NewLoanFile />)
                   : (<Navigate to="/LogIn" />)}>
             </Route>
             <Route
