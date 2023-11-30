@@ -3,40 +3,36 @@ import VerticalTabs from "../HelpingComponent/VerticalTabs";
 import AlignItemsList from "../HelpingComponent/AlignItemsList";
 import { Margin } from "@mui/icons-material";
 import AddLoan from "./AddLoan"
-import { useState } from "react";
 import * as React from "react";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 
 
 export default function Application(props) {
-  
-  const [User, setUser] = React.useState({})
 
-  //check if any user sent as a props
-  React.useEffect(()=>{
-    if(props.user){
-      console.log(props.user)
-      setUser(props.user)
-    }
-  })
+  const { id } = useParams();
+  const { name } = useParams();
+  console.log("ID id: ", id);
 
-  
 
   const container = {
     display: "grid",
-    gridTemplateColumns: "50% 50%",
-    padding: "10%",
-  };
 
+  };
   return (
     <div>
       <Bar />
-      <div style={{ display: 'grid', gridTemplateColumns: 'auto auto auto auto auto  ', marginRight: '10%', width: '100%' }} >
-        <div style={{ gridColumn: '1 /span 4' }} ><VerticalTabs user={User}/></div>
-        <div style={{ gridColumns: '5/ span 6' }}>  {User.userName} ,שלום</div>
+      <div style={{ padding: "1%", position: "sticky", top: 0 }}>
+        <div style={{ width: "100%", marginTop: "10%", color: "rgb(223, 221, 53)", backgroundColor: "rgba(223, 221, 53,0.115)", fontSize: "large" }}>
+          <h2><strong>Hello, {name}</strong></h2>
+        </div>
+        <div style={{ marginTop: "10px" }}>
+          <VerticalTabs />
+        </div>
       </div>
-      <div>
-
-      </div>
+      <div></div>
     </div>
   );
+
+
 }

@@ -60,11 +60,11 @@ export default function VerticalTabs(props) {
         bgcolor: "background.paper",
         display: "flex",
         height: 300,
-        marginTop: "13%",
+        marginTop: "",
       }}
     >
       <Tabs
-        height="200%"
+        height="600%"
         orientation="vertical"
         variant="scrollable"
         value={value}

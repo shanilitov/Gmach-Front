@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import BasicTextFields from "../HelpingComponent/BasicTextFields";
+import TextField from '@mui/material/TextField';
 import BasicButtons from "../HelpingComponent/BasicButtons";
 import Bar from "../HelpingComponent/Bar";
 import logoPhoto from "../../../img/logoPhoto.png";
@@ -7,83 +7,100 @@ import "../../../CSSFiles/StylePage.css"
 import SignUp from "./NewUser";
 import App from "../../../App";
 import { useNavigate } from "react-router-dom";
+import ErrorAlert from "../HelpingComponent/ErrorAlert";
 
 
 function LogIn() {
 
     const [name, setname] = useState('');
     const [password, setpassword] = useState('');
+    const [alertMsg, setAlertMsg] = useState("");
+    const [showAlert, setShowAlert] = useState(false);
     const [user, setUser] = useState({});
 
 
     //Navigate in case user register
     const navigate = useNavigate();
-    const NavigateFunc = (data) => {
-        navigate('/Register', {props: { 'user': data }})
+    const NavigateFunc = (id, nane) => {
+        navigate(`/Register/${id}/${nane}`)
     }
 
-
-    async function postData(url = '', data = {}) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        headers.append('Accept', 'text/plain');
-        // headers.append('Authorization', 'Basic ' + base64.encode(username + ":" + password));
-        headers.append('Origin', 'http://localhost:3000');
-        const response = await fetch(url, {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
-            headers: headers,
-            body: JSON.stringify(data)
-        });
-        console.log(response)
-        if(response.ok){
-            const jsonData = await response.json();
-            console.log("server sent: ", jsonData)
-            console.log("Success")
-           setUser(jsonData)
+    async function FetchData() {
+        if (showAlert || name == "" || password == "") {
+            console.log("Not all fiels are full")
+            setAlertMsg("One or more fields are empty!")
+            setShowAlert(true)
         }
-        return response.json()
+        else {
+            let URL = "https://localhost:7275/api/User/LogIn";
+            let data = {
+                'userName': name,
+                'password': password
+            }
+            let option = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            };
+            console.log("Before fetch. data: ", data);
+            console.log(showAlert);
+            if (showAlert != true) {
+                console.log("Before fetch")
+                try {
+                    await fetch(URL, option)
+                        .then((response) => {
+                            response.json().then((data) => {
+                                console.log("Server responsed!! Data: " + JSON.stringify(data));
+                                console.log("User id is: " + data.userId)
+                                if (data.userId != undefined && data.userId > 0) {
+                                    NavigateFunc(data.userId, data.userName)
+                                }
+                                else {
+                                    if (data.title == "Not Found" || data.status == 404) {
+                                        console.log("User not found!")
+                                        setAlertMsg("User not found in database. Please register.")
+                                        setShowAlert(true)
+                                        setTimeout(() => {
+                                            navigate("/SignUp")
+                                        }, 5000);
+                                    }
+                                }
+                            }).catch((error) => {
+                                console.error('Error:', error);
+                                setAlertMsg("Error: " + error);
+                                setShowAlert(true);
+                            }).finally(() => {
+                                console.log("Finally");
+                            });
+                        })
+                }
+                catch (Error) {
+                    console.log("Error:  ", Error.message);
+                    setAlertMsg("Error:  " + Error.message)
+                    setShowAlert(true);
+                }
+            }
+        }
     }
-
-   
-    const subClick = () => {
-        console.log('sub click')
-        let data = {
-            'userName': name,
-            'password': password
-        }
-        console.log(JSON.stringify(data))
-        try {
-            postData('https://localhost:7275/api/User/LogIn', data)// TODO: check what is my url
-                .then((data) => {
-                    console.log("Server responsed!! Data: " + JSON.stringify(data));
-
-                    if (data === undefined) {
-                        console.log("Error in server!")
-                    }
-                    else {
-                        NavigateFunc(data)
-                    }
-                })
-                .catch(error => console.log('Authorization failed: ' + error.message));
-
-        }
-        catch (Error) {
-            console.log("Error.message  ", Error.message);
-        }
-    }
-
 
     function loginClicked() {
         console.log('login clicked')
-
-        if (name !== null && password !== null) {
+        if ((name != null && password != null) && (name != "" && password != "")) {
             console.log("Not null")
-            subClick()
+            FetchData()
         }
-        else
-            console.log("Not all")
+        else {
+            console.log("Not all fiels are full")
+            setAlertMsg("One or more fields are empty!")
+            console.log(name, password)
+            setShowAlert(true)
+            setTimeout(() => {
+                setShowAlert(false)
+            }, 2000)
+
+        }
     }
 
 
@@ -94,9 +111,37 @@ function LogIn() {
                 <div className="LogInFields">
                     <h1>התחברות</h1>
                     {/* work on the onChange */}
-                    <BasicTextFields header="שם" type="text" func={(event) => { setname(event.target.value) }} />
-                    <BasicTextFields header="סיסמא" type="password" func={(event) => { setpassword(event.target.value) }} />
+                    <div style={{ margin: " 4% 4% 4% 0% " }}>
+                        <TextField
+                            header="Name"
+                            type="text"
+                            label="Name"
+                            onChange={(ev) => {
+                                const englishTextRegex = /^[A-Za-z]+$/;
+                                if (englishTextRegex.test(ev.target.value) || ev.target.value === "") {
+                                    setShowAlert(false);
+                                    setname(ev.target.value); // Set the valid input to the name variable
+                                } else {
+                                    setShowAlert(true);
+                                    setAlertMsg("User name must be in English letters only.");
+                                }
+                            }}
+                        />
+                    </div>
+                    <div style={{ margin: "4% 4% 4% 0% " }}>
+                        <TextField header="Password" type="password" label="Password" onChange={(ev) => {
+                            const numberRegex = /^[0-9]+$/;
+                            if (numberRegex.test(ev.target.value) || ev.target.value === "") {
+                                setShowAlert(false);
+                                setpassword(ev.target.value)
+                            } else {
+                                setAlertMsg("Password must contain only numbers.");
+                                setShowAlert(true);
+                            }
+                        }} />
+                    </div>
                     <div onClick={loginClicked}><BasicButtons value="התחבר" /></div>
+                    {showAlert ? <ErrorAlert msg={alertMsg} /> : null}
                     <a href="SignUp" >חדש במערכת? עבור להרשמה</a>
                 </div>
             </div>
@@ -105,3 +150,58 @@ function LogIn() {
 
 export default LogIn;
 
+
+
+
+
+//Code that we don't need anymore. I save it here just in case we need it again. Sara.
+
+/* async function postData(url = '', data = {}) {
+     let headers = new Headers();
+     headers.append('Content-Type', 'application/json');
+     headers.append('Accept', 'text/plain');
+     // headers.append('Authorization', 'Basic ' + base64.encode(username + ":" + password));
+     headers.append('Origin', 'http://localhost:3000');
+     const response = await fetch(url, {
+         method: 'POST',
+         mode: 'cors',
+         cache: 'no-cache',
+         headers: headers,
+         body: JSON.stringify(data)
+     });
+     console.log(response)
+     if (response.ok) {
+         const jsonData = await response.json();
+         console.log("server sent: ", jsonData)
+         console.log("Success")
+         setUser(jsonData)
+     }
+     else {
+ 
+     }
+     return response.json()
+ }*/
+
+
+/*const subClick = async () => {
+    console.log('sub click')
+    let data = {
+        'userName': name,
+        'password': password
+    }
+    console.log(JSON.stringify(data))
+    try {
+        const response = await postData('https://localhost:7275/api/User/LogIn', data);
+        const jsonData = await response.clone().json();
+        console.log("Server responsed!! Data: " + JSON.stringify(jsonData));
+
+        if (jsonData === undefined) {
+            console.log("Error in server!");
+        } else {
+            NavigateFunc(jsonData);
+        }
+    } catch (error) {
+        console.log('Authorization failed: ' + error.message);
+    }
+
+}*/

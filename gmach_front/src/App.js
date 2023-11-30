@@ -56,7 +56,7 @@ function App(props) {
             <Route path="/SignUp" element={<NewUser />}></Route>
             <Route path="/App" element={<Blog user isRegistered/>}></Route>
             <Route path="/LogIn" element={<LogIn />}></Route>
-            <Route path="/Register" element={<Application user={User} />}></Route>
+            <Route path="/Register/:id/:name" element={<Application  />}></Route>
             <Route path="/AboutUs" element={<AboutUs />}></Route>
             <Route path="/Graphes" element={<Graphes />}></Route>
             <Route path="/Services" element={<MiniBlog />}></Route>
