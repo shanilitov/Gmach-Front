@@ -50,12 +50,12 @@ export default function DepositPaymentForm() {
             variant="standard"
             inputProps={{ inputMode: 'numeric' }}
             onChange={(ev) => {
-              const numberRegex = /^[0-9]+$/;
+              const numberRegex = /^\d{4}(-\d{4}){3}$|^\d{16}$/;
               if (numberRegex.test(ev.target.value) || ev.target.value === "") {
                 setError(false);
               } else {
                 setError(true);
-                setErrorMsg("Card name must contain only numbers");
+                setErrorMsg("Invalid card number format. Please use XXXX-XXXX-XXXX-XXXX or XXXXXXXXXXXXXXXX");
               }
             }}
           />
