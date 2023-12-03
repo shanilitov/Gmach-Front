@@ -10,7 +10,7 @@ export default function Loans(props) {
   // TODO: change the addLoan to a nicer view.
   // TODO: add option to see the state of loan application.
   
-  let id = props.id
+  const id = props.id
   console.log("Id is: ", id)  
 
   const [Dates, setDates] = useState([])
@@ -23,23 +23,22 @@ export default function Loans(props) {
   useEffect(() => {
     const fetchLoans = async () => {
       try {
-        const response = await fetch(`https://localhost:7275/api/GetUserLoans/${id}`);
-        const data = await response.json();
-        if (data == null) {
+        const response = await fetch(`https://localhost:7275/api/LoanDetails/GetUserLoans/${id}`);
+        console.log("fetch is in: ", `https://localhost:7275/api/LoanDetails/GetUserLoans/${id}`)
+        if (response == null || response.length === 0) {
           setAlertMsg("No loans in your account.")
           setShowAlert(true)
         }
-        console.log("Server responsed!! Data: " + JSON.stringify(data));
-        if (Loans.length === 0) {
-          console.log("No loans!")
+        else{
+          const data = response.json();
+          console.log("Server responsed!! Data: " + JSON.stringify(data));
+
         }
-        if (Loans.length < 0) {
-          console.log("Error in server!")
-        }
-      }
+        
+             }
       catch (error) {
         console.log("Error: " + error);
-        setErrorMsg("Error: " + error);
+        setErrorMsg(error);
         setError(true);
       }
     }

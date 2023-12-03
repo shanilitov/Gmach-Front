@@ -28,7 +28,7 @@ function LogIn() {
 
     async function FetchData() {
         if (showAlert || name == "" || password == "") {
-            console.log("Not all fiels are full")
+            console.log("Showlert is: ", showAlert, ". Not all fiels are full. Name: ", name, ", Password: ", password)
             setAlertMsg("One or more fields are empty!")
             setShowAlert(true)
         }
@@ -48,7 +48,7 @@ function LogIn() {
             console.log("Before fetch. data: ", data);
             console.log(showAlert);
             if (showAlert != true) {
-                console.log("Before fetch")
+                console.log("Before fetch. name: ", name + " Password: ", password)
                 try {
                     await fetch(URL, option)
                         .then((response) => {
@@ -81,6 +81,9 @@ function LogIn() {
                     console.log("Error:  ", Error.message);
                     setAlertMsg("Error:  " + Error.message)
                     setShowAlert(true);
+                    setTimeout(() => {
+                        setShowAlert(false)
+                    }, 3000);
                 }
             }
         }
@@ -148,6 +151,7 @@ function LogIn() {
             </div>
         </div>)
 }
+
 
 export default LogIn;
 
