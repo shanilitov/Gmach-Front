@@ -6,8 +6,10 @@ export default function Deposits(props) {
   // TODO: ask from the server for the deposit of the client, and display them in the current template.
   // TODO: add option to open a new investment.
   //console.log(new Date().getDate())
-  let type = props.type
-  let deposits = props.items
+ 
+  const id = props.id
+  const name = props.name
+
   const [showAlert, setShowAlert] = useState(false);
 
   let sums = ["5000", "10500", "32000", "225000"]/*props.sum*/
@@ -39,7 +41,7 @@ export default function Deposits(props) {
         Deposits
       </h2>
       {depositInfo}
-      <p>Want to add a amount for deposit? click <a href="/NewDeposit">here</a>.</p>
+      <p>Want to add a amount for deposit? click <a href={`/NewDeposit/${id}/${name}`}>here</a>.</p>
     </div>
   )
 }

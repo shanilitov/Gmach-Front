@@ -69,9 +69,9 @@ function App(props) {
                   : (<Navigate to="/LogIn" />)}>
             </Route>
             <Route
-              path="/NewDeposit"
+              path="/NewDeposit/:userId/:userName"
               element={
-                isRegistered ? (<NewDeposit user={User}/>)
+                isRegistered ? (<NewDeposit />)
                   : (<Navigate to="/LogIn" />)} />
           </Route>
         </Routes>
