@@ -151,9 +151,9 @@ export default function NewDeposit() {
     let account={}
     let depositData = {
       DepositId: 0,
-      UserId: userId,
-      Sum: depositAmount,
-      DateToPull: depositReturnDate,
+      UserId: parseInt(userId),
+      Sum: parseInt(depositAmount),
+      DateToPull: new Date(depositReturnDate),
       /*cardName: cardName,
       cardNumber: _cardNumber,
       expDate: expDate,
@@ -170,6 +170,7 @@ export default function NewDeposit() {
       body: JSON.stringify(depositData)
     }).then(response => {
       console.log("Response is: ", response);
+      console.log("Res message: ", response.message)
       return response.json();
     }).then(data => {
       console.log("Data is: ", data);

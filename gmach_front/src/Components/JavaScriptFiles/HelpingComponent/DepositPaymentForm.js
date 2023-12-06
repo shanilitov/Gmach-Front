@@ -36,22 +36,18 @@ export default function DepositPaymentForm(props) {
   };
 
   const cardNameChangeHandler = () => {
-    console.log("son. cardNameChangeHandler run!")
     props.onCardName(cardName);
   }
 
   const cardNumberChangeHandler = () => {
-    console.log("son. cardNumberChangeHandler run!")
     props.onCardNumber(cardNumber);
   }
 
   const expDateChangeHandler = () => {
-    console.log("son. expDateChangeHandler run!")
     props.onExpDate(expDate);
   }
 
   const cvvChangeHandler = () => {
-    console.log("son. cvvChangeHandler run!")
     props.onCvv(cvv);
   }
 
