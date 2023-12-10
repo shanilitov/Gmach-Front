@@ -61,12 +61,10 @@ export default function Review(props) {
                         {new Date(props.date).toLocaleDateString()}
                     </Typography>
                 </ListItem>
-                <ListItem sx={{ py: 1, px: 15 }}>
                     {/*</ListItem> <Grid item container direction="column" xs={12} sm={6}>*/}
                     <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
                         Payment details
                     </Typography>
-                </ListItem>
 
                 <Grid container>
                     {payments.map((payment) => (

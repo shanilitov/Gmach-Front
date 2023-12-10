@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -48,6 +50,10 @@ export default function NewDeposit() {
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
+    if(activeStep >= 1 ){
+      setAllFields(true);
+    }
+    setAllFields(false);
   };
 
   const handleBack = () => {
@@ -94,11 +100,17 @@ export default function NewDeposit() {
   const depositAmountHandler = (depositAmount) => {
     console.log("Father. depositAmountHandler run!", depositAmount)
     setDepositAmount(depositAmount);
+    if (depositAmount && (depositAmount != "") || (depositAmount != null)) {
+      setAllFields(true);
+    }
   }
 
   const depositReturnDateHandler = (depositReturnDate) => {
     console.log("Father. depositReturnDateHandler run!", depositReturnDate)
     setDepositReturnDate(depositReturnDate);
+    if (depositReturnDate && (depositAmount != "") || (depositAmount != null)) {
+      setAllFields(true);
+    }
   }
 
 //This function is for the button. It checks if all the fields are full and if so, it shows the button.
@@ -147,13 +159,14 @@ export default function NewDeposit() {
     console.log("cvv: ", cvv);
     console.log("depositAmount: ", depositAmount);
     console.log("depositReturnDate: ", depositReturnDate);
+    
     console.log("user1: ");
     let account={}
     let depositData = {
       DepositId: 0,
       UserId: parseInt(userId),
       Sum: parseInt(depositAmount),
-      DateToPull: new Date(depositReturnDate),
+      DateToPull: new Date(depositReturnDate).toISOString().split('T')[0],
       /*cardName: cardName,
       cardNumber: _cardNumber,
       expDate: expDate,
@@ -245,6 +258,20 @@ export default function NewDeposit() {
                     sx={{ mt: 3, ml: 1 }}
                   >
                     {activeStep === steps.length - 1 ? 'End' : 'Next'}
+                    
+                  </Button> : <></>
+                }
+                {activeStep>1 ?
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      handleNext();
+                      handleButtonShow();
+                    }}
+                    sx={{ mt: 3, ml: 1 }}
+                  >
+                    {activeStep === steps.length - 1 ? 'End' : 'Next'}
+                    
                   </Button> : <></>
                 }
               </Box>
