@@ -39,13 +39,14 @@ export default function NewDeposit() {
   
   const [activeStep, setActiveStep] = React.useState(0);
   const [cardName, setCardName] = React.useState("");
-  const [cardNumber, setCardNumber] = React.useState("");
+  const [cardNumber, setCardNumber] = React.useState("");// A new card number
   const [expDate, setExpDate] = React.useState("");
   const [cvv, setCvv] = React.useState("");
   const [allFields, setAllFields] = React.useState(false);
   const [depositAmount, setDepositAmount] = React.useState("");
   const [depositReturnDate, setDepositReturnDate] = React.useState("");
   const [check, setChecked] = React.useState(true); // Define the 'checked' variable
+  const [card, setCard] = React.useState(""); // A card number from the DB
   const { userId } = useParams();
   const { userName } = useParams();
 
@@ -70,7 +71,7 @@ export default function NewDeposit() {
     switch (step) {
       case 0:
         // return <Details />;
-        return <DepositPaymentForm onCardName={cardNameHandler} onCardNumber={cardNumberHandler} onExpDate={expDateHandler} onCvv={cvvHandler} onFields={handleButtonShow}  checkBox= {CheckboxHandler} userID={userId} />;
+        return <DepositPaymentForm onCardName={cardNameHandler} onCardNumber={cardNumberHandler} onExpDate={expDateHandler} onCvv={cvvHandler} onFields={handleButtonShow}  checkBox= {CheckboxHandler} userID={userId} onExistingCard={handleCard} />;
       case 1:
         return <DepositDateAndAmount onAmount={depositAmountHandler} onDate={depositReturnDateHandler} onFields={handleButtonShow} />;
       case 2:
@@ -124,6 +125,11 @@ export default function NewDeposit() {
     setChecked(checkbox);
   } 
 
+  const handleCard = (card) => {
+    console.log("Father. handleCard run!", card)
+    setCardNumber(card);
+    setCard(card);
+  }
 //This function is for the button. It checks if all the fields are full and if so, it shows the button.
   const handleButtonShow = () => {
     console.log("The handleButtonShow run at father!");
@@ -262,7 +268,7 @@ export default function NewDeposit() {
                   </Button>
                 )}
                 {allFields && handleButtonShow()}
-                {allFields ?
+                {allFields || card != "" ?
                   <Button
                     variant="contained"
                     onClick={() => {
@@ -275,7 +281,7 @@ export default function NewDeposit() {
                     
                   </Button> : <></>
                 }
-                {activeStep>1 ?
+                {activeStep>2 ?
                   <Button
                     variant="contained"
                     onClick={() => {

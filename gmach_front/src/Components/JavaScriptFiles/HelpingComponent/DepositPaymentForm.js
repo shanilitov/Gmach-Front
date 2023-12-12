@@ -81,6 +81,10 @@ export default function DepositPaymentForm(props) {
     console.log("PaymentHandler run! value is: ", value, " Payment is: ", Payment);
   }
 
+  const handleCard = (value) => {
+    console.log(value)
+    props.onExistingCard(value);
+  }
 
 
 
@@ -275,7 +279,7 @@ export default function DepositPaymentForm(props) {
             {showAlert ? (<Alert severity="info" type="info" msg={alertMsg} />) : (<></>)}
           </Grid>
         </Grid>) : (<>
-          <CreditCardDisplay numbers={creditCardsArray} />;
+          <CreditCardDisplay numbers={creditCardsArray} setCard ={handleCard} />;
           <Grid item xs={12} md={6}>
           </Grid>
         </>)}
