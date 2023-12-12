@@ -6,9 +6,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import ErrorAlert from './ErrorAlert';
 import { Select } from '@mui/material';
+
 import SelectAPayment from './SelectAPayment';
 import { useState } from 'react'; // Import the useState hook from the react package
-import Alert from './Alert';
 import { CreditCard } from '@mui/icons-material';
 import CreditCardDisplay from './CreditCardDisplay';
 
@@ -21,15 +21,13 @@ export default function DepositPaymentForm(props) {
   const [cardNumber, setCardNumber] = React.useState("");
   const [expDate, setExpDate] = React.useState("");
   const [cvv, setCvv] = React.useState("");
-  const [allFields, setAllFields] = React.useState(false);
-  const [check, setChecked] = React.useState(true); // Define the 'checked' variable
-  const [Payment, set_Payment] = React.useState(1); // Set the initial value to 1
-  const [creditCards, setCreditCards] = useState([]);
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlertMsg] = useState(false);
+  const [allFields, setAllFields] = React.useState(false); 
+  const [check, setChecked] = React.useState(true); // If user want to save the credit card details or not. 
+  const [Payment, set_Payment] = React.useState(1); // Set the initial value to 1. 1 = Add a new payment details, 2 = Use an exist card.
+
   //TODO: Don't forget to delete the credit card 
   const creditCardsArray = ["1522859960247532", "1234589672341025"]
-
+  const [UserCards, setUserCards] = useState([]);
 
   React.useEffect(() => {
     if (cardName && cardNumber && expDate && cvv && !error) {
@@ -60,7 +58,7 @@ export default function DepositPaymentForm(props) {
   }
 
   const expDateChangeHandler = () => {
-    props.onExpDate(expDate);
+        props.onExpDate(expDate);
   }
 
   const cvvChangeHandler = () => {
@@ -76,40 +74,24 @@ export default function DepositPaymentForm(props) {
 
 
   const handlePayment = (value) => {
+    console.log("handlePayment run!");
     console.log(value)
-    set_Payment(value);
-    console.log("PaymentHandler run! value is: ", value, " Payment is: ", Payment);
+    if(value === 1){  
+      handleCard("");
+      set_Payment(value);
+    }
+    else{
+      set_Payment(value);
+      console.log("PaymentHandler run! value is: ", value, " Payment is: ", Payment);
+    }
+    
   }
 
   const handleCard = (value) => {
-    console.log(value)
+    console.log("vCard value ", value ," value == null: ", value == null, " value == '': ", value == "")
     props.onExistingCard(value);
   }
 
-
-
-  function GetUSerCards() {
-    const fetchCreditCards = async () => {
-      try {
-        const response = await fetch(`https://localhost:7275/api/Account/${userID}`);
-        const data = await response.json();
-        console.log("Data is: ", data);
-        console.log("Data length is: ", data.length)
-        if (data.length > 0) {
-          setCreditCards(data);
-
-        }
-        else {
-          setAlertMsg("You don't have any credit cards saved in the system. Please add a new credit card.")
-          setShowAlert(true);
-        }
-      } catch (error) {
-        console.error('Error fetching credit cards:', error);
-        setErrorMsg("Error fetching credit cards: " + error);
-        setError(true);
-      }
-    };
-  }
 
 
 
@@ -276,10 +258,9 @@ export default function DepositPaymentForm(props) {
           </Grid>
           <Grid item xs={12}>
             {error ? (<ErrorAlert msg={errorMsg} />) : (<></>)}
-            {showAlert ? (<Alert severity="info" type="info" msg={alertMsg} />) : (<></>)}
           </Grid>
         </Grid>) : (<>
-          <CreditCardDisplay numbers={creditCardsArray} setCard ={handleCard} />;
+          <CreditCardDisplay numbers={creditCardsArray} setCard={handleCard} userID={userID} />;
           <Grid item xs={12} md={6}>
           </Grid>
         </>)}

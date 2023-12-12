@@ -36,7 +36,7 @@ function Copyright() {
 
 
 export default function NewDeposit() {
-  
+
   const [activeStep, setActiveStep] = React.useState(0);
   const [cardName, setCardName] = React.useState("");
   const [cardNumber, setCardNumber] = React.useState("");// A new card number
@@ -54,7 +54,7 @@ export default function NewDeposit() {
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
-    if(activeStep > 1 ){
+    if (activeStep > 1) {
       console.log("activeStep > 1");
       setAllFields(true);
     }
@@ -63,19 +63,20 @@ export default function NewDeposit() {
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
+    console.log("Card: ", card)
   };
 
- 
+
 
   function getStepContent(step) {
     switch (step) {
       case 0:
         // return <Details />;
-        return <DepositPaymentForm onCardName={cardNameHandler} onCardNumber={cardNumberHandler} onExpDate={expDateHandler} onCvv={cvvHandler} onFields={handleButtonShow}  checkBox= {CheckboxHandler} userID={userId} onExistingCard={handleCard} />;
+        return <DepositPaymentForm onCardName={cardNameHandler} onCardNumber={cardNumberHandler} onExpDate={expDateHandler} onCvv={cvvHandler} onFields={handleButtonShow} checkBox={CheckboxHandler} userID={userId} onExistingCard={handleCard} />;
       case 1:
         return <DepositDateAndAmount onAmount={depositAmountHandler} onDate={depositReturnDateHandler} onFields={handleButtonShow} />;
       case 2:
-        return <ReviewDeposit amount={depositAmount} date={depositReturnDate} expDate={expDate} cardNumber={cardNumber}/>;
+        return <ReviewDeposit amount={depositAmount} date={depositReturnDate} expDate={expDate} cardNumber={cardNumber} />;
       default:
         throw new Error('Unknown step');
 
@@ -113,6 +114,7 @@ export default function NewDeposit() {
   }
 
   const depositReturnDateHandler = (depositReturnDate) => {
+    
     console.log("Father. depositReturnDateHandler run!", depositReturnDate)
     setDepositReturnDate(depositReturnDate);
     if (depositReturnDate && (depositAmount != "") || (depositAmount != null)) {
@@ -123,14 +125,17 @@ export default function NewDeposit() {
   const CheckboxHandler = (checkbox) => {
     console.log("Father. CheckboxHandler run!", checkbox)
     setChecked(checkbox);
-  } 
+  }
 
   const handleCard = (card) => {
     console.log("Father. handleCard run!", card)
-    setCardNumber(card);
-    setCard(card);
+    if (card != "") {
+      setCard(card);
+      setCardNumber(card);
+
+    }
   }
-//This function is for the button. It checks if all the fields are full and if so, it shows the button.
+  //This function is for the button. It checks if all the fields are full and if so, it shows the button.
   const handleButtonShow = () => {
     console.log("The handleButtonShow run at father!");
     console.log("cardName: ", cardName);
@@ -151,11 +156,11 @@ export default function NewDeposit() {
         setAllFields(true);
       }
     }
-    console.log("activeStep === steps.length: ", activeStep === steps.length," activeStep: ", activeStep, " steps.length: ", steps.length);
-    
+    console.log("activeStep === steps.length: ", activeStep === steps.length, " activeStep: ", activeStep, " steps.length: ", steps.length);
+
   }
 
- 
+
   React.useEffect(() => {
     if (activeStep === steps.length) {
       sendDepositData();
@@ -163,8 +168,8 @@ export default function NewDeposit() {
   }, [activeStep])
 
 
-//This function sends the data to the server.
-   const sendDepositData = () => {
+  //This function sends the data to the server.
+  const sendDepositData = () => {
     console.log("The function run!");
     let _cardNumber = cardNumber
     console.log("cardName: ", cardName);
@@ -176,12 +181,13 @@ export default function NewDeposit() {
     console.log("cvv: ", cvv);
     console.log("depositAmount: ", depositAmount);
     console.log("depositReturnDate: ", depositReturnDate);
-  if(cardName && cardNumber && expDate && cvv && depositAmount && depositReturnDate){
+    if (cardName && cardNumber && expDate && cvv && depositAmount && depositReturnDate) {
 
-  }
-    
+
+    }
+
     console.log("user1: ");
-    let account={}
+    let account = {}
     let depositData = {
       DepositId: 0,
       UserId: parseInt(userId),
@@ -195,7 +201,7 @@ export default function NewDeposit() {
       depositReturnDate: depositReturnDate,*/
     }
     console.log("depositData: ", depositData);
-   fetch('https://localhost:7275/api/Deposit/AddADeposit', {
+    fetch('https://localhost:7275/api/Deposit/AddADeposit', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -212,7 +218,7 @@ export default function NewDeposit() {
     })
   }
 
-    
+
 
   return (
     <React.Fragment>
@@ -250,12 +256,12 @@ export default function NewDeposit() {
                 Thank you for your giving.
               </Typography>
               <Typography variant="subtitle1">
-                Plus minus Thank you for your giving. 
+                Plus minus Thank you for your giving.
                 <Typography variant="subtitle1">
-                <strong>Your deposit number is #2001539.</strong>
+                  <strong>Your deposit number is #2001539.</strong>
                 </Typography>
-                 We have emailed you when your deposit will can be attracten.
-               
+                We have emailed you when your deposit will can be attracten.
+
               </Typography>
             </React.Fragment>
           ) : (
@@ -264,11 +270,12 @@ export default function NewDeposit() {
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 {activeStep !== 0 && (
                   <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                  {activeStep === steps.length - 1?"Edit": "back"}
+                    {activeStep === steps.length - 1 ? "Edit" : "back"}
                   </Button>
                 )}
                 {allFields && handleButtonShow()}
-                {allFields || card != "" ?
+                {console.log("card: ", card, "card == '': ", card == '', "card == null: ", card == null)}
+                {allFields || card != '' ?
                   <Button
                     variant="contained"
                     onClick={() => {
@@ -278,10 +285,10 @@ export default function NewDeposit() {
                     sx={{ mt: 3, ml: 1 }}
                   >
                     {activeStep === steps.length - 1 ? 'End' : 'Next'}
-                    
+
                   </Button> : <></>
                 }
-                {activeStep>2 ?
+                {activeStep > 2 ?
                   <Button
                     variant="contained"
                     onClick={() => {
@@ -291,7 +298,7 @@ export default function NewDeposit() {
                     sx={{ mt: 3, ml: 1 }}
                   >
                     {activeStep === steps.length - 1 ? 'End' : 'Next'}
-                    
+
                   </Button> : <></>
                 }
               </Box>
