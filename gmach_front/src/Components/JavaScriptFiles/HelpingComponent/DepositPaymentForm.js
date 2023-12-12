@@ -7,9 +7,14 @@ import Checkbox from '@mui/material/Checkbox';
 import ErrorAlert from './ErrorAlert';
 import { Select } from '@mui/material';
 import SelectAPayment from './SelectAPayment';
+import { useState } from 'react'; // Import the useState hook from the react package
+import Alert from './Alert';
+import { CreditCard } from '@mui/icons-material';
+import CreditCardDisplay from './CreditCardDisplay';
+
 
 export default function DepositPaymentForm(props) {
-
+  const userID = props.userID;
   const [error, setError] = React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState("");
   const [cardName, setCardName] = React.useState("");
@@ -19,6 +24,11 @@ export default function DepositPaymentForm(props) {
   const [allFields, setAllFields] = React.useState(false);
   const [check, setChecked] = React.useState(true); // Define the 'checked' variable
   const [Payment, set_Payment] = React.useState(1); // Set the initial value to 1
+  const [creditCards, setCreditCards] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState(false);
+  //TODO: Don't forget to delete the credit card 
+  const creditCardsArray = ["1522859960247532", "1234589672341025"]
 
 
   React.useEffect(() => {
@@ -64,25 +74,53 @@ export default function DepositPaymentForm(props) {
     props.checkBox(newCheck);
   };
 
-  
-  const handlePayment = (value) => {  
-    console.log(value )
+
+  const handlePayment = (value) => {
+    console.log(value)
     set_Payment(value);
     console.log("PaymentHandler run! value is: ", value, " Payment is: ", Payment);
   }
+
+
+
+
+  function GetUSerCards() {
+    const fetchCreditCards = async () => {
+      try {
+        const response = await fetch(`https://localhost:7275/api/Account/${userID}`);
+        const data = await response.json();
+        console.log("Data is: ", data);
+        console.log("Data length is: ", data.length)
+        if (data.length > 0) {
+          setCreditCards(data);
+
+        }
+        else {
+          setAlertMsg("You don't have any credit cards saved in the system. Please add a new credit card.")
+          setShowAlert(true);
+        }
+      } catch (error) {
+        console.error('Error fetching credit cards:', error);
+        setErrorMsg("Error fetching credit cards: " + error);
+        setError(true);
+      }
+    };
+  }
+
+
 
 
   return (
     <div>
       <React.Fragment>
         <div >
-          <Typography variant="h6" gutterBottom style={{ display: "inline-block", marginTop:"2%" }}>
+          <Typography variant="h6" gutterBottom style={{ display: "inline-block", marginTop: "2%" }}>
             Payment method
           </Typography>
-          <div style={{ display: "inline-block", marginLeft:"4%",}} >
+          <div style={{ display: "inline-block", marginLeft: "4%", }} >
             <SelectAPayment setPayment={handlePayment} />
           </div>
-        </div>{Payment === 1 ? ( <Grid container spacing={3}>
+        </div>{Payment === 1 ? (<Grid container spacing={3}>
           <Grid item xs={12} md={6}>
             <TextField
               required
@@ -230,13 +268,17 @@ export default function DepositPaymentForm(props) {
             />
           </Grid>
           <Grid item xs={12} >
-            <FormControlLabel control={<Checkbox defaultChecked  onChange={handleChange} />} label="Save my credit card details for re-use" />
+            <FormControlLabel control={<Checkbox defaultChecked onChange={handleChange} />} label="Save my credit card details for re-use" />
           </Grid>
           <Grid item xs={12}>
             {error ? (<ErrorAlert msg={errorMsg} />) : (<></>)}
+            {showAlert ? (<Alert severity="info" type="info" msg={alertMsg} />) : (<></>)}
           </Grid>
-        </Grid>) : (<></>)}
-       
+        </Grid>) : (<>
+          <CreditCardDisplay numbers={creditCardsArray} />;
+          <Grid item xs={12} md={6}>
+          </Grid>
+        </>)}
       </React.Fragment>
     </div>
   );

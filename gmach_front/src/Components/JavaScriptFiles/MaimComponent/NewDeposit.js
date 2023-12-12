@@ -70,7 +70,7 @@ export default function NewDeposit() {
     switch (step) {
       case 0:
         // return <Details />;
-        return <DepositPaymentForm onCardName={cardNameHandler} onCardNumber={cardNumberHandler} onExpDate={expDateHandler} onCvv={cvvHandler} onFields={handleButtonShow}  checkBox= {CheckboxHandler} />;
+        return <DepositPaymentForm onCardName={cardNameHandler} onCardNumber={cardNumberHandler} onExpDate={expDateHandler} onCvv={cvvHandler} onFields={handleButtonShow}  checkBox= {CheckboxHandler} userID={userId} />;
       case 1:
         return <DepositDateAndAmount onAmount={depositAmountHandler} onDate={depositReturnDateHandler} onFields={handleButtonShow} />;
       case 2:
