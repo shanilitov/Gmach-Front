@@ -18,6 +18,7 @@ import Details from '../HelpingComponent/Details';
 import DepositPaymentForm from '../HelpingComponent/DepositPaymentForm';
 import DepositDateAndAmount from '../HelpingComponent/DepositDateAndAmount';
 import ReviewDeposit from '../HelpingComponent/ReviewDeposit';
+import { Payment } from '@mui/icons-material';
 
 function Copyright() {
   return (
@@ -44,13 +45,16 @@ export default function NewDeposit() {
   const [allFields, setAllFields] = React.useState(false);
   const [depositAmount, setDepositAmount] = React.useState("");
   const [depositReturnDate, setDepositReturnDate] = React.useState("");
+  const [check, setChecked] = React.useState(true); // Define the 'checked' variable
   const { userId } = useParams();
   const { userName } = useParams();
-    const steps = ['Payment details', 'Amount and date', 'Review details'];
+
+  const steps = ['Payment details', 'Amount and date', 'Review details'];
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
-    if(activeStep >= 1 ){
+    if(activeStep > 1 ){
+      console.log("activeStep > 1");
       setAllFields(true);
     }
     setAllFields(false);
@@ -60,11 +64,13 @@ export default function NewDeposit() {
     setActiveStep(activeStep - 1);
   };
 
+ 
+
   function getStepContent(step) {
     switch (step) {
       case 0:
         // return <Details />;
-        return <DepositPaymentForm onCardName={cardNameHandler} onCardNumber={cardNumberHandler} onExpDate={expDateHandler} onCvv={cvvHandler} onFields={handleButtonShow} />;
+        return <DepositPaymentForm onCardName={cardNameHandler} onCardNumber={cardNumberHandler} onExpDate={expDateHandler} onCvv={cvvHandler} onFields={handleButtonShow}  checkBox= {CheckboxHandler} />;
       case 1:
         return <DepositDateAndAmount onAmount={depositAmountHandler} onDate={depositReturnDateHandler} onFields={handleButtonShow} />;
       case 2:
@@ -113,6 +119,11 @@ export default function NewDeposit() {
     }
   }
 
+  const CheckboxHandler = (checkbox) => {
+    console.log("Father. CheckboxHandler run!", checkbox)
+    setChecked(checkbox);
+  } 
+
 //This function is for the button. It checks if all the fields are full and if so, it shows the button.
   const handleButtonShow = () => {
     console.log("The handleButtonShow run at father!");
@@ -159,6 +170,9 @@ export default function NewDeposit() {
     console.log("cvv: ", cvv);
     console.log("depositAmount: ", depositAmount);
     console.log("depositReturnDate: ", depositReturnDate);
+  if(cardName && cardNumber && expDate && cvv && depositAmount && depositReturnDate){
+
+  }
     
     console.log("user1: ");
     let account={}

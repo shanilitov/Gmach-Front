@@ -5,6 +5,8 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import ErrorAlert from './ErrorAlert';
+import { Select } from '@mui/material';
+import SelectAPayment from './SelectAPayment';
 
 export default function DepositPaymentForm(props) {
 
@@ -15,6 +17,9 @@ export default function DepositPaymentForm(props) {
   const [expDate, setExpDate] = React.useState("");
   const [cvv, setCvv] = React.useState("");
   const [allFields, setAllFields] = React.useState(false);
+  const [check, setChecked] = React.useState(true); // Define the 'checked' variable
+  const [Payment, set_Payment] = React.useState(1); // Set the initial value to 1
+
 
   React.useEffect(() => {
     if (cardName && cardNumber && expDate && cvv && !error) {
@@ -29,6 +34,7 @@ export default function DepositPaymentForm(props) {
     console.log("cardNumber: ", cardNumber);
     console.log("expDate: ", expDate);
     console.log("cvv: ", cvv);
+    console.log("check value: ", error);
     setAllFields(true);
     props.onFields();
 
@@ -51,14 +57,32 @@ export default function DepositPaymentForm(props) {
     props.onCvv(cvv);
   }
 
+  const handleChange = () => {
+    const newCheck = !check; // Toggle the value of check
+    setChecked(newCheck);
+    console.log("checked (new): ", newCheck); // Use the updated value of check
+    props.checkBox(newCheck);
+  };
+
+  
+  const handlePayment = (value) => {  
+    console.log(value )
+    set_Payment(value);
+    console.log("PaymentHandler run! value is: ", value, " Payment is: ", Payment);
+  }
+
 
   return (
     <div>
       <React.Fragment>
-        <Typography variant="h6" gutterBottom>
-          Payment method
-        </Typography>
-        <Grid container spacing={3}>
+        <div >
+          <Typography variant="h6" gutterBottom style={{ display: "inline-block", marginTop:"2%" }}>
+            Payment method
+          </Typography>
+          <div style={{ display: "inline-block", marginLeft:"4%",}} >
+            <SelectAPayment setPayment={handlePayment} />
+          </div>
+        </div>{Payment === 1 ? ( <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
             <TextField
               required
@@ -75,7 +99,7 @@ export default function DepositPaymentForm(props) {
                   setError(true);
                   setErrorMsg("Card name must be in English letters only");
                 }
-                if(cardName.length === 0 || cardName==" " || cardName== null){
+                if (cardName.length === 0 || cardName == " " || cardName == null) {
                   setAllFields(false);
                 }
               }}
@@ -116,7 +140,7 @@ export default function DepositPaymentForm(props) {
                   setError(true);
                   setErrorMsg("Invalid card number format. Please use XXXX-XXXX-XXXX-XXXX or XXXXXXXXXXXXXXXX");
                 }
-                if(cardNumber.length === 0 || cardNumber==" " || cardNumber== null){
+                if (cardNumber.length === 0 || cardNumber == " " || cardNumber == null) {
                   setAllFields(false);
                 }
               }}
@@ -151,7 +175,7 @@ export default function DepositPaymentForm(props) {
                   setError(true);
                   setErrorMsg("Invalid date format. Please use MM/YY or MM/YYYY");
                 }
-                if(expDate.length === 0 || expDate==" " || expDate== null ){
+                if (expDate.length === 0 || expDate == " " || expDate == null) {
                   setAllFields(false);
                 }
               }}
@@ -188,7 +212,7 @@ export default function DepositPaymentForm(props) {
                   setError(true);
                   setErrorMsg("Card name must contain only 3 digits");
                 }
-                if(cvv.length === 0 || cvv==" " || cvv== null){
+                if (cvv.length === 0 || cvv == " " || cvv == null) {
                   setAllFields(false);
                 }
               }}
@@ -205,10 +229,14 @@ export default function DepositPaymentForm(props) {
               }}
             />
           </Grid>
+          <Grid item xs={12} >
+            <FormControlLabel control={<Checkbox defaultChecked  onChange={handleChange} />} label="Save my credit card details for re-use" />
+          </Grid>
           <Grid item xs={12}>
             {error ? (<ErrorAlert msg={errorMsg} />) : (<></>)}
           </Grid>
-        </Grid>
+        </Grid>) : (<></>)}
+       
       </React.Fragment>
     </div>
   );
