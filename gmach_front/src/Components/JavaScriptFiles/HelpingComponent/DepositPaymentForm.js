@@ -99,7 +99,7 @@ export default function DepositPaymentForm(props) {
   return (
     <div>
       <React.Fragment>
-        <div >
+        <div  style={{marginBottom: "5%"}}>
           <Typography variant="h6" gutterBottom style={{ display: "inline-block", marginTop: "2%" }}>
             Payment method
           </Typography>

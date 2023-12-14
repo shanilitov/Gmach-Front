@@ -8,6 +8,8 @@ import SignUp from "./NewUser";
 import App from "../../../App";
 import { useNavigate } from "react-router-dom";
 import ErrorAlert from "../HelpingComponent/ErrorAlert";
+import AdminLogIn from "./AdminLogIn";
+import WaitComponent from "../HelpingComponent/WaitComponent";
 
 
 function LogIn() {
@@ -17,6 +19,7 @@ function LogIn() {
     const [alertMsg, setAlertMsg] = useState("");
     const [showAlert, setShowAlert] = useState(false);
     const [user, setUser] = useState({});
+    const [wait, setWait] = useState(false);
 
 
 
@@ -56,7 +59,17 @@ function LogIn() {
                                 console.log("Server responsed!! Data: " + JSON.stringify(data));
                                 console.log("User id is: " + data.userId)
                                 if (data.userId != undefined && data.userId > 0) {
+                                    if (data.userId == 20) //This is the admin id                                       
+                                    {
+                                        console.log("Admin is logged in!")
+                                        setWait(true)
+                                        setTimeout(() => {
+                                            navigate("/Admin")
+                                        }, 2000)
+                                    }
+                                    else {
                                     NavigateFunc(data.userId, data.userName)
+                                    }
                                 }
                                 else {
                                     if (data.title == "Not Found" || data.status == 404) {
@@ -145,6 +158,7 @@ function LogIn() {
                         }} />
                     </div>
                     <div onClick={loginClicked}><BasicButtons value="התחבר" /></div>
+                    {wait ? <WaitComponent /> : null}
                     {showAlert ? <ErrorAlert msg={alertMsg} /> : null}
                     <a href="SignUp" >חדש במערכת? עבור להרשמה</a>
                 </div>
@@ -210,3 +224,31 @@ export default LogIn;
     }
 
 }*/
+/*
+const nodemailer = require('nodemailer');
+
+async function sendEmail() {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: 'sara.daum.il@gmail.com',
+        pass: 'sara&Google305'
+      }
+    });
+
+    const mailOptions = {
+      from: 'library.project@gmail.com',
+      to: 'sara.daum.il@example.com',
+      subject: 'Hello',
+      text: 'Do you try enter to system??.'
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent:', info.messageId);
+  } catch (error) {
+    console.error('Error occurred:', error);
+  }
+}
+
+*/

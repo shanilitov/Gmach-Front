@@ -32,23 +32,29 @@ export default function DepositDateAndAmount(props) {
   }
 
   const handleDate = (date) => {
-    const selectedDate = new Date(date);
-    const today = new Date();
-    // Convert the date to a valid format
-    const [month, year] = date.split('/'); 
-    const formattedDate = new Date(year.length === 2 ? `20${year}` : year, month - 1);
-    if (formattedDate > today) {
-      console.log("HandleDate son run!", formattedDate);
-      props.onDate(formattedDate);
+    if (date) {
+      const selectedDate = new Date(date);
+      const today = new Date();
+      // Convert the date to a valid format
+      // const [month, year] = date.split('/');
+      //const formattedDate = new Date(year.length === 2 ? `20${year}` : year, month - 1);
+      if (selectedDate > today) {
+        console.log("HandleDate son run!", selectedDate);
+        props.onDate(selectedDate);
+        setError(false);
+      } else {
+        console.log("Invalid date. Please select a date later than today.");
+        setErrorMsg("Invalid date. Please select a date later than today.");
+        setError(true);
+        // Handle the case when the date is not valid
+      }
     } else {
-      console.log("Invalid date. Please select a date later than today.");
-      setErrorMsg("Invalid date. Please select a date later than today.");
-      setError(true);
-      // Handle the case when the date is not valid
+      console.log('date is undefined');
     }
-    };
 
-    React.useEffect(() => {
+  };
+
+  React.useEffect(() => {
     if (date > new Date() && DepositAmount > 0 && !error) {
       handleButtonClick();
     }

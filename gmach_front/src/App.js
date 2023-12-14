@@ -26,6 +26,7 @@ import AboutUs from "./Components/JavaScriptFiles/HelpingComponent/AboutUs";
 import Graphes from "./Components/JavaScriptFiles/HelpingComponent/Graphes";
 import Articles from "./Components/JavaScriptFiles/HelpingComponent/Articles";
 import Contact from "./Components/JavaScriptFiles/HelpingComponent/Contact";
+import AdminLogIn from "./Components/JavaScriptFiles/MaimComponent/AdminLogIn";
 
 
 function App(props) {
@@ -54,6 +55,7 @@ function App(props) {
               element={<Navigate to="/App" />}
             ></Route>
             <Route path="/SignUp" element={<NewUser />}></Route>
+            <Route path="/Admin" element={<AdminLogIn/>}></Route>
             <Route path="/App" element={<Blog user isRegistered/>}></Route>
             <Route path="/LogIn" element={<LogIn />}></Route>
             <Route path="/Register/:id/:name" element={<Application  />}></Route>

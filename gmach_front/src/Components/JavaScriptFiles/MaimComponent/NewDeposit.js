@@ -114,7 +114,7 @@ export default function NewDeposit() {
   }
 
   const depositReturnDateHandler = (depositReturnDate) => {
-    
+
     console.log("Father. depositReturnDateHandler run!", depositReturnDate)
     setDepositReturnDate(depositReturnDate);
     if (depositReturnDate && (depositAmount != "") || (depositAmount != null)) {
@@ -213,6 +213,16 @@ export default function NewDeposit() {
       return response.json();
     }).then(data => {
       console.log("Data is: ", data);
+      if (data == -2) {
+        alert("You're not logged in. Please log in and try again.")
+      }
+      if(data > 0){
+        alert("Your deposit was added successfully!")
+      }
+      else if (data == -1) {
+        alert("Error. Please try again.")
+      }
+
     }).catch(err => {
       console.log("Error is: ", err);
     })
@@ -288,7 +298,7 @@ export default function NewDeposit() {
 
                   </Button> : <></>
                 }
-                {activeStep > 2 ?
+                {activeStep === steps.length - 1 ?
                   <Button
                     variant="contained"
                     onClick={() => {

@@ -45,10 +45,9 @@ export default function CreditCardDisplay(props) {
             console.log("Data length is: ", data.length)
             if (data.length > 0) {
                 setUserCards(data);
-
             }
             else {
-                setAlertMsg("You don't have any credit cards saved in the system. Please add a new credit card.")
+                setAlertMsg("You don't have any credit cards saved in system.\n Please add a new credit card.")
                 setShowAlert(true);
             }
         } catch (error) {
@@ -60,13 +59,41 @@ export default function CreditCardDisplay(props) {
 
 
     useEffect(() => {
-        GetUserCards();
-    }, []);
-
+        async function fetchUserCards() {
+          const cards = await GetUserCards();
+          setUserCards(cards);
+        }
+      
+        fetchUserCards();
+      }, []);
+      
     return (
         <Grid item xs={6}>
 
-            {
+           
+            {showAlert ? (<Alert severity="info" type="info" msg={alertMsg} />) : (<></>)}
+            {userCards ? userCards.map(element => (
+                    <div
+                        style={{ cursor: 'pointer', margin: '10px' }}
+                        onClick={() => {
+                            setSelectedCard(element);
+                            props.setCard(element);
+                        }}
+                        key={element}
+                    >
+                        <Item elevation={elevation} selected={selectedCard === element}>
+                            {`XXXX-XXXX-XXXX-${element.slice(-4)}`}
+                        </Item>
+                    </div>
+                )) : 'Loading...'}
+
+        </Grid>
+    );
+}
+//          {creditCards ? <CreditCardDisplay numbers={UserCards} setCard={handleCard} /> : 'Loading...'}
+/**
+ * To see how it works, you can try this snippet:
+ *  {
 
                 creditCards.map(element => (
                     <div
@@ -83,10 +110,4 @@ export default function CreditCardDisplay(props) {
                     </div>
                 ))
             }
-            {showAlert ? (<Alert severity="info" type="info" msg={alertMsg} />) : (<></>)}
-
-
-        </Grid>
-    );
-}
-//          {creditCards ? <CreditCardDisplay numbers={UserCards} setCard={handleCard} /> : 'Loading...'}
+ */
