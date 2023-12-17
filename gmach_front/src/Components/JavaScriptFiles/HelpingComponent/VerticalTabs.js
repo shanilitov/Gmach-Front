@@ -10,6 +10,7 @@ import Loans from "../MaimComponent/Loans";
 import Blog from "../HelpingComponent/Blog"
 import ActionAreaCard from "./ActionAreaCard";
 import AboutUs from "./AboutUs";
+import AllUsersDeposits from "../HelpingComponent/AllUsersDeposits";
 
 
 function TabPanel(props) {
@@ -45,6 +46,19 @@ function a11yProps(index) {
   };
 }
 
+function getCookie(name) {
+  let cookieArray = document.cookie.split('; ');
+  let cookie = cookieArray.find(row => row.startsWith(name + '='));
+  if (cookie) {
+    let value = cookie.split('=')[1];
+    return value;
+  }
+  return null;
+}
+
+
+
+
 export default function VerticalTabs(props) {
   const [value, setValue] = React.useState(0);
   const userId = props.userId;
@@ -53,6 +67,11 @@ export default function VerticalTabs(props) {
     setValue(newValue);
   };
 
+
+  React.useEffect(() => {
+    console.log("Cookie value is: ", getCookie('admin'));
+  })
+
   return (
 
     <Box
@@ -60,12 +79,14 @@ export default function VerticalTabs(props) {
         flexGrow: 1,
         bgcolor: "background.paper",
         display: "flex",
-        height: 300,
+        height: "auto",
         marginTop: "",
+        width: "100%",
       }}
     >
       <Tabs
         height="600%"
+        width="100%"  
         orientation="vertical"
         variant="scrollable"
         value={value}
@@ -75,8 +96,15 @@ export default function VerticalTabs(props) {
       >
         <Tab label="Deposits" {...a11yProps(0)} />
         <Tab label="Loans" {...a11yProps(1)} />
-        <Tab label="פעילות העמותה" {...a11yProps(2)} />
-        <Tab label="פעילות העמותה" {...a11yProps(3)} />
+        {getCookie('admin') ? <Tab label="Users Deposits"  {...a11yProps(2)} /> : null}
+        {getCookie('admin') ? <Tab label="Users Loans" {...a11yProps(3)} /> : null}
+        {getCookie('admin') ? <Tab label="Loans requests" {...a11yProps(4)} /> : null}
+
+
+
+
+        <Tab label="פעילות העמותה" {...a11yProps(5)} />
+        <Tab label="פעילות העמותה" {...a11yProps(6)} />
       </Tabs>
 
       <TabPanel value={value} index={0} >
@@ -85,11 +113,15 @@ export default function VerticalTabs(props) {
       <TabPanel value={value} index={1}>
         <Loans id={userId} name={userName} />
       </TabPanel>
-
       <TabPanel value={value} index={2}>
+        <AllUsersDeposits admin={getCookie('admin')} />
+      </TabPanel>
+
+
+      <TabPanel value={value} index={5}>
         <Blog id={userId} />
       </TabPanel>
-      <TabPanel value={value} index={3}>
+      <TabPanel value={value} index={6}>
 
       </TabPanel>
     </Box>

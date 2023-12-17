@@ -38,7 +38,36 @@ export default function AdminLogIn() {
       email: data.get('email'),
       password: data.get('password'),
     });
+
   };
+
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const FetchLogIn = async (email, password) => {
+    console.log("start!! ", email, password);
+    try {
+      const response = await fetch(`https://localhost:7275/api/User/Admin/LogIn`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await response.json();
+      console.log("Data is: ", data);
+      if (data) {
+        console.log("Admin is logged in");
+        window.location.href = "/Admin/Application";
+      }
+      else {
+        alert("Invalid email or password");
+      }
+    } catch (error) {
+      console.error('Error fetching Admin:', error);
+    }
+  }
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -68,6 +97,24 @@ export default function AdminLogIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={(ev) => {
+                const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
+                if (emailRegex.test(ev.target.value)) {
+                  setEmail(ev.target.value);
+                } else {
+                  setEmail("");
+                }
+              }}
+
+              onBlur={(ev) => {
+                const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
+                if (emailRegex.test(ev.target.value)) {
+                  setEmail(ev.target.value);
+                } else {
+                  setEmail("");
+                }
+
+              }}
             />
             <TextField
               margin="normal"
@@ -78,17 +125,33 @@ export default function AdminLogIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(ev) => {
+                const passwordRegex = /^[a-zA-Z0-9]+$/;
+                if (passwordRegex.test(ev.target.value) || ev.target.value === "") {
+                  setPassword(ev.target.value);
+                } else {
+                  setPassword("");
+                }
+              }}
             />
-            
+
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={() => {
+                if (email === "" || password === "") {
+                  alert("Invalid email or password");
+                } else {
+                  FetchLogIn(email, password);
+                }
+
+              }}
             >
               Sign In
             </Button>
-           
+
 
           </Box>
         </Box>
@@ -113,9 +176,59 @@ export default function AdminLogIn() {
             </Grid>
 
 
-
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+ */
+
+
+/**
+ * Encoded password: 
+ * 
+ * 
+ * in JS:
+ * const crypto = require('crypto');
+
+function hashPassword(password, salt) {
+    var hash = crypto.pbkdf2Sync(password, salt, 
+        1000, 64, `sha512`).toString(`hex`); 
+    return hash;
+};
+
+function generateSalt() {
+    return crypto.randomBytes(16).toString('hex');
+}
+
+let salt = generateSalt();
+let hashedPassword = hashPassword('userPassword', salt);
+
+let userPassword = 'userPassword';
+let hashedPasswordToCheck = hashPassword(userPassword, salt);
+
+if(hashedPassword === hashedPasswordToCheck) {
+    console.log('Password is correct');
+} else {
+    console.log('Password is incorrect');
+}
+
+
+
+in C#:
+
+* public string HashPassword(string password, string salt)
+{
+    var pbkdf2 = new Rfc2898DeriveBytes(password, Encoding.UTF8.GetBytes(salt), 10000);
+    byte[] hash = pbkdf2.GetBytes(20);
+    return Convert.ToBase64String(hash);
+}
+public string GenerateSalt()
+{
+    byte[] bytes = new byte[128 / 8];
+    using (var keyGenerator = RandomNumberGenerator.Create())
+    {
+        keyGenerator.GetBytes(bytes);
+        return BitConverter.ToString(bytes).Replace("-", "").ToLower();
+    }
+}
  */

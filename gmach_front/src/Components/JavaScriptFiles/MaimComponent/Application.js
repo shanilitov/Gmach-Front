@@ -12,9 +12,24 @@ export default function Application(props) {
 
   const { id } = useParams();
   const { name } = useParams();
+
+  //This function is used to get the cookie value
+  //If the cookie is not expired- we will enable the admin more options
+  // If the cookie is in expired- we will enable the user to log in again
+  function getCookie(name) {
+    let cookieArray = document.cookie.split('; ');
+    let cookie = cookieArray.find(row => row.startsWith(name + '='));
+    if (cookie) {
+      let value = cookie.split('=')[1];
+      return value;
+    }
+    return null;
+  }
+
   
   React.useEffect(()=>{
     console.log("ID id: ", id);
+    console.log("Cookie value is: ", getCookie('admin'));
   })
   
 
@@ -31,7 +46,7 @@ export default function Application(props) {
           <h2><strong>Hello, {name}</strong></h2>
         </div>
         <div style={{ marginTop: "10px" }}>
-          <VerticalTabs userId={id} userName={name} />
+          <VerticalTabs userId={id} userName={name}  />
         </div>
       </div>
       <div></div>

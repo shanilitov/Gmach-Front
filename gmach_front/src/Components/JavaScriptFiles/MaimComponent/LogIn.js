@@ -63,12 +63,17 @@ function LogIn() {
                                     {
                                         console.log("Admin is logged in!")
                                         setWait(true)
+                                        let date = new Date();
+                                        date.setTime(date.getTime() + (1 * 60 * 60 * 1000)); // 1 hour
+                                        document.cookie = `admin=true; expires=${date.toUTCString()}; path=/`;
                                         setTimeout(() => {
-                                            navigate("/Admin")
+                                            //window.location.href = "Register/Application/Admin";
+                                            NavigateFunc(data.userId, data.userName)
+                                            //navigate("/Admin")
                                         }, 2000)
                                     }
                                     else {
-                                    NavigateFunc(data.userId, data.userName)
+                                        NavigateFunc(data.userId, data.userName)
                                     }
                                 }
                                 else {
