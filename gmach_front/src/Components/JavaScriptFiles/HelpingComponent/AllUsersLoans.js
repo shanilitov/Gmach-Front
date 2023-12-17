@@ -40,7 +40,7 @@ fetch("https://localhost:7275/api/LoanDetails/GetAll")
 
 // Function to show more details for a loan
 function showLoanDetails(loan) {
-    // Implement your logic to show more details for the loan
-    // For example, you can display a modal or navigate to a new page
+   const titles = ["Amount", "Return date", "UserID"]
+    
     console.log("Loan details:", loan);
 }

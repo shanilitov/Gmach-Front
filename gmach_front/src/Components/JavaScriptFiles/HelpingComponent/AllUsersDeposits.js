@@ -1,95 +1,81 @@
 import React, { useEffect, useState } from "react";
 import Table from "./DataTable";
+import Alert from "./Alert";
 
 
 // Fetch data from the API
-fetch("https://localhost:7275/api/Deposit/GetAll")
-    .then(response => response.json())
-    .then(data => {
-        // Create a table element
-        const table = document.createElement("table");
-
-        // Create table headers
-        const headers = ["User", "Amount", "Date"];
-        const headerRow = document.createElement("tr");
-        headers.forEach(headerText => {
-            const header = document.createElement("th");
-            header.textContent = headerText;
-            headerRow.appendChild(header);
-        });
-        table.appendChild(headerRow);
-
-        // Create table rows with deposit details
-        data.forEach(deposit => {
-            const row = document.createElement("tr");
-
-            // Create table cells for each deposit detail
-            const userCell = document.createElement("td");
-            userCell.textContent = deposit.user;
-            row.appendChild(userCell);
-
-            const amountCell = document.createElement("td");
-            amountCell.textContent = deposit.amount;
-            row.appendChild(amountCell);
-
-            const dateCell = document.createElement("td");
-            dateCell.textContent = deposit.date;
-            row.appendChild(dateCell);
-
-            // Add click event listener to each row
-            row.addEventListener("click", () => {
-                // Handle click event to show more details
-                console.log("Clicked on deposit:", deposit);
-                // Add your code to show more details here
-            });
-
-            // Add the row to the table
-            table.appendChild(row);
-        });
-
-        // Append the table to the document body or a specific element
-        document.body.appendChild(table);
-    })
-    .catch(error => {
-        console.error("Error fetching deposits:", error);
-        // Handle error here
-    });
 
 
 
-const AllUsersDeposits = (props) => {
+function AllUsersDeposits(props) {
     const [deposits, setDeposits] = useState([]);
+    const titles = ["amount", "Return date", "UserID"]
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertMsg, setAlertMsg] = useState("");
+
     let isAdmin = props.admin;
 
-    useEffect(() => {
-        fetch("https://localhost:7275/api/Deposit/GetAll")
-            .then((response) => response.json())
-            .then((data) => {
-                setDeposits(data);
-            })
-            .catch((error) => {
-                console.error("Error fetching deposits:", error);
-                // Handle error here
-            });
-    }, []);
+
+    try {
+        fetchData().then((data) => {
+            console.log("Data getr from server is: ", data);
+            setDeposits(data);
+        });
+    }
+    catch (err) {
+        console.log("Error fetching data: ", err);
+        setAlertMsg("Error fetching data: " + err);
+        setShowAlert(true);
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 3000);
+    }
+
+    /* useEffect(() => {
+         fetch("https://localhost:7275/api/Deposit/GetAll")
+             .then((response) => response.json())
+             .then((data) => {
+                 setDeposits(data);
+             })
+             .catch((error) => {
+                 console.error("Error fetching deposits:", error);
+                 // Handle error here
+             });
+     }, []);*/
 
 
-    const handleRowClick = (deposit) => {
-        console.log("Clicked on deposit:", deposit);
-        // Add your code to show more details here
-    };
+    async function fetchData() {
+        try {
+            const response = await fetch("https://localhost:7275/api/Deposit/GetAll");
+            const data = await response.json();
+            return data;
+        }
+        catch (err) {
+            console.log("Error fetching data: ", err);
+            setAlertMsg("Error fetching data: " + err);
+            setShowAlert(true);
+            setTimeout(() => {
+                setShowAlert(false);
+            }, 3000);
+
+        }
+    }
+
 
     return (
         (isAdmin ?
             < >
-                <div style={{width:"250%"}}>
-                    <h3>All users deposits:</h3>
-                    <Table /></div>
+                <div style={{ width: "250%" }}>
+                    {showAlert ? <Alert type="error" msg={alertMsg} /> : null}
+                    <Table deposits={deposits} /></div>
             </> : null)
     );
 };
 
 export default AllUsersDeposits;
+
+
+
 /**
  * {deposits.map((deposit) => (
                         <tr key={deposit.id} onClick={() => handleRowClick(deposit)}>
