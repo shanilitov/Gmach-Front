@@ -65,12 +65,12 @@ function AllUsersDeposits(props) {
     function sumAllDeposits(deposits) {
         let sum = 0;
         deposits.forEach((deposit) => {
-            sum += deposit.amount;
+            sum += parseFloat(deposit.sum);
         });
         return sum;
     }
-    let total = sumAllDeposits(deposits);
-   
+    let total = sumAllDeposits(deposits).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+
 
     return (
         (isAdmin ?

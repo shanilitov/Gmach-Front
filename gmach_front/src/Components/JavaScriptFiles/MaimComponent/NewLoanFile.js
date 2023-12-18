@@ -38,10 +38,21 @@ const steps = [
   "Review your request",
 ];
 
-export default function NewLoanFile (props) {
+export default function NewLoanFile(props) {
 
   const [user, setUser] = useState(props.user)
   const [activeStep, setActiveStep] = React.useState(0);
+  //Data from sons:
+  //AddressForm file:
+  const [GuarantorName1, setGuarantorName1] = useState("");
+  const [GuarantorName2, setGuarantorName2] = useState("");
+  const [GuarantorLastName1, setGuarantorLastName1] = useState("");
+  const [GuarantorLastName2, setGuarantorLastName2] = useState("");
+  const [GuarantorEmail1, setGuarantorEmail1] = useState("");
+  const [GuarantorEmail2, setGuarantorEmail2] = useState("");
+  const [GuarantorPhone1, setGuarantorPhone1] = useState("");
+  const [GuarantorPhone2, setGuarantorPhone2] = useState("");
+  const [LoanAmount, setLoanAmount] = useState("0");
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -52,11 +63,43 @@ export default function NewLoanFile (props) {
   };
   const [val, setVal] = useState("initial value")
 
+  const handleGuarantorName1 = (name) => {
+    setGuarantorName1(name)
+    console.log(name)
+  }
+  const handleGuarantorName2 = (name) => {
+    setGuarantorName2(name)
+    console.log(name)
+
+  }
+  const hanlderGuarantorLastName1 = (lName) => {
+    setGuarantorLastName1(lName);
+    console.log(lName)
+
+  }
+  const hanlderGuarantorLastName2 = (lName) => {
+    setGuarantorLastName2(lName);
+    console.log(lName)
+  }
+  const handlerGuarantorEmail1 = (email) => {
+    setGuarantorEmail1(email)
+  }
+  const handlerGuarantorEmail2 = (email) => {
+    setGuarantorEmail2(email)
+  }
+  const handlerGuarantorPhone1 = (phone) => {
+    setGuarantorPhone1(phone);
+  }
+  const handlerGuarantorPhone2 = (phone) => {
+    setGuarantorPhone2(phone);
+  }
+
+
 
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <AddressForm onChange={(value)=> setVal(value)}/>;
+        return <AddressForm onChange={(value) => setVal(value)} gName1={handleGuarantorName1} gName2={handleGuarantorName2} glName1={hanlderGuarantorLastName1} glName2={hanlderGuarantorLastName2} gEmail1={handlerGuarantorEmail1} gEmail2={handlerGuarantorEmail2} gPhone1={handlerGuarantorPhone1} gPhone2={handlerGuarantorPhone2} />;
       case 1:
         return <PaymentForm />;
       case 2:
