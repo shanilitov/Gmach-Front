@@ -62,12 +62,26 @@ function AllUsersDeposits(props) {
     }
 
 
+    function sumAllDeposits(deposits) {
+        let sum = 0;
+        deposits.forEach((deposit) => {
+            sum += deposit.amount;
+        });
+        return sum;
+    }
+    let total = sumAllDeposits(deposits);
+   
+
     return (
         (isAdmin ?
             < >
                 <div style={{ width: "250%" }}>
                     {showAlert ? <Alert type="error" msg={alertMsg} /> : null}
-                    <Table deposits={deposits} /></div>
+                    <Table deposits={deposits} />
+                    <div style={{ backgroundColor: "rgba(223, 221, 53, 0.5)", height: "10%", margin: "3%", padding: "1%" }}>
+                    <h3>Total: {total}</h3>
+                    </div>
+                </div>
             </> : null)
     );
 };
