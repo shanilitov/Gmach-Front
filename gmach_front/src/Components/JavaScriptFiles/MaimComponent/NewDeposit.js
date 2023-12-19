@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import * as React from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -47,6 +47,7 @@ export default function NewDeposit() {
   const [depositReturnDate, setDepositReturnDate] = React.useState("");
   const [check, setChecked] = React.useState(true); // Define the 'checked' variable
   const [card, setCard] = React.useState(""); // A card number from the DB
+  const [successed, setSuccessed]  =React.useState(false)//If deposit entered to DB successfuly 
   const { userId } = useParams();
   const { userName } = useParams();
 
@@ -218,6 +219,7 @@ export default function NewDeposit() {
       }
       if(data > 0){
         alert("Your deposit was added successfully!")
+        setSuccessed(true)
       }
       else if (data == -1) {
         alert("Error. Please try again.")
@@ -260,7 +262,8 @@ export default function NewDeposit() {
               </Step>
             ))}
           </Stepper>
-          {activeStep === steps.length ? (
+          {activeStep === steps.length ?
+           (
             <React.Fragment>
               <Typography variant="h5" gutterBottom>
                 Thank you for your giving.
@@ -274,7 +277,21 @@ export default function NewDeposit() {
 
               </Typography>
             </React.Fragment>
-          ) : (
+          ):/*( <React.Fragment>
+            <Typography variant="h5" gutterBottom>
+              Hooooops...
+            </Typography>
+            <Typography variant="subtitle1">
+            Sorry, but something bad happend, and your giving dowsn't enter to PlusMinus's accoumt.
+              <Typography variant="subtitle1">
+                Please try again.  (If the problem repeat- write for us and we will check it as soon as we can.)
+              </Typography>
+             <Button onClick={
+              setTimeout(()=>{
+                setActiveStep(0)
+              }, 3000) }>Try again</Button>
+            </Typography>
+          </React.Fragment>) ):*/ (
             <React.Fragment>
               {[getStepContent(activeStep), handleButtonShow]}
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>

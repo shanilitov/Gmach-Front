@@ -15,8 +15,10 @@ import AddressForm from "../HelpingComponent/AddressForm";
 import PaymentForm from "../HelpingComponent/PaymentForm";
 import Review from "../HelpingComponent/Review";
 import "../../../CSSFiles/StylePage.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ErrorAlert from "../HelpingComponent/ErrorAlert";
+import usePagination from "@mui/material/usePagination/usePagination";
+import { useParams } from "react-router-dom";
 
 
 function Copyright() {
@@ -40,7 +42,7 @@ const steps = [
 
 export default function NewLoanFile(props) {
 
-  const [user, setUser] = useState(props.user)
+  const { id } = useParams();
   const [activeStep, setActiveStep] = React.useState(0);
   //Data from sons:
   //AddressForm file:
@@ -52,10 +54,23 @@ export default function NewLoanFile(props) {
   const [GuarantorEmail2, setGuarantorEmail2] = useState("");
   const [GuarantorPhone1, setGuarantorPhone1] = useState("");
   const [GuarantorPhone2, setGuarantorPhone2] = useState("");
+  const [sonAlert, setSonAlert] = useState(false)
   const [LoanAmount, setLoanAmount] = useState("0");
+  const [allFields, setAllFields] = useState(false);
+
+  //PaymentForm.js:
+  const [rememberAccount, setRememberAccount] = React.useState(true);
+  const [accountNum, setAccountNum] = React.useState("");
+  const [bankNum, setBankNum] = React.useState("");
+  const [branchNum, setBranchNum] = React.useState("");
+  const [check1, setCheck1] = React.useState("");
+  const [check2, setCheck2] = React.useState("");
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
+    if(activeStep === steps.length)
+    fetchLoanData(); 
+
   };
 
   const handleBack = () => {
@@ -63,6 +78,7 @@ export default function NewLoanFile(props) {
   };
   const [val, setVal] = useState("initial value")
 
+  //AddressForm file:
   const handleGuarantorName1 = (name) => {
     setGuarantorName1(name)
     console.log(name)
@@ -94,14 +110,98 @@ export default function NewLoanFile(props) {
     setGuarantorPhone2(phone);
   }
 
+  //PaymentForm.js:
+  const handleBankNum = (number) => {
+    console.log(number)
+    setBankNum(number)
+  }
+  const handleAccountNum = (number) => {
+    console.log(number)
+    setAccountNum(number)
+  }
+  const handleBranchNum = (number) => {
+    console.log(number)
+    setBranchNum(number)
+  }
+  const handleCheck1  =(link) =>{
+    console.log("link1: ", link)
+    setCheck1(link)
+  }
+  const handleCheck2  =(link) =>{
+    console.log("link2: ", link)
+    setCheck2(link)
+  }
 
+
+
+  useEffect(() => {
+    if (
+      GuarantorName1 !== "" &&
+      GuarantorName2 !== "" &&
+      GuarantorLastName1 !== "" &&
+      GuarantorLastName2 !== "" &&
+      GuarantorEmail1 !== "" &&
+      GuarantorEmail2 !== "" &&
+      GuarantorPhone1 !== "" &&
+      GuarantorPhone2 !== "" &&
+      LoanAmount !== "0"
+    ) {
+      console.log("All fields: ", "Amount: " + LoanAmount, ". Details: ", GuarantorName1, GuarantorName2, GuarantorLastName1, GuarantorLastName2, GuarantorEmail1, GuarantorEmail2, GuarantorPhone1, GuarantorPhone2);
+      setAllFields(true);
+    } else {
+      setAllFields(false);
+    }
+  }, [
+    GuarantorName1,
+    GuarantorName2,
+    GuarantorLastName1,
+    GuarantorLastName2,
+    GuarantorEmail1,
+    GuarantorEmail2,
+    GuarantorPhone1,
+    GuarantorPhone2,
+    LoanAmount,
+  ]);
+
+  async function fetchLoanData() {
+    const url = "https://localhost:7275/api/LoanDetails/AddNewLoan";
+    const data = {
+      OwnerFullName: "John Doe",
+      AccountNumber: "123456789",
+      BankNumber: "987654321",
+      BranchNumber: "1234",
+      UserId: "12345"
+    };
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result);
+      } else {
+        console.error("Error:", response.status);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+
+  
 
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <AddressForm onChange={(value) => setVal(value)} gName1={handleGuarantorName1} gName2={handleGuarantorName2} glName1={hanlderGuarantorLastName1} glName2={hanlderGuarantorLastName2} gEmail1={handlerGuarantorEmail1} gEmail2={handlerGuarantorEmail2} gPhone1={handlerGuarantorPhone1} gPhone2={handlerGuarantorPhone2} />;
+        return <AddressForm onChange={(value) => setVal(value)} amount={setLoanAmount} gName1={handleGuarantorName1} gName2={handleGuarantorName2} glName1={hanlderGuarantorLastName1} glName2={hanlderGuarantorLastName2} gEmail1={handlerGuarantorEmail1} gEmail2={handlerGuarantorEmail2} gPhone1={handlerGuarantorPhone1} gPhone2={handlerGuarantorPhone2} all={setAllFields} alert={setSonAlert} />;
       case 1:
-        return <PaymentForm />;
+        //setAllFields(false)
+        return <PaymentForm setRememberAccount={setRememberAccount} rememberAccount={rememberAccount} bank={handleBankNum} account={handleAccountNum} branch={handleBranchNum}  check1={handleCheck1} check2={handleCheck2}/>;
       case 2:
         return <Review />;
       default:
@@ -170,14 +270,15 @@ export default function NewLoanFile(props) {
                     Back
                   </Button>
                 )}
-
-                <Button
-                  variant="contained"
-                  onClick={handleNext}
-                  sx={{ mt: 3, ml: 1 }}
-                >
-                  {activeStep === steps.length - 1 ? "Send" : "Next"}
-                </Button>
+                {(allFields && sonAlert == false) ?
+                  (<Button
+                    variant="contained"
+                    onClick={handleNext}
+                    sx={{ mt: 3, ml: 1 }}
+                  >
+                    {activeStep === steps.length - 1 ? "Send" : "Next"}
+                  </Button>) : null
+                }
                 {val}
               </Box>
             </React.Fragment>

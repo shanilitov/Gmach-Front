@@ -10,16 +10,17 @@ import TableRow from '@mui/material/TableRow';
 
 
 
+
 function createData(deposit) {
-  const DepositId = deposit.DepositId;
+  const DepositId = deposit.depositId;
   const amount = deposit.sum.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
   const date = new Date(deposit.dateToPull).toLocaleDateString('en-US');
   const userId = deposit.userId;
-  console.log("Data is: " + DepositId + " " + amount + " " + date + " " + userId  );
-  return [DepositId,amount, date, userId];
+  console.log("Data is: " + DepositId + " " + amount + " " + date + " " + userId);
+  return [DepositId, amount, date, userId];
 }
 
-function createData2(loan){
+function createData2(loan) {
 
 }
 
@@ -27,43 +28,23 @@ export default function DataTable(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
- 
-
-   const deposits = props.deposits.map((deposit) => createData(deposit))
- 
+  const deposits = props.deposits.map((deposit) => createData(deposit));
 
   const columns = [
     { id: 0, label: 'DepositId', minWidth: 80, format: (value) => value.toString() },
     { id: 1, label: 'Amount', minWidth: 100 },
     {
-      id: 2, label: 'Return date', minWidth: 80, format: (value) => {
-        const date = new Date(value);
-        return date.toLocaleDateString('en-US');
-      }},
+      id: 2,
+      label: 'Return date',
+      minWidth: 80,
+     },
     {
       id: 3,
       label: 'UserId',
       minWidth: 70,
       align: 'right',
-  
     },
-   
-    /*{
-      id: 'size',
-      label: 'Size\u00a0(km\u00b2)',
-      minWidth: 170,
-      align: 'right',
-      format: (value) => value.toLocaleString('en-US'),
-    },
-    {
-      id: 'density',
-      label: 'Density',
-      minWidth: 170,
-      align: 'right',
-      format: (value) => value.toFixed(2),
-    },*/
   ];
-
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -74,24 +55,37 @@ export default function DataTable(props) {
     setPage(0);
   };
 
+  
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero indexed
+    const year = date.getFullYear();
+    console.log("day: ", day);
+    console.log("month: ", month);
+    console.log("year: ", year);
+
+    return `${day}/${month}/${year}`;
+  }
+
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 440}}>
+      <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
-          <TableHead >
-            <TableRow >
+          <TableHead>
+            <TableRow>
               {columns.map((column) => (
-                <TableCell 
+                <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth ,backgroundColor:"rgba(223, 221, 53, 0.5)" }}
+                  style={{ minWidth: column.minWidth, backgroundColor: "rgba(223, 221, 53, 0.5)" }}
                 >
                   {column.label}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
-          <TableBody >
+          <TableBody>
             {deposits.map((row, index) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={index}>
@@ -101,11 +95,12 @@ export default function DataTable(props) {
                       <TableCell key={column.id} align={column.align}>
                         {column.format && typeof value === 'number'
                           ? column.format(value)
-                          : value}
+                          : column.id === 2  // Check if it's the 'Return date' column
+                            ? formatDate(value) // Call the formatDate function
+                            : value}
                       </TableCell>
                     );
                   })}
-                  
                 </TableRow>
               );
             })}

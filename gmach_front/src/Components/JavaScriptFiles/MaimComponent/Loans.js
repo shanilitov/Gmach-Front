@@ -4,13 +4,15 @@ import LoanCard from "../HelpingComponent/LoanCard"
 import { useState } from "react";
 import { useEffect } from "react";
 import Alert from "../HelpingComponent/Alert";
+import { useParams } from "react-router-dom";
 
 export default function Loans(props) {
   // TODO: Ask from the server for the client real loans, and change the displaytion to them.
   // TODO: change the addLoan to a nicer view.
   // TODO: add option to see the state of loan application.
 
-  const id = props.id
+  const {id} = useParams()
+  const {name }= useParams();
   console.log("Id is: ", id)
 
   const [Dates, setDates] = useState([])
@@ -102,7 +104,7 @@ export default function Loans(props) {
       {ShowAlert ? <Alert type="info" msg="No loans in your account." /> : null}
       {Error ? <Alert type="error" msg={ErrorMsg} /> : null}
 
-      <p>Need a loan? click <a href="/AddLoan/">here.</a></p>
+      <p>Need a loan? click <a href={`/AddLoan/${id}`}>here.</a></p>
     </div>
   )
 }

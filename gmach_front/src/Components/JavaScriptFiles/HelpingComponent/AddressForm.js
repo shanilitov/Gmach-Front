@@ -35,13 +35,13 @@ export default function AddressForm(props) {
 
 
 
-/* const handleClickAway = () => {
-    setShowDate(false);
-  };
-*/
-// 93: <ClickAwayListener onClickAway={handleClickAway}></ClickAwayListener >
+  /* const handleClickAway = () => {
+      setShowDate(false);
+    };
+  */
+  // 93: <ClickAwayListener onClickAway={handleClickAway}></ClickAwayListener >
 
-          
+
   function GuarantorsDetails() {
     if ((GuarantorName1 != "") & (GuarantorName2 != "")) {
     } else {
@@ -55,6 +55,8 @@ export default function AddressForm(props) {
     //if (GuarantorName1 == "" || GuarantorName2 == "")
     props.onChange(LoanAmount);
   }
+
+
 
   return (
     <React.Fragment>
@@ -95,37 +97,47 @@ export default function AddressForm(props) {
             label="For six monthes"
             control={<Radio />}
           />
-            <FormControlLabel
-              value="firth"
-              label="other"
-              onClick={() => {
-                setShowDate(true);
-              }}
-              control={<Radio />}
-            />
+          <FormControlLabel
+            value="firth"
+            label="other"
+            onClick={() => {
+              setShowDate(true);
+            }}
+            control={<Radio />}
+          />
 
-            {showDate == true ? (
-              <TextField
-                id="standard-basic"
-                label=""
-                type="date"
-                variant="standard"
-                helperText="Choose loan repayment date."
-                func={(ev) => setTime(ev)}
-              />
-            ) : (
-              <></>
-            )} 
+          {showDate == true ? (
+            <TextField
+              id="standard-basic"
+              label=""
+              type="date"
+              variant="standard"
+              helperText="Choose loan repayment date."
+              func={(ev) => setTime(ev)}
+            />
+          ) : (
+            <></>
+          )}
 
         </RadioGroup>
 
       </div>
-      <FormControl fullWidth sx={{ m: 1 }} variant="standard" onChange={(ev) => { setLoanAmount(ev.toString()) }}>
+      <FormControl fullWidth sx={{ m: 1 }} variant="standard" onChange={(ev) => {
+        const inputValue = ev.target.value.toString();
+        if (/^\d+$/.test(inputValue) && parseInt(inputValue) > 0) {
+          props.amount(inputValue);
+          props.alert(false)
+        } else {
+          setShowAlert(true);
+          setMessage("Please enter a valid sum.")
+          props.alert(true)
+        }
+      }}>
         <InputLabel htmlFor="standard-adornment-amount">Loan amount</InputLabel>
         <Input
           id="standard-adornment-amount"
           type="number"
-          startAdornment={<InputAdornment position="start">₪</InputAdornment>}
+          startAdornment={<InputAdornment position="start">$</InputAdornment>}
         />
       </FormControl>
       <div className="spaceInAddressPage"></div>
@@ -146,7 +158,19 @@ export default function AddressForm(props) {
             fullWidth
             autoComplete="given-name"
             variant="standard"
-            func={(ev) => setGuarantorName1(ev.target.value)}
+            onChange={(ev) => {
+              const englishLettersRegex = /^[A-Za-z]+$/;
+              if (englishLettersRegex.test(ev.target.value)) {
+                setShowAlert(false)
+                props.gName1(ev.target.value);
+                props.alert(false)
+              }
+              else {
+                setMessage("Name should contain only English letters")
+                setShowAlert(true)
+                props.alert(true)
+              }
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -158,7 +182,19 @@ export default function AddressForm(props) {
             fullWidth
             autoComplete="family-name"
             variant="standard"
-            func={(ev) => setGuarantorLastName1(ev.target.value)}
+            onChange={(ev) => {
+              const englishLettersRegex = /^[A-Za-z]+$/;
+              if (englishLettersRegex.test(ev.target.value)) {
+                props.alert(false)
+                setShowAlert(false)
+                props.glName1(ev.target.value);
+              }
+              else {
+                setMessage("Last name should contain only English letters")
+                setShowAlert(true)
+                props.alert(true)
+              }
+            }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -171,7 +207,19 @@ export default function AddressForm(props) {
             autoComplete="shipping address-line1"
             variant="standard"
             type="email"
-            func={(ev) => setGuarantorEmail1(ev.target.value)}
+            onChange={(ev) => {
+              const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+              if (emailRegex.test(ev.target.value)) {
+                props.gEmail1(ev.target.value);
+                setShowAlert(false)
+                props.alert(false)
+              }
+              else {
+                setMessage("Invalid email address.")
+                setShowAlert(true)
+                props.alert(true)
+              }
+            }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -183,7 +231,16 @@ export default function AddressForm(props) {
             autoComplete="shipping address-line2"
             variant="standard"
             type="tel"
-            func={(ev) => setGuarantorPhone1(ev.target.value)}
+            onChange={(ev) => {
+              const phoneRegex = /^05\d{8}$/;
+              if (phoneRegex.test(ev.target.value)) {
+                props.gPhone1(ev.target.value);
+                setShowAlert(false);
+                props.alert(false);
+              } else {
+                props.alert(true);
+              }
+            }}
           />
         </Grid>
       </Grid>
@@ -201,8 +258,19 @@ export default function AddressForm(props) {
             fullWidth
             autoComplete="given-name"
             variant="standard"
-            func={(ev) => setGuarantorName2(ev.target.value)}
-          />
+            onChange={(ev) => {
+              const englishLettersRegex = /^[A-Za-z]+$/;
+              if (englishLettersRegex.test(ev.target.value)) {
+                setShowAlert(false)
+                props.alert(false)
+                props.gName2(ev.target.value);
+              }
+              else {
+                setMessage("Name should contain only English letters")
+                setShowAlert(true)
+                props.alert(true)
+              }
+            }} />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -213,8 +281,19 @@ export default function AddressForm(props) {
             fullWidth
             autoComplete="family-name"
             variant="standard"
-            func={(ev) => setGuarantorLastName2(ev.target.value)}
-          />
+            onChange={(ev) => {
+              const englishLettersRegex = /^[A-Za-z]+$/;
+              if (englishLettersRegex.test(ev.target.value)) {
+                setShowAlert(false)
+                props.glName2(ev.target.value);
+                props.alert(false)
+              }
+              else {
+                setMessage("Last name should contain only English letters")
+                setShowAlert(true)
+                props.alert(true)
+              }
+            }} />
         </Grid>
         <Grid item xs={12}>
           <TextField
@@ -226,8 +305,19 @@ export default function AddressForm(props) {
             autoComplete="shipping address-line1"
             variant="standard"
             type="email"
-            func={(ev) => setGuarantorEmail2(ev.target.value)}
-          />
+            onChange={(ev) => {
+              const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+              if (emailRegex.test(ev.target.value)) {
+                props.gEmail2(ev.target.value);
+                setShowAlert(false)
+                props.alert(false)
+              }
+              else {
+                setMessage("Invalid email address.")
+                setShowAlert(true)
+                props.alert(true)
+              }
+            }} />
         </Grid>
         <Grid item xs={12}>
           <TextField
@@ -238,7 +328,19 @@ export default function AddressForm(props) {
             autoComplete="shipping address-line2"
             variant="standard"
             type="tel"
-            func={(ev) => setGuarantorPhone2(ev.target.value)}
+            onChange={(ev) => {
+              const phoneRegex = /^05\d{8}$/;
+              if (phoneRegex.test(ev.target.value)) {
+                props.gPhone2(ev.target.value);
+                props.alert(false)
+                setShowAlert(false)
+              }
+              else{
+                props.alert(true)
+                setMessage("Please enter a valid phone number.")
+                setShowAlert(true)
+              }
+            }}
           />
         </Grid>
 
@@ -256,11 +358,11 @@ export default function AddressForm(props) {
               label="I agree to save the data I entered in the association's database."
             />
           </div>
+          {showAlert == true ? <ErrorAlert msg={message} /> : <></>}
+
         </Grid>
-        <div><ErrorAlert msg={"LoanAmount is: " + LoanAmount.toString()} /></div>
       </Grid>
 
-      {showAlert == true ? <ErrorAlert msg={message} /> : <></>}
     </React.Fragment>
 
   );

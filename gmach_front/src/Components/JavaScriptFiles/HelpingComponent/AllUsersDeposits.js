@@ -3,10 +3,6 @@ import Table from "./DataTable";
 import Alert from "./Alert";
 
 
-// Fetch data from the API
-
-
-
 function AllUsersDeposits(props) {
     const [deposits, setDeposits] = useState([]);
     const titles = ["amount", "Return date", "UserID"]
@@ -14,23 +10,23 @@ function AllUsersDeposits(props) {
     const [alertMsg, setAlertMsg] = useState("");
 
     let isAdmin = props.admin;
-
-
-    try {
-        fetchData().then((data) => {
-            console.log("Data getr from server is: ", data);
-            setDeposits(data);
-        });
-    }
-    catch (err) {
-        console.log("Error fetching data: ", err);
-        setAlertMsg("Error fetching data: " + err);
-        setShowAlert(true);
-        setTimeout(() => {
-            setShowAlert(false);
-        }, 3000);
-    }
-
+    
+    useEffect(() => {
+        try {
+            fetchData().then((data) => {
+                console.log("Data getr from server is: ", data);
+                setDeposits(data);
+            });
+        }
+        catch (err) {
+            console.log("Error fetching data: ", err);
+            setAlertMsg("Error fetching data: " + err);
+            setShowAlert(true);
+            setTimeout(() => {
+                setShowAlert(false);
+            }, 3000);
+        }
+    }, []);
     /* useEffect(() => {
          fetch("https://localhost:7275/api/Deposit/GetAll")
              .then((response) => response.json())
