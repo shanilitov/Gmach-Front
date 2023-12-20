@@ -71,6 +71,22 @@ export default function PaymentForm(props) {
             }}
           />
         </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="name"
+            name="name"
+            label="Name of account owner"
+            fullWidth
+            autoComplete="shipping postal-code"
+            variant="standard"
+            onChange={(ev) => {
+              if (/^[a-zA-Z]+$/.test(ev.target.value)) {
+                props.owner(ev.target.value);
+              }
+            }}
+          />
+        </Grid>
 
       </Grid>
       <div className="H_BankDetails">

@@ -63,13 +63,14 @@ export default function NewLoanFile(props) {
   const [accountNum, setAccountNum] = React.useState("");
   const [bankNum, setBankNum] = React.useState("");
   const [branchNum, setBranchNum] = React.useState("");
+  const [owner, setOwner] = React.useState("");
   const [check1, setCheck1] = React.useState("");
   const [check2, setCheck2] = React.useState("");
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
-    if(activeStep === steps.length)
-    fetchLoanData(); 
+    if (activeStep === steps.length)
+      fetchLoanData();
 
   };
 
@@ -123,13 +124,17 @@ export default function NewLoanFile(props) {
     console.log(number)
     setBranchNum(number)
   }
-  const handleCheck1  =(link) =>{
+  const handleCheck1 = (link) => {
     console.log("link1: ", link)
     setCheck1(link)
   }
-  const handleCheck2  =(link) =>{
+  const handleCheck2 = (link) => {
     console.log("link2: ", link)
     setCheck2(link)
+  }
+  const hanleAccountOwner = (name) => {
+    console.log(name)
+    setOwner(name)
   }
 
 
@@ -164,16 +169,35 @@ export default function NewLoanFile(props) {
   ]);
 
   async function fetchLoanData() {
-    const url = "https://localhost:7275/api/LoanDetails/AddNewLoan";
-    const data = {
-      OwnerFullName: "John Doe",
-      AccountNumber: "123456789",
-      BankNumber: "987654321",
-      BranchNumber: "1234",
-      UserId: "12345"
+    // First, get user details:
+    const url = `https://example.com/api/users/${id}`; // TODO: Replace with the actual API endpoint
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        const user = await response.json();
+        console.log(user);
+      } else {
+        console.error("Error:", response.status);
+
+      }
+    } catch (error) {
+      console.error("Error in catch block:", error);
+    }
+
+
+
+
+    const URL = "https://localhost:7275/api/Account/AddNewAccount";
+    const BankAccount = {
+      UserId: id,
+      AccountNumber: accountNum,
+      BankNumber: bankNum,
+      BranchNumber: branchNum,
+      AccountOwnerName: owner,
+      ConfirmAccountFile: "link"
     };
     try {
-      const response = await fetch(url, {
+      /*const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -186,14 +210,14 @@ export default function NewLoanFile(props) {
         console.log(result);
       } else {
         console.error("Error:", response.status);
-      }
+      }*/
     } catch (error) {
       console.error("Error:", error);
     }
   }
 
 
-  
+
 
   function getStepContent(step) {
     switch (step) {
@@ -201,7 +225,7 @@ export default function NewLoanFile(props) {
         return <AddressForm onChange={(value) => setVal(value)} amount={setLoanAmount} gName1={handleGuarantorName1} gName2={handleGuarantorName2} glName1={hanlderGuarantorLastName1} glName2={hanlderGuarantorLastName2} gEmail1={handlerGuarantorEmail1} gEmail2={handlerGuarantorEmail2} gPhone1={handlerGuarantorPhone1} gPhone2={handlerGuarantorPhone2} all={setAllFields} alert={setSonAlert} />;
       case 1:
         //setAllFields(false)
-        return <PaymentForm setRememberAccount={setRememberAccount} rememberAccount={rememberAccount} bank={handleBankNum} account={handleAccountNum} branch={handleBranchNum}  check1={handleCheck1} check2={handleCheck2}/>;
+        return <PaymentForm setRememberAccount={setRememberAccount} rememberAccount={rememberAccount} bank={handleBankNum} account={handleAccountNum} branch={handleBranchNum} owner={hanleAccountOwner} check1={handleCheck1} check2={handleCheck2} />;
       case 2:
         return <Review />;
       default:
