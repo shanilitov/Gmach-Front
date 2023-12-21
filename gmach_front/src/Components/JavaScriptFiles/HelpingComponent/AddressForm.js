@@ -115,8 +115,12 @@ export default function AddressForm(props) {
             variant="standard"
             helperText="Choose loan repayment date."
             onBlur={((ev) => {
-              setTime(new Date(ev))
-              props.time(new Date(ev))
+              setTime(new Date(ev.target.value).toISOString())
+              props.time(new Date(ev.target.value))
+              console.log(ev.target.value)
+              console.log(new Date(ev.target.value).toISOString());
+              
+              
             })}
           //func={(ev) => setTime(ev)}
           />

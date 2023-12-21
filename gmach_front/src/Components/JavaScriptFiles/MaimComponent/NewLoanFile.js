@@ -73,7 +73,7 @@ export default function NewLoanFile(props) {
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
-    if (activeStep === steps.length-1) {
+    if (activeStep === steps.length - 1) {
 
       console.log("Fetch data started. activeStep: ", activeStep, ". steps.length: ", steps.length, ".")
       fetchLoanData();
@@ -168,6 +168,7 @@ export default function NewLoanFile(props) {
       LoanAmount !== "0"
     ) {
       console.log("All fields: ", "Amount: " + LoanAmount, ". Details: ", GuarantorName1, GuarantorName2, GuarantorLastName1, GuarantorLastName2, GuarantorEmail1, GuarantorEmail2, GuarantorPhone1, GuarantorPhone2);
+      console.log("time is: ", time, "new Date(time): ", new Date(time), ". new Date(time).toLocaleDateString(): ", new Date(time).toLocaleDateString())
       setAllFields(true);
     } else {
       setAllFields(false);
@@ -211,6 +212,7 @@ export default function NewLoanFile(props) {
       ConfirmAccountFile: picture,
     };
     try {
+      console.log("time is: ", time, "new Date(time): ", new Date(time), ". new Date(time).toLocaleDateString(): ", new Date(time).toLocaleDateString())
       const response = await fetch(URL, {
         method: "POST",
         headers: {
@@ -226,16 +228,16 @@ export default function NewLoanFile(props) {
         //Now, add the loan request:
         const URL2 = "https://localhost:7275/api/LoanDetails/AddNewLoan";
         const Loan = {
-          loanId: result,
+          loanId: 0,
           userId: id,
-          dateToGetBack: new Date(time).toISOString(),
+          dateToGetBack: "2023-12-31T14:26:29.460Z",
           sum: LoanAmount,
           loanFile: DeedOfGuarantee,
           isAprovied: false,
           guarantors: [
             {
               id: 0,
-              loanId: result,
+              loanId: 0,
               identityNumber: "string",
               name: GuarantorName1,
               phoneNumber: GuarantorPhone1,
@@ -245,7 +247,7 @@ export default function NewLoanFile(props) {
             },
             {
               id: 0,
-              loanId: result,
+              loanId: 0,
               identityNumber: "string",
               name: GuarantorName2,
               phoneNumber: GuarantorPhone2,
@@ -256,6 +258,7 @@ export default function NewLoanFile(props) {
           ]
         };
         try {
+          console.log("Before fetch. Loan: ", Loan)
           const response = await fetch(URL2, {
             method: "POST",
             headers: {
@@ -265,7 +268,7 @@ export default function NewLoanFile(props) {
           });
           if (response.ok) {
             const result = await response.json();
-            console.log("result of fetch: ",result);
+            console.log("result of fetch: ", result);
             console.log("Loan added successfully.");
           } else {
             console.error("Error:", response.status);
@@ -279,11 +282,64 @@ export default function NewLoanFile(props) {
       }
     } catch (error) {
       console.error("Error:", error);
+      tryMe();
     }
   }
 
+  async function tryMe() {
+    const URL2 = "https://localhost:7275/api/LoanDetails/AddNewLoan";
+    const Loan = {
+      loanId: 0,
+      userId: id,
+      dateToGetBack: new Date(time).toLocaleDateString(),
+      sum: LoanAmount,
+      loanFile: DeedOfGuarantee,
+      isAprovied: false,
+      guarantors: [
+        {
+          id: 0,
+          loanId: 0,
+          identityNumber: "string",
+          name: GuarantorName1,
+          phoneNumber: GuarantorPhone1,
+          emailAddress: GuarantorEmail1,
+          address: "string",
+          check: check1
+        },
+        {
+          id: 0,
+          loanId: 0,
+          identityNumber: "string",
+          name: GuarantorName2,
+          phoneNumber: GuarantorPhone2,
+          emailAddress: GuarantorEmail2,
+          address: "string",
+          check: check2
+        }
+      ]
+    };
+    try {
+      console.log("Before fetch. Loan: ", Loan)
+      const response = await fetch(URL2, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(Loan)
+      });
+      if (response.ok) {
+        const result = await response.json();
+        console.log("result of fetch: ", result);
+        console.log("Loan added successfully.");
+      } else {
+        console.error("Error:", response.status);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
 
-
+  //tryMe();
 
   function getStepContent(step) {
     switch (step) {
