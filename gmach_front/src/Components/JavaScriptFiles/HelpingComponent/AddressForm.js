@@ -31,6 +31,7 @@ export default function AddressForm(props) {
   const [showAlert, setShowAlert] = useState(false);
   const [showDate, setShowDate] = useState(false);
   const [message, setMessage] = useState("");
+  const [DeedOfGuarantee, setDeedOfGuarantee] = useState(""); 
   const [time, setTime] = useState("00-00-0000");
 
 
@@ -79,7 +80,7 @@ export default function AddressForm(props) {
           How long do you need a loan for?
         </Typography>
         <RadioGroup name="use-radio-group" defaultValue="first">
-          <FormControlLabel
+          {/*<FormControlLabel
             value="first"
             label="For a month"
             onClick={() => { setTime("+1") }}
@@ -96,7 +97,7 @@ export default function AddressForm(props) {
             onClick={() => { setTime("+6") }}
             label="For six monthes"
             control={<Radio />}
-          />
+          />*
           <FormControlLabel
             value="firth"
             label="other"
@@ -106,23 +107,27 @@ export default function AddressForm(props) {
             control={<Radio />}
           />
 
-          {showDate == true ? (
-            <TextField
-              id="standard-basic"
-              label=""
-              type="date"
-              variant="standard"
-              helperText="Choose loan repayment date."
-              func={(ev) => setTime(ev)}
-            />
-          ) : (
+          {showDate == true ? (*/}
+          <TextField
+            id="standard-basic"
+            label=""
+            type="date"
+            variant="standard"
+            helperText="Choose loan repayment date."
+            onBlur={((ev) => {
+              setTime(new Date(ev))
+              props.time(new Date(ev))
+            })}
+          //func={(ev) => setTime(ev)}
+          />
+          {/* ) : (
             <></>
-          )}
+          )}*/}
 
         </RadioGroup>
 
       </div>
-      <FormControl fullWidth sx={{ m: 1 }} variant="standard" onChange={(ev) => {
+      <FormControl value={LoanAmount} fullWidth sx={{ m: 1 }} variant="standard" onChange={(ev) => {
         const inputValue = ev.target.value.toString();
         if (/^\d+$/.test(inputValue) && parseInt(inputValue) > 0) {
           props.amount(inputValue);
@@ -132,6 +137,7 @@ export default function AddressForm(props) {
           setMessage("Please enter a valid sum.")
           props.alert(true)
         }
+        setLoanAmount(inputValue)
       }}>
         <InputLabel htmlFor="standard-adornment-amount">Loan amount</InputLabel>
         <Input
@@ -155,6 +161,7 @@ export default function AddressForm(props) {
             id="firstName"
             name="firstName"
             label="First name"
+            value={GuarantorName1}
             fullWidth
             autoComplete="given-name"
             variant="standard"
@@ -170,6 +177,7 @@ export default function AddressForm(props) {
                 setShowAlert(true)
                 props.alert(true)
               }
+              setGuarantorName1(ev.target.value)
             }}
           />
         </Grid>
@@ -180,6 +188,7 @@ export default function AddressForm(props) {
             name="lastName"
             label="Last name"
             fullWidth
+            value={GuarantorLastName1}
             autoComplete="family-name"
             variant="standard"
             onChange={(ev) => {
@@ -194,6 +203,7 @@ export default function AddressForm(props) {
                 setShowAlert(true)
                 props.alert(true)
               }
+              setGuarantorLastName1(ev.target.value);
             }}
           />
         </Grid>
@@ -203,6 +213,7 @@ export default function AddressForm(props) {
             id="address1"
             name="address1"
             label="Email address"
+            value={GuarantorEmail1}
             fullWidth
             autoComplete="shipping address-line1"
             variant="standard"
@@ -219,6 +230,7 @@ export default function AddressForm(props) {
                 setShowAlert(true)
                 props.alert(true)
               }
+              setGuarantorEmail1(ev.target.value)
             }}
           />
         </Grid>
@@ -228,6 +240,7 @@ export default function AddressForm(props) {
             name="address2"
             label="Phone number"
             fullWidth
+            value={GuarantorPhone1}
             autoComplete="shipping address-line2"
             variant="standard"
             type="tel"
@@ -240,6 +253,7 @@ export default function AddressForm(props) {
               } else {
                 props.alert(true);
               }
+              setGuarantorPhone1(ev.target.value)
             }}
           />
         </Grid>
@@ -255,6 +269,7 @@ export default function AddressForm(props) {
             id="firstName2"
             name="firstName"
             label="First name"
+            value={GuarantorName2}
             fullWidth
             autoComplete="given-name"
             variant="standard"
@@ -270,6 +285,7 @@ export default function AddressForm(props) {
                 setShowAlert(true)
                 props.alert(true)
               }
+              setGuarantorName2(ev.target.value)
             }} />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -278,6 +294,7 @@ export default function AddressForm(props) {
             id="lastName2"
             name="lastName"
             label="Last name"
+            value={GuarantorLastName2}
             fullWidth
             autoComplete="family-name"
             variant="standard"
@@ -293,6 +310,7 @@ export default function AddressForm(props) {
                 setShowAlert(true)
                 props.alert(true)
               }
+              setGuarantorLastName2(ev.target.value)
             }} />
         </Grid>
         <Grid item xs={12}>
@@ -301,6 +319,7 @@ export default function AddressForm(props) {
             id="address2"
             name="address1"
             label="Email address"
+            value={GuarantorEmail2}
             fullWidth
             autoComplete="shipping address-line1"
             variant="standard"
@@ -317,6 +336,7 @@ export default function AddressForm(props) {
                 setShowAlert(true)
                 props.alert(true)
               }
+              setGuarantorEmail2(ev.target.value)
             }} />
         </Grid>
         <Grid item xs={12}>
@@ -324,6 +344,7 @@ export default function AddressForm(props) {
             id="address2"
             name="address2"
             label="Phone number"
+            value={GuarantorPhone2}
             fullWidth
             autoComplete="shipping address-line2"
             variant="standard"
@@ -335,14 +356,32 @@ export default function AddressForm(props) {
                 props.alert(false)
                 setShowAlert(false)
               }
-              else{
+              else {
                 props.alert(true)
                 setMessage("Please enter a valid phone number.")
                 setShowAlert(true)
               }
+              setGuarantorPhone2(ev.target.value)
             }}
           />
         </Grid>
+        <Grid item xs={12}>
+        <TextField
+          id="textFieldId"
+          name="textFieldName"
+          label="Text field label"
+          value={DeedOfGuarantee}
+          fullWidth
+          autoComplete="on"
+          variant="standard"
+          onChange={(ev) => {
+            setDeedOfGuarantee(ev.target.value);
+            props.deed(ev.target.value);
+            // handle text field change
+          }}
+        />
+      </Grid>
+
 
         <Grid item xs={12}>
           <div>
@@ -362,6 +401,8 @@ export default function AddressForm(props) {
 
         </Grid>
       </Grid>
+
+     
 
     </React.Fragment>
 

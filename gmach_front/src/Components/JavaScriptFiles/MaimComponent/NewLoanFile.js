@@ -46,6 +46,7 @@ export default function NewLoanFile(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   //Data from sons:
   //AddressForm file:
+  const [time, setTime] = useState(""); 
   const [GuarantorName1, setGuarantorName1] = useState("");
   const [GuarantorName2, setGuarantorName2] = useState("");
   const [GuarantorLastName1, setGuarantorLastName1] = useState("");
@@ -56,6 +57,7 @@ export default function NewLoanFile(props) {
   const [GuarantorPhone2, setGuarantorPhone2] = useState("");
   const [sonAlert, setSonAlert] = useState(false)
   const [LoanAmount, setLoanAmount] = useState("0");
+  const [DeedOfGuarantee, setDeedOfGuarantee] = useState(""); 
   const [allFields, setAllFields] = useState(false);
 
   //PaymentForm.js:
@@ -64,6 +66,8 @@ export default function NewLoanFile(props) {
   const [bankNum, setBankNum] = React.useState("");
   const [branchNum, setBranchNum] = React.useState("");
   const [owner, setOwner] = React.useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [picture, setPicture] = React.useState("");
   const [check1, setCheck1] = React.useState("");
   const [check2, setCheck2] = React.useState("");
 
@@ -110,6 +114,10 @@ export default function NewLoanFile(props) {
   const handlerGuarantorPhone2 = (phone) => {
     setGuarantorPhone2(phone);
   }
+  const handleDeed = (deed) => {
+    console.log(deed)
+    setDeedOfGuarantee(deed)
+  }
 
   //PaymentForm.js:
   const handleBankNum = (number) => {
@@ -136,8 +144,13 @@ export default function NewLoanFile(props) {
     console.log(name)
     setOwner(name)
   }
-
-
+  const handlePictureOfFile = (picture) => {
+    console.log(picture)
+    setPicture(picture)
+  }
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
 
   useEffect(() => {
     if (
@@ -170,7 +183,7 @@ export default function NewLoanFile(props) {
 
   async function fetchLoanData() {
     // First, get user details:
-    const url = `https://example.com/api/users/${id}`; // TODO: Replace with the actual API endpoint
+    /*const url = `https://example.com/api/users/${id}`; // TODO: Replace with the actual API endpoint
     try {
       const response = await fetch(url);
       if (response.ok) {
@@ -182,11 +195,9 @@ export default function NewLoanFile(props) {
       }
     } catch (error) {
       console.error("Error in catch block:", error);
-    }
+    }*/
 
-
-
-
+    // First, add the bank account:   
     const URL = "https://localhost:7275/api/Account/AddNewAccount";
     const BankAccount = {
       UserId: id,
@@ -194,23 +205,75 @@ export default function NewLoanFile(props) {
       BankNumber: bankNum,
       BranchNumber: branchNum,
       AccountOwnerName: owner,
-      ConfirmAccountFile: "link"
+      ConfirmAccountFile: picture,
     };
     try {
-      /*const response = await fetch(url, {
+      const response = await fetch(URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(BankAccount)
       });
 
-      if (response.ok) {
+      if (response.ok) {  //The account was added successfully:
         const result = await response.json();
         console.log(result);
+        console.log("Account added successfully. Now adding loan request...");
+        //Now, add the loan request:
+        const URL2 = "https://localhost:7275/api/Loan/AddNewLoan";
+        const Loan = {
+          loanId: result,
+          userId: id,
+            dateToGetBack: new Date(time).toISOString(),
+          sum: LoanAmount,
+          loanFile: DeedOfGuarantee,
+          isAprovied: false,
+          guarantors: [
+            {
+              id: 0,
+              loanId: result,
+              identityNumber: "string",
+              name: GuarantorName1,
+              phoneNumber: GuarantorPhone1,
+              emailAddress: GuarantorEmail1,
+              address: "string",
+              check: check1
+            },
+            {
+              id: 0,
+              loanId: result,
+              identityNumber: "string",
+              name: GuarantorName2,
+              phoneNumber: GuarantorPhone2,
+              emailAddress: GuarantorEmail2,
+              address: "string",
+              check: check2
+            }
+          ]
+        };
+        try {
+          const response = await fetch(URL2, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(Loan)
+          });
+          if (response.ok) {
+            const result = await response.json();
+            console.log(result);
+            console.log("Loan added successfully.");
+          } else {
+            console.error("Error:", response.status);
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+        //If the account wasn't added successfully:
       } else {
         console.error("Error:", response.status);
-      }*/
+      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -222,10 +285,10 @@ export default function NewLoanFile(props) {
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <AddressForm onChange={(value) => setVal(value)} amount={setLoanAmount} gName1={handleGuarantorName1} gName2={handleGuarantorName2} glName1={hanlderGuarantorLastName1} glName2={hanlderGuarantorLastName2} gEmail1={handlerGuarantorEmail1} gEmail2={handlerGuarantorEmail2} gPhone1={handlerGuarantorPhone1} gPhone2={handlerGuarantorPhone2} all={setAllFields} alert={setSonAlert} />;
+        return <AddressForm onChange={(value) => setVal(value)} time={setTime} amount={setLoanAmount} gName1={handleGuarantorName1} gName2={handleGuarantorName2} glName1={hanlderGuarantorLastName1} glName2={hanlderGuarantorLastName2} gEmail1={handlerGuarantorEmail1} gEmail2={handlerGuarantorEmail2} gPhone1={handlerGuarantorPhone1} gPhone2={handlerGuarantorPhone2} deed={handleDeed}  all={setAllFields} alert={setSonAlert} />;
       case 1:
         //setAllFields(false)
-        return <PaymentForm setRememberAccount={setRememberAccount} rememberAccount={rememberAccount} bank={handleBankNum} account={handleAccountNum} branch={handleBranchNum} owner={hanleAccountOwner} check1={handleCheck1} check2={handleCheck2} />;
+        return <PaymentForm setRememberAccount={setRememberAccount} rememberAccount={rememberAccount} bank={handleBankNum} account={handleAccountNum} branch={handleBranchNum} owner={hanleAccountOwner} check1={handleCheck1} check2={handleCheck2} picture={handlePictureOfFile} file={handleFileChange} />;
       case 2:
         return <Review />;
       default:
