@@ -46,7 +46,7 @@ export default function NewLoanFile(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   //Data from sons:
   //AddressForm file:
-  const [time, setTime] = useState(""); 
+  const [time, setTime] = useState("");
   const [GuarantorName1, setGuarantorName1] = useState("");
   const [GuarantorName2, setGuarantorName2] = useState("");
   const [GuarantorLastName1, setGuarantorLastName1] = useState("");
@@ -57,7 +57,7 @@ export default function NewLoanFile(props) {
   const [GuarantorPhone2, setGuarantorPhone2] = useState("");
   const [sonAlert, setSonAlert] = useState(false)
   const [LoanAmount, setLoanAmount] = useState("0");
-  const [DeedOfGuarantee, setDeedOfGuarantee] = useState(""); 
+  const [DeedOfGuarantee, setDeedOfGuarantee] = useState("");
   const [allFields, setAllFields] = useState(false);
 
   //PaymentForm.js:
@@ -73,8 +73,11 @@ export default function NewLoanFile(props) {
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
-    if (activeStep === steps.length)
+    if (activeStep === steps.length-1) {
+
+      console.log("Fetch data started. activeStep: ", activeStep, ". steps.length: ", steps.length, ".")
       fetchLoanData();
+    }
 
   };
 
@@ -218,14 +221,14 @@ export default function NewLoanFile(props) {
 
       if (response.ok) {  //The account was added successfully:
         const result = await response.json();
-        console.log(result);
+        console.log("AccountID is: ", result);
         console.log("Account added successfully. Now adding loan request...");
         //Now, add the loan request:
-        const URL2 = "https://localhost:7275/api/Loan/AddNewLoan";
+        const URL2 = "https://localhost:7275/api/LoanDetails/AddNewLoan";
         const Loan = {
           loanId: result,
           userId: id,
-            dateToGetBack: new Date(time).toISOString(),
+          dateToGetBack: new Date(time).toISOString(),
           sum: LoanAmount,
           loanFile: DeedOfGuarantee,
           isAprovied: false,
@@ -262,7 +265,7 @@ export default function NewLoanFile(props) {
           });
           if (response.ok) {
             const result = await response.json();
-            console.log(result);
+            console.log("result of fetch: ",result);
             console.log("Loan added successfully.");
           } else {
             console.error("Error:", response.status);
@@ -285,7 +288,7 @@ export default function NewLoanFile(props) {
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <AddressForm onChange={(value) => setVal(value)} time={setTime} amount={setLoanAmount} gName1={handleGuarantorName1} gName2={handleGuarantorName2} glName1={hanlderGuarantorLastName1} glName2={hanlderGuarantorLastName2} gEmail1={handlerGuarantorEmail1} gEmail2={handlerGuarantorEmail2} gPhone1={handlerGuarantorPhone1} gPhone2={handlerGuarantorPhone2} deed={handleDeed}  all={setAllFields} alert={setSonAlert} />;
+        return <AddressForm onChange={(value) => setVal(value)} time={setTime} amount={setLoanAmount} gName1={handleGuarantorName1} gName2={handleGuarantorName2} glName1={hanlderGuarantorLastName1} glName2={hanlderGuarantorLastName2} gEmail1={handlerGuarantorEmail1} gEmail2={handlerGuarantorEmail2} gPhone1={handlerGuarantorPhone1} gPhone2={handlerGuarantorPhone2} deed={handleDeed} all={setAllFields} alert={setSonAlert} />;
       case 1:
         //setAllFields(false)
         return <PaymentForm setRememberAccount={setRememberAccount} rememberAccount={rememberAccount} bank={handleBankNum} account={handleAccountNum} branch={handleBranchNum} owner={hanleAccountOwner} check1={handleCheck1} check2={handleCheck2} picture={handlePictureOfFile} file={handleFileChange} />;

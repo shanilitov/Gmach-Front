@@ -369,7 +369,7 @@ export default function AddressForm(props) {
         <TextField
           id="textFieldId"
           name="textFieldName"
-          label="Text field label"
+          label="Link of picture of the deed of guarantee"
           value={DeedOfGuarantee}
           fullWidth
           autoComplete="on"
