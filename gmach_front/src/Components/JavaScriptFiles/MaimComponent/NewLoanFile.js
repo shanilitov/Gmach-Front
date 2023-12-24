@@ -59,6 +59,7 @@ export default function NewLoanFile(props) {
   const [LoanAmount, setLoanAmount] = useState("0");
   const [DeedOfGuarantee, setDeedOfGuarantee] = useState("");
   const [allFields, setAllFields] = useState(false);
+  const [code, setCode] = useState("");  
 
   //PaymentForm.js:
   const [rememberAccount, setRememberAccount] = React.useState(true);
@@ -225,11 +226,12 @@ export default function NewLoanFile(props) {
         const result = await response.json();
         console.log("AccountID is: ", result);
         console.log("Account added successfully. Now adding loan request...");
+        console.log("User Id: ", id, "User {id}: ", { id })
         //Now, add the loan request:
         const URL2 = "https://localhost:7275/api/LoanDetails/AddNewLoan";
         const Loan = {
           loanId: 0,
-          userId: id,
+          LoanerId: id,
           dateToGetBack: "2023-12-31T14:26:29.460Z",
           sum: LoanAmount,
           loanFile: DeedOfGuarantee,
@@ -270,6 +272,7 @@ export default function NewLoanFile(props) {
             const result = await response.json();
             console.log("result of fetch: ", result);
             console.log("Loan added successfully.");
+            setCode(result);
           } else {
             console.error("Error:", response.status);
           }
@@ -404,7 +407,7 @@ export default function NewLoanFile(props) {
                 Be'ezrat Hashem in the coming days you will receive an update to
                 your email address.
                 <br />
-                Apply number: <strong>#12D9e74</strong>
+                Apply number: <strong>#12D9e74#{code}</strong>
               </Typography>
             </React.Fragment>
           ) : (
