@@ -20,15 +20,10 @@ export default function LoanCard(props) {
     let LoanDate = props.date;
 
     React.useEffect(() => {
-        if (moment(LoanDate, 'DD/MM/YYYY').isBefore(moment())) {
+        if (LoanDate<(moment())) {
             setShowAlert(true);
         }
     })
-
-    function addCommasToNumberString(str) {
-        const num = parseInt(str.replace(/,/g, ""));
-        return num.toLocaleString("en-US");
-    }
 
     function daysBetween(date) {
         const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
@@ -38,6 +33,7 @@ export default function LoanCard(props) {
         console.log("diffDays is: " + diffDays);
         return diffDays;
     }
+
 
     return (
         <List sx={{ width: '100%', maxWidth: 600, bgcolor: 'background.paper' }}>
@@ -57,8 +53,9 @@ export default function LoanCard(props) {
                             >
                                 {title}
                             </Typography>
-                            <h2>Loan amount: {addCommasToNumberString(loan)+"$"}</h2>
+                            <h2>Loan amount: {(loan.sum) + "$"}</h2>
                             <h3>Debt maturity date: {LoanDate}</h3>
+                            {loan.isAprovied ? "Approved" : "Loan is not approved yet"}
                             {showAlert ? <Alert type="error" msg='Worng!! Date of return passed!!' /> : <></>}
                             {daysBetween(LoanDate) < 7 ? <ErrorAlert type="warning" msg="You have less than 7 days to return the loan" /> : <></>}
                         </React.Fragment>
