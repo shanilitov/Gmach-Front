@@ -5,18 +5,20 @@ import { useState } from "react";
 import { useEffect } from "react";
 import Alert from "../HelpingComponent/Alert";
 import { useParams } from "react-router-dom";
+import moment from 'moment';
 
 export default function Loans(props) {
   // TODO: Ask from the server for the client real loans, and change the displaytion to them.
   // TODO: change the addLoan to a nicer view.
   // TODO: add option to see the state of loan application.
 
-  const {id} = useParams()
-  const {name }= useParams();
+  const { id } = useParams()
+  const { name } = useParams();
   console.log("Id is: ", id)
 
   const [Dates, setDates] = useState([])
-  const [Loans, setLoans] = useState(null);
+  const [Loans, setLoans] = useState([]);
+  const [anyLoans, setAnyLoans] = useState(false)
   const [ShowAlert, setShowAlert] = useState(false)
   const [alertMsg, setAlertMsg] = useState("")
   const [Error, setError] = useState(false)
@@ -26,23 +28,19 @@ export default function Loans(props) {
     const fetchLoans = async () => {
       try {
         const response = await fetch(`https://localhost:7275/api/LoanDetails/GetUserLoans/${id}`);
-        if (response == null || response.length === 0) {
-          console.log("Is alert display?")
-          setAlertMsg("No loans in your account.")
-          setShowAlert(true)
-        }
-        else {
-          const data = response.json();
-          if(data == {} || data == null || data.length == undefined){
+        const data = await response.json().then(data => {
+          console.log( data)
+
+          if (data.length > 0) {
+            console.log(data)
+            setLoans(data)
+            setAnyLoans(true)
+          }
+          else {
             setAlertMsg("No loans in your account.")
             setShowAlert(true)
-            console.log("Server response, but no loans in account.")
           }
-          console.log("Data  is: ",data.length)
-          console.log("Server responsed!! Data: " + JSON.stringify(data));
-
-        }
-
+        });
       }
       catch (error) {
         console.log("Error: " + error);
@@ -56,22 +54,16 @@ export default function Loans(props) {
   }, [id]); // This will run the effect when the component loads and whenever `id` changes
 
 
-  /*fetch(`https://localhost:7275/api/GetUserLoans/${id}`, {//TODO: Add useParams() to get the id of the user.
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(id),
-  })*/
-
   const LoansInfo = CreateLoansCards()
 
   function CreateLoansCards() {
-    if (Loans != null) {
+    console.log("any Loans: " + anyLoans)
+    if (anyLoans) {
+      console.log(Loans)
       return Loans.map((loan, index) => (
-        console.log("Index is: " + index),
+        
         <div key={index}>
-          <LoanCard loan={loan} date={loan.DateToGetBack} />
+          <LoanCard loan={loan} date={moment(loan.dateToGetBack).format('DD/MM/YYYY')} />
         </div>
       ));
     }
@@ -91,15 +83,8 @@ export default function Loans(props) {
       >
         Loans
       </h2>
-      {Loans === null ? (
-        console.log("Loans is null", "ShowAlert is: ", ShowAlert)) :
-        Loans.length === 0 ? (
-          console.log("Loans is empty", "ShowAlert is: ", ShowAlert)) :
-          Loans != null ? (
-            console.log("Loans is not empty", "ShowAlert is: ", ShowAlert),
-            <div>{LoansInfo}</div>
-          ) : <></>
-      }
+      {anyLoans ? <div>{LoansInfo}</div> : "Loading..."}
+
 
       {ShowAlert ? <Alert type="info" msg="No loans in your account." /> : null}
       {Error ? <Alert type="error" msg={ErrorMsg} /> : null}
