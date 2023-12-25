@@ -1,46 +1,70 @@
-// Fetch data from the API endpoint
-fetch("https://localhost:7275/api/LoanDetails/GetAll")
-    .then(response => response.json())
-    .then(data => {
-        // Create a container element to hold the cards
-        const container = document.createElement("div");
-        container.classList.add("card-container");
+import React, { useEffect, useState } from "react";
+import Table from "./DataTable";
+import Alert from "./Alert";
 
-        // Iterate over the data and create a card for each loan
-        data.forEach(loan => {
-            // Create a card element
-            const card = document.createElement("div");
-            card.classList.add("card");
 
-            // Create elements for each loan property and add them to the card
-            const loanId = document.createElement("p");
-            loanId.textContent = `Loan ID: ${loan.id}`;
-            card.appendChild(loanId);
+export default function AllUsersDeposits(props) {
+    const [LoanRequests, setLoanRequests] = useState([]);
+    const titles = ["RequestId","Sum", "Return date", "UserID"]
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertMsg, setAlertMsg] = useState("");
 
-            const borrower = document.createElement("p");
-            borrower.textContent = `Borrower: ${loan.borrower}`;
-            card.appendChild(borrower);
+    let isAdmin = props.admin;
 
-            // Add a click event listener to the card to show more details
-            card.addEventListener("click", () => {
-                // Show more details for the clicked loan
-                showLoanDetails(loan);
+    useEffect(() => {
+        try {
+            fetchData().then((data) => {
+                console.log("Data getr from server is: ", data);
+                setLoanRequests(data);
             });
+        }
+        catch (err) {
+            console.log("Error fetching data: ", err);
+            setAlertMsg("Error fetching data: " + err);
+            setShowAlert(true);
+            setTimeout(() => {
+                setShowAlert(false);
+            }, 3000);
+        }
+    }, []);
 
-            // Add the card to the container
-            container.appendChild(card);
-        });
 
-        // Append the container to the document body
-        document.body.appendChild(container);
-    })
-    .catch(error => {
-        console.error("Error fetching data:", error);
-    });
 
-// Function to show more details for a loan
-function showLoanDetails(loan) {
-   const titles = ["Amount", "Return date", "UserID"]
-    
-    console.log("Loan details:", loan);
+    async function fetchData() {
+        try {
+            const response = await fetch("https://localhost:7275/api/LoanDetails/GetAll");
+            const data = await response.json();
+            return data;
+        }
+        catch (err) {
+            console.log("Error fetching data: ", err);
+            setAlertMsg("Error fetching data: " + err);
+            setShowAlert(true);
+            setTimeout(() => {
+                setShowAlert(false);
+            }, 3000);
+
+        }
+    }
+
+
+
+    return (
+
+        <div style={{ width: "250%" }}>
+            <h3>Loan Requests</h3>
+            {showAlert ? <Alert msg={alertMsg} type="error" /> : null}
+            <Table titles={titles} data={LoanRequests} />
+            {"isAdmin: "+ isAdmin}
+        </div>
+
+
+    )
 }
+
+
+
+
+
+
+

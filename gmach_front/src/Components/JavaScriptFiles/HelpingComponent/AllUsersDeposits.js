@@ -5,7 +5,7 @@ import Alert from "./Alert";
 
 function AllUsersDeposits(props) {
     const [deposits, setDeposits] = useState([]);
-    const titles = ["amount", "Return date", "UserID"]
+    const titles = ["DepositId", "Amount", "Return date", "UserID"]
     const [showAlert, setShowAlert] = useState(false);
     const [alertMsg, setAlertMsg] = useState("");
 
@@ -15,6 +15,7 @@ function AllUsersDeposits(props) {
         try {
             fetchData().then((data) => {
                 console.log("Data getr from server is: ", data);
+                console.log("response.status is: ", data.status)
                 setDeposits(data);
             });
         }
@@ -73,7 +74,7 @@ function AllUsersDeposits(props) {
             < >
                 <div style={{ width: "250%" }}>
                     {showAlert ? <Alert type="error" msg={alertMsg} /> : null}
-                    <Table deposits={deposits} />
+                    <Table deposits={deposits} titles={titles} />
                     <div style={{ backgroundColor: "rgba(223, 221, 53, 0.5)", height: "10%", margin: "3%", padding: "1%" }}>
                     <h3>Total: {total}</h3>
                     </div>

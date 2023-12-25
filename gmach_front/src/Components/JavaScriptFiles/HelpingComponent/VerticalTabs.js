@@ -10,7 +10,8 @@ import Loans from "../MaimComponent/Loans";
 import Blog from "../HelpingComponent/Blog"
 import ActionAreaCard from "./ActionAreaCard";
 import AboutUs from "./AboutUs";
-import AllUsersDeposits from "../HelpingComponent/AllUsersDeposits";
+import AllUsersDeposits from "./AllUsersDeposits";
+import AllUsersLoans from "./AllUsersLoans";
 
 
 function TabPanel(props) {
@@ -86,7 +87,7 @@ export default function VerticalTabs(props) {
     >
       <Tabs
         height="600%"
-        width="100%"  
+        width="100%"
         orientation="vertical"
         variant="scrollable"
         value={value}
@@ -115,6 +116,12 @@ export default function VerticalTabs(props) {
       </TabPanel>
       <TabPanel value={value} index={2}>
         <AllUsersDeposits admin={getCookie('admin')} />
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        {"HI!! THIS PAGE IS UNDER CONSTRUCTION"}
+        </TabPanel>
+      <TabPanel value={value} index={4}>
+        <AllUsersLoans admin={getCookie('admin')} />
       </TabPanel>
 
 
