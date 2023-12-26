@@ -54,15 +54,16 @@ export default function AdminLogIn() {
         },
         body: JSON.stringify({ email, password })
       });
-      const data = await response.json();
-      console.log("Data is: ", data);
-      if (data) {
-        console.log("Admin is logged in");
-        window.location.href = "/Admin/Application";
-      }
-      else {
-        alert("Invalid email or password");
-      }
+      await response.json().then(data => {
+        console.log("Data is: ", data)
+        if (data) {
+          console.log("Admin is logged in");
+          window.location.href = `/Register/${20}/${email}`;
+        }
+        else {
+          alert("Invalid email or password");
+        }
+      })
     } catch (error) {
       console.error('Error fetching Admin:', error);
     }
@@ -107,8 +108,9 @@ export default function AdminLogIn() {
               }}
 
               onBlur={(ev) => {
-                const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
+                const emailRegex = /^[a-zA-Z0-9+_.-]/;//+@[a-zA-Z0-9.-]+$/;
                 if (emailRegex.test(ev.target.value)) {
+                  console.log(ev.target.value)
                   setEmail(ev.target.value);
                 } else {
                   setEmail("");
@@ -128,6 +130,7 @@ export default function AdminLogIn() {
               onChange={(ev) => {
                 const passwordRegex = /^[a-zA-Z0-9]+$/;
                 if (passwordRegex.test(ev.target.value) || ev.target.value === "") {
+                  console.log(ev.target.value)
                   setPassword(ev.target.value);
                 } else {
                   setPassword("");

@@ -165,7 +165,12 @@ function LogIn() {
                     <div onClick={loginClicked}><BasicButtons value="התחבר" /></div>
                     {wait ? <WaitComponent /> : null}
                     {showAlert ? <ErrorAlert msg={alertMsg} /> : null}
-                    <a href="SignUp" >חדש במערכת? עבור להרשמה</a>
+                    <div><a href="SignUp" >חדש במערכת? עבור להרשמה</a></div>
+                    
+                    <h4>
+                        <a href="Admin" >admin</a>
+                    </h4>
+
                 </div>
             </div>
         </div>)
