@@ -15,6 +15,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import WaitComponent from "../HelpingComponent/WaitComponent";
+import Alert from "./Alert";
 
 
 function createData(deposit) {
@@ -38,22 +40,29 @@ function createData2(loan) {
 export default function DataTable(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [open, setOpen] = React.useState(false);
+  const [wait, setWait] = React.useState(false); //If true, show the wait component
+  const [currentLoanId, setCurrentLoanId] = React.useState(0); //The id of the loan that the user clicked on
+  const [currentRequest, setCurrentRequest] = React.useState([]); //The loan that the user clicked on
+  const [answer, setAnswer] = React.useState(false); //If true, show the alert component
+  const [message, setMessage] = React.useState(""); //The message that will be shown in the alert component
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('lg'));
+
   let data = props.data || [];
   let loanRequests = props.data;  //It can't be const because we need to change it's value
   let deposits = props.deposits;  //It can't be const because we need to change it's value
-  const [open, setOpen] = React.useState(false);
-  const [currentLoanId, setCurrentLoanId] = React.useState(0); //The id of the loan that the user clicked on
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   //Functions to open the dialog
-  const handleClickOpen = (loanId) => {
-    console.log("loanId is: ", loanId);
+  const handleClickOpen = (row) => {
+    console.log("Row is: ", row);
     console.log("Open dialog");
-    setCurrentLoanId(loanId);
+    setCurrentRequest(row)
+    setCurrentLoanId(row[0]);    
     setOpen(true);
   };
   const handleClose = () => {
     console.log("Close dialog");
+    setAnswer(false);
     setOpen(false);
   };
   if (deposits != null || deposits != undefined) {
@@ -144,7 +153,7 @@ export default function DataTable(props) {
                   console.log("Row is: ", row, " index is: ", index);
                   return (
                     <>
-                      <TableRow hover role="button" onClick={() => handleClickOpen(row[0])} tabIndex={-1} key={index}>                      {columns.map((column) => {
+                      <TableRow hover role="button" onClick={() => handleClickOpen(row)} tabIndex={-1} key={index}>                      {columns.map((column) => {
                         const value = row[column.id];
                         return (
                           <TableCell key={column.id} align={column.align}>
@@ -167,10 +176,22 @@ export default function DataTable(props) {
                         <DialogTitle id="responsive-dialog-title">{"Loan request"}</DialogTitle>
                         <DialogContent>
                           <DialogContentText>
-                            Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.
+                            User number {currentRequest[3]} wants to take a loan. Do you agree?
                           </DialogContentText>
                         </DialogContent>
+                          {wait ? <div style={{marginLeft:"45%", paddingBottom:"2%"}}><WaitComponent /> </div>: <div style={{padding:"2%", height:"3%"}}></div>}
+                          {answer ? <div style={{paddingBottom:"2%"}}><Alert type="info" msg={message}/> </div>: <div style={{padding:"2%", height:"3%"}}></div>}
                         <DialogActions>
+                          <Button autoFocus onClick={() => {
+                            setWait(true)
+                            setMessage("Sorry, but algorithm is not ready yet. Please try again later.")
+                            setTimeout(() => {
+                              setWait(false)
+                              setAnswer(true)
+                            }, 2500)
+                          }}>
+                            Check feasibility
+                          </Button>
                           <Button autoFocus onClick={handleClose}>
                             Disagree
                           </Button>
