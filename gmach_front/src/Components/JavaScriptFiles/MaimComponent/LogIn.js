@@ -66,10 +66,8 @@ function LogIn() {
                                         let date = new Date();
                                         date.setTime(date.getTime() + (1 * 60 * 60 * 1000)); // 1 hour
                                         document.cookie = `admin=true; expires=${date.toUTCString()}; path=/`;
-                                        setTimeout(() => {
-                                            //window.location.href = "Register/Application/Admin";
+                                        setTimeout(() => {  
                                             NavigateFunc(data.userId, data.userName)
-                                            //navigate("/Admin")
                                         }, 2000)
                                     }
                                     else {
