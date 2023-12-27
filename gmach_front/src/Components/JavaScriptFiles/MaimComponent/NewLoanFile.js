@@ -213,7 +213,7 @@ export default function NewLoanFile(props) {
       ConfirmAccountFile: picture,
     };
     try {
-      console.log("time is: ", time, "new Date(time): ", new Date(time), ". new Date(time).toLocaleDateString(): ", new Date(time).toLocaleDateString())
+      //console.log("Time is: ", time, "new Date(time): ", new Date(time), ".   new Date(time).toLocaleDateString(): ", new Date(time).toLocaleDateString(), "   new Date(time).toISOString(): ", new Date(time).toISOString())
       const response = await fetch(URL, {
         method: "POST",
         headers: {
@@ -229,10 +229,11 @@ export default function NewLoanFile(props) {
         console.log("User Id: ", id, "User {id}: ", { id })
         //Now, add the loan request:
         const URL2 = "https://localhost:7275/api/LoanDetails/AddNewLoan";
+
         const Loan = {
           loanId: 0,
           LoanerId: id,
-          dateToGetBack: "2023-12-31T14:26:29.460Z",
+          dateToGetBack: new Date(time).toISOString(),
           sum: LoanAmount,
           loanFile: DeedOfGuarantee,
           isAprovied: false,

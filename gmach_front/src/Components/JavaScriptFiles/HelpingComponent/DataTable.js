@@ -17,6 +17,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import WaitComponent from "../HelpingComponent/WaitComponent";
 import Alert from "./Alert";
+import { useParams } from 'react-router-dom';
 
 
 function createData(deposit) {
@@ -33,11 +34,13 @@ function createData2(loan) {
   const Sum = loan.sum
   const date = new Date(loan.dateToGetBack).toLocaleDateString('en-US');
   const userId = loan.loanerId;
-  console.log("Data is: " + RequestId + " " + Sum + " " + date + " " + userId);
+  //console.log("Data is: " + RequestId + " " + Sum + " " + date + " " + userId);
   return [RequestId, Sum, date, userId];
 }
 
 export default function DataTable(props) {
+  const { id } = useParams();
+  const { name } = useParams();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [open, setOpen] = React.useState(false);
@@ -52,12 +55,13 @@ export default function DataTable(props) {
   let data = props.data || [];
   let loanRequests = props.data;  //It can't be const because we need to change it's value
   let deposits = props.deposits;  //It can't be const because we need to change it's value
+
   //Functions to open the dialog
   const handleClickOpen = (row) => {
     console.log("Row is: ", row);
     console.log("Open dialog");
     setCurrentRequest(row)
-    setCurrentLoanId(row[0]);    
+    setCurrentLoanId(row[0]);
     setOpen(true);
   };
   const handleClose = () => {
@@ -71,7 +75,7 @@ export default function DataTable(props) {
   if (loanRequests != null || loanRequests != undefined) {
     data = loanRequests.map((loan) => createData2(loan));
   }
-  console.log("deposit data is: ", deposits, "loan data is: ", loanRequests)
+  //console.log("deposit data is: ", deposits, "loan data is: ", loanRequests)
   const titles = props.titles;
   const columns = [
     { id: 0, label: titles[0], minWidth: 80, format: (value) => value.toString() },
@@ -104,9 +108,6 @@ export default function DataTable(props) {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero indexed
     const year = date.getFullYear();
-    console.log("day: ", day);
-    console.log("month: ", month);
-    console.log("year: ", year);
     return `${day}/${month}/${year}`;
   }
 
@@ -150,7 +151,6 @@ export default function DataTable(props) {
                   );
                 }) ://If it's a loan requests table
                 data.map((row, index) => {
-                  console.log("Row is: ", row, " index is: ", index);
                   return (
                     <>
                       <TableRow hover role="button" onClick={() => handleClickOpen(row)} tabIndex={-1} key={index}>                      {columns.map((column) => {
@@ -179,12 +179,70 @@ export default function DataTable(props) {
                             User number {currentRequest[3]} wants to take a loan. Do you agree?
                           </DialogContentText>
                         </DialogContent>
-                          {wait ? <div style={{marginLeft:"45%", paddingBottom:"2%"}}><WaitComponent /> </div>: <div style={{padding:"2%", height:"3%"}}></div>}
-                          {answer ? <div style={{paddingBottom:"2%"}}><Alert type="info" msg={message}/> </div>: <div style={{padding:"2%", height:"3%"}}></div>}
+                        {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
+                        {answer ? <div style={{ paddingBottom: "2%" }}><Alert type="info" msg={message} /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
                         <DialogActions>
                           <Button autoFocus onClick={() => {
-                            setWait(true)
-                            setMessage("Sorry, but algorithm is not ready yet. Please try again later.")
+                            console.log("current loan id is: ", currentLoanId + ";  fetch started");
+                            setWait(true);
+                            const fetchData = async () => {
+                              try {
+                                try {
+                                  const URL = `https://localhost:7275/api/User/GetUserPassword/${id}`;
+                                  const response = await fetch(URL, {
+                                    method: 'GET',
+                                    headers: {
+                                      'Content-Type': 'application/json',
+                                    },
+                                  });
+                                  if (response == null) {
+                                    console.log("response is null");
+                                  }
+                                  const password = await response.json();
+                                  console.log("Password of user is: ", password);
+
+                                  //If server returned null, that means that the user doesn't exist or that something went wrong:
+                                  if (password == null || password == undefined || password == "") {
+                                    setWait(false)
+                                    setMessage("Sorry, but there is a problem. Server doesn't new you... ");
+                                    setAnswer(true);
+                                  }
+                                  //If server returned the user password:
+                                  else {
+                                    const url = `https://localhost:7275/api/LoanDetails/AdminGetLoanForApproval`;
+                                    const response = await fetch(url, {
+                                      method: 'POST',
+                                      headers: {
+                                        'Content-Type': 'application/json',
+                                        'confirmation': password
+                                      },
+                                      body: JSON.stringify({
+                                        //  loanId: currentLoanId,
+                                      })
+                                    });
+                                    const data = await response.json();
+                                    console.log("data from server is: ", data);
+                                    setWait(false)
+                                    setMessage(data);
+                                    setAnswer(true);
+
+                                  }
+                                }
+                                catch (error){
+                                  setMessage("Sorry, but there is a problem.  ", error);
+                                  setAnswer(true);
+                                }
+
+                              }
+                              catch (error) {
+                                console.log("Error is: ", error);
+                                setMessage("Sorry, but there is a problem. ", error);
+                              }
+                            }
+                            fetchData().catch((error) => {
+                              console.error("Error fetching data:", error);
+                              setMessage("Error fetching data:", error);
+                            });
                             setTimeout(() => {
                               setWait(false)
                               setAnswer(true)

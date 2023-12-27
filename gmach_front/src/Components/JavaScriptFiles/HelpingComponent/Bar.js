@@ -6,11 +6,16 @@ import logo from '../../../CSSFiles/Images/NewLogo3.PNG';
 import { useNavigate } from "react-router-dom";
 
 function Bar() {
-
   const navigate = useNavigate();
 
   const changeNavigate = () => {
     console.log("changeNavigate was called");
+    // Clear cookies if they exist
+    document.cookie.split(";").forEach((cookie) => {
+      document.cookie = cookie
+      .replace(/^ +/, "")
+      .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
+    });
     navigate("/");
   };
 
@@ -28,16 +33,12 @@ function Bar() {
     paddingBottom: "1%",
   };
 
-  
-    const picture = {
+  const picture = {
     height: '100%',
     width: '100%',
     gridColumn: '1 / span 2',
     gridRow: '1',
-  
   };
-
- 
 
   return (
     <div id="navbar">
@@ -52,11 +53,22 @@ function Bar() {
           ></BasicButtons>
         </div>
       </div>
-
     </div>
   );
 }
 export default Bar;
-/*
- * <img src={require(`./logo3.jpg`)} />
- */
+
+    
+//          if (scrollTop > 50) {
+//              setIsScrolled(true);
+//          } else {
+//              setIsScrolled(false);
+//          }
+//      };
+//
+//      window.addEventListener('scroll', handleScroll);
+//      return () => {
+//          window.removeEventListener('scroll', handleScroll);
+//      };
+//  }, [isScrolled]);
+//

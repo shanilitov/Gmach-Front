@@ -3,10 +3,7 @@ import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 
 export default function ErrorAlert({msg}) {
-  //let message = props.msg.text;
-  console.log("msg is: "+ msg )
-  console.log("msg.text is: "+ msg)
-  //console.log(message.msgText)
+
   return (
     <Stack sx={{ width: "100%" }} spacing={1}>
       <Alert severity="error">{`${msg}`}</Alert>
