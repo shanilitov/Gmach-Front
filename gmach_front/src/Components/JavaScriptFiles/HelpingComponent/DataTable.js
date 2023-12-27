@@ -222,9 +222,11 @@ export default function DataTable(props) {
                                     });
                                     const data = await response.json();
                                     console.log("data from server is: ", data);
+                                    if(data == null || data == undefined || data == ""){
                                     setWait(false)
                                     setMessage(data);
                                     setAnswer(true);
+                                    }
 
                                   }
                                 }
