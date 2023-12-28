@@ -67,6 +67,7 @@ export default function DataTable(props) {
   const handleClose = () => {
     console.log("Close dialog");
     setAnswer(false);
+    setWait(false);
     setOpen(false);
   };
   if (deposits != null || deposits != undefined) {
@@ -183,6 +184,7 @@ export default function DataTable(props) {
                         {answer ? <div style={{ paddingBottom: "2%" }}><Alert type="info" msg={message} /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
                         <DialogActions>
                           <Button autoFocus onClick={() => {
+                            setAnswer(false);
                             console.log("current loan id is: ", currentLoanId + ";  fetch started");
                             setWait(true);
                             const fetchData = async () => {
@@ -196,6 +198,9 @@ export default function DataTable(props) {
                                     },
                                   });
                                   if (response == null) {
+                                    setWait(false)
+                                    setMessage("Soory, server response with NULL")
+                                    setAnswer(true);
                                     console.log("response is null");
                                   }
                                   const password = await response.json();
@@ -222,15 +227,32 @@ export default function DataTable(props) {
                                     });
                                     const data = await response.json();
                                     console.log("data from server is: ", data);
-                                    if(data == null || data == undefined || data == ""){
-                                    setWait(false)
-                                    setMessage(data);
-                                    setAnswer(true);
+                                    console.log("current loan id is: ", currentLoanId);
+                                    console.log("data.includes(currentLoanId)", data.includes(currentLoanId));
+                                    if (data.includes(currentLoanId)) {
+                                      setTimeout(() => {
+                                        setWait(false)
+                                        setMessage("The algorithm recommends approving this loan request. ");
+                                        setAnswer(true);
+                                      }, 2500);
+                                     
+                                    } else {
+                                      setTimeout(() => {
+                                      setWait(false)
+                                      setMessage("The algorithm recommends rejecting this loan request. ");
+                                      setAnswer(true)
+                                    }, 2500);
+                                    }
+
+                                    if (data == null || data == undefined || data == "") {
+                                      setWait(false)
+                                      setMessage("Sorry, something went wrong.");
+                                      setAnswer(true);
                                     }
 
                                   }
                                 }
-                                catch (error){
+                                catch (error) {
                                   setMessage("Sorry, but there is a problem.  ", error);
                                   setAnswer(true);
                                 }
@@ -245,10 +267,7 @@ export default function DataTable(props) {
                               console.error("Error fetching data:", error);
                               setMessage("Error fetching data:", error);
                             });
-                            setTimeout(() => {
-                              setWait(false)
-                              setAnswer(true)
-                            }, 2500)
+
                           }}>
                             Check feasibility
                           </Button>

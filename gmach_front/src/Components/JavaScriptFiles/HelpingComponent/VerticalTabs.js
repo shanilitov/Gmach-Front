@@ -11,7 +11,7 @@ import Blog from "../HelpingComponent/Blog"
 import ActionAreaCard from "./ActionAreaCard";
 import AboutUs from "./AboutUs";
 import AllUsersDeposits from "./AllUsersDeposits";
-import AllUsersLoans from "./AllUsersLoans";
+import AllUsersLoans from "./AllUsersLoansReqests";
 
 
 function TabPanel(props) {
