@@ -63,7 +63,7 @@ export default function Loans(props) {
       return Loans.map((loan, index) => (
         
         <div key={index}>
-          <LoanCard loan={loan} date={moment(loan.dateToGetBack).format('DD/MM/YYYY')} />
+          <LoanCard loan={loan} date={moment(loan.dateToGetBack).format('DD/MM/YYYY')} admin={false} />
         </div>
       ));
     }

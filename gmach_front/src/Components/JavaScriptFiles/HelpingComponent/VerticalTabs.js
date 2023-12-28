@@ -12,6 +12,7 @@ import ActionAreaCard from "./ActionAreaCard";
 import AboutUs from "./AboutUs";
 import AllUsersDeposits from "./AllUsersDeposits";
 import AllUsersLoans from "./AllUsersLoansReqests";
+import AllUsersLoansV from "./AllUsersLoansV";
 
 
 function TabPanel(props) {
@@ -118,7 +119,7 @@ export default function VerticalTabs(props) {
         <AllUsersDeposits admin={getCookie('admin')} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        {"HI!! THIS PAGE IS UNDER CONSTRUCTION"}
+        <AllUsersLoansV/>
         </TabPanel>
       <TabPanel value={value} index={4}>
         <AllUsersLoans admin={getCookie('admin')} />

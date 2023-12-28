@@ -13,8 +13,9 @@ import moment from 'moment';
 import ErrorAlert from './Alert';
 
 export default function LoanCard(props) {
+    console.log("I'm in LoanCard");
     const [showAlert, setShowAlert] = useState(false);
-
+    const admin = props.admin;
     let title = "Loan";
     let loan = props.loan;
     let LoanDate = props.date;
@@ -57,7 +58,7 @@ export default function LoanCard(props) {
                             <h3>Debt maturity date: {LoanDate}</h3>
                             {loan.isAprovied ? "Approved" : "Loan is not approved yet"}
                             {showAlert ? <Alert type="error" msg='Worng!! Date of return passed!!' /> : <></>}
-                            {daysBetween(LoanDate) < 7 ? <ErrorAlert type="warning" msg="You have less than 7 days to return the loan" /> : <></>}
+                            {daysBetween(LoanDate) < 7 && !admin? <ErrorAlert type="warning" msg="You have less than 7 days to return the loan" /> : <></>}
                         </React.Fragment>
                     }
                 />

@@ -1,17 +1,29 @@
 import React, { useEffect, useState } from "react";
 import LoanCard from "./LoanCard";
-
+import moment from "moment";
 
 export default function AllUsersLoansV(props) {
     const [Loans, setLoans] = useState([]);
     const [anyLoans, setAnyLoans] = useState(false);
-    const userId = props.userId;
-    const userName = props.userName;
+    
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`https://localhost:7275/api/LoanDetails/GetAllApprovaledLoans`);
+                const data = await response.json();
+                console.log(data);
+                setLoans(data);
+                if (data.length > 0) {
+                    setAnyLoans(true);
+                }
+            } catch (err) {
+                console.log("Error fetching data: ", err);
+            }
+        };
 
-    const getApprovaledLoans = async () => {
-        const response = await fetch(`https://localhost:7275/api/LoanDetails/GetUserLoans/${userId}`);
-
-    };
+        fetchData();
+    }, []);
+  
 
     /* useEffect(() => {
          try {
@@ -34,8 +46,8 @@ export default function AllUsersLoansV(props) {
             console.log(Loans)
             return Loans.map((loan, index) => (
 
-                <div key={index}>
-                    <LoanCard loan={loan} date={moment(loan.dateToGetBack).format('DD/MM/YYYY')} />
+                <div key={index} style={{backgroundColor:"#00206", padding:"3%", borderRadius:"5%"}}>
+                    <LoanCard loan={loan} date={moment(loan.dateToGetBack).format('DD/MM/YYYY')} admin={true} />
                 </div>
             ));
         }
@@ -43,6 +55,8 @@ export default function AllUsersLoansV(props) {
 
     }
     return (
-        <></>
+        <>
+        <h3>Users loans:</h3>
+        {CreateLoansCards()}</>
     )
 }
