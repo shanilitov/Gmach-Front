@@ -47,12 +47,17 @@ export default function DataTable(props) {
   const [wait, setWait] = React.useState(false); //If true, show the wait component
   const [currentLoanId, setCurrentLoanId] = React.useState(0); //The id of the loan that the user clicked on
   const [currentRequest, setCurrentRequest] = React.useState([]); //The loan that the user clicked on
+  const [moreDetails, setMoreDetails] = React.useState({}); //If true, show the more details component
   const [answer, setAnswer] = React.useState(false); //If true, show the alert component
   const [message, setMessage] = React.useState(""); //The message that will be shown in the alert component
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('lg'));
 
   let data = props.data || [];
+  console.log("data is: ", data)
+  if(data && data.array){
+    console.log("data.array is: ", data.array);
+  }
   let loanRequests = props.data;  //It can't be const because we need to change it's value
   let deposits = props.deposits;  //It can't be const because we need to change it's value
 
@@ -62,6 +67,18 @@ export default function DataTable(props) {
     console.log("Open dialog");
     setCurrentRequest(row)
     setCurrentLoanId(row[0]);
+    if(data && data.array){
+      console.log("data.array is: ", data.array);
+    const match = data.array.forEach(element => {
+      if (element.loanId === row[0]) {
+        console.log("match is: ", element, " 😂");
+        setMoreDetails(element);
+      }
+      else{
+        console.log("No match 😪")
+      }
+    });
+  }
     setOpen(true);
   };
   const handleClose = () => {
@@ -178,7 +195,17 @@ export default function DataTable(props) {
                         <DialogContent>
                           <DialogContentText>
                             User number {currentRequest[3]} wants to take a loan. Do you agree?
+                            {console.log(currentRequest)}
                           </DialogContentText>
+                          <div>
+                            <h4>Loan details:</h4>
+                            <p>Loan id: {currentRequest[0]}</p>
+                            <p>Sum: {currentRequest[1]}</p>
+                            <p>Return date: {currentRequest[2]}</p>
+                            <p>Deed of guarantee:
+                              <img src={`${currentRequest[4]}`} alt="Deed of guarantee" />
+                            </p>
+                          </div>
                         </DialogContent>
                         {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
                         {answer ? <div style={{ paddingBottom: "2%" }}><Alert type="info" msg={message} /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
@@ -235,13 +262,13 @@ export default function DataTable(props) {
                                         setMessage("The algorithm recommends approving this loan request. \nThe approvaled loans are: " + data + ".");
                                         setAnswer(true);
                                       }, 2500);
-                                     
+
                                     } else {
                                       setTimeout(() => {
-                                      setWait(false)
-                                      setMessage("The algorithm recommends rejecting this loan request. ");
-                                      setAnswer(true)
-                                    }, 2500);
+                                        setWait(false)
+                                        setMessage("The algorithm recommends rejecting this loan request. ");
+                                        setAnswer(true)
+                                      }, 2500);
                                     }
 
                                     if (data == null || data == undefined || data == "") {
@@ -253,6 +280,7 @@ export default function DataTable(props) {
                                   }
                                 }
                                 catch (error) {
+                                  setWait(false);
                                   setMessage("Sorry, but there is a problem.  ", error);
                                   setAnswer(true);
                                 }

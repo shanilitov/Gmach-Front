@@ -8,6 +8,7 @@ export default function AllUsersDeposits(props) {
     const titles = ["RequestId","Sum", "Return date", "UserID"]
     const [showAlert, setShowAlert] = useState(false);
     const [alertMsg, setAlertMsg] = useState("");
+    //const [allData, setAllData] = useState([]);
 
     let isAdmin = props.admin;
 
@@ -15,6 +16,7 @@ export default function AllUsersDeposits(props) {
         try {
             fetchData().then((data) => {
                 console.log("Data getr from server is: ", data);
+                console.log("check: ", data[0].guarantors[0].check)
                 setLoanRequests(data);
             });
         }
