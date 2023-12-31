@@ -32,7 +32,7 @@ export default function AllUsersDeposits(props) {
 
     async function fetchData() {
         try {
-            const response = await fetch("https://localhost:7275/api/LoanDetails/GetAll");
+            const response = await fetch("https://localhost:7275/api/LoanDetails/GetAllNotApprovaledLoans");
             const data = await response.json();
             return data;
         }

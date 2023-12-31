@@ -232,7 +232,7 @@ export default function DataTable(props) {
                                     if (data.includes(currentLoanId)) {
                                       setTimeout(() => {
                                         setWait(false)
-                                        setMessage("The algorithm recommends approving this loan request. ");
+                                        setMessage("The algorithm recommends approving this loan request. \nThe approvaled loans are: " + data + ".");
                                         setAnswer(true);
                                       }, 2500);
                                      
