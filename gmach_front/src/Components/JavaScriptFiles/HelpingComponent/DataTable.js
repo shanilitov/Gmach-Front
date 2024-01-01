@@ -25,7 +25,6 @@ function createData(deposit) {
   const amount = deposit.sum.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
   const date = new Date(deposit.dateToPull).toLocaleDateString('en-US');
   const userId = deposit.userId;
-  console.log("Data is: " + DepositId + " " + amount + " " + date + " " + userId);
   return [DepositId, amount, date, userId];
 }
 
@@ -34,7 +33,6 @@ function createData2(loan) {
   const Sum = loan.sum
   const date = new Date(loan.dateToGetBack).toLocaleDateString('en-US');
   const userId = loan.loanerId;
-  //console.log("Data is: " + RequestId + " " + Sum + " " + date + " " + userId);
   return [RequestId, Sum, date, userId];
 }
 
@@ -47,12 +45,13 @@ export default function DataTable(props) {
   const [wait, setWait] = React.useState(false); //If true, show the wait component
   const [currentLoanId, setCurrentLoanId] = React.useState(0); //The id of the loan that the user clicked on
   const [currentRequest, setCurrentRequest] = React.useState([]); //The loan that the user clicked on
+  const [currentUserPassword, setCurrentUserPassword] = React.useState(""); //The password of the user that the admin clicked on
   const [moreDetails, setMoreDetails] = React.useState({}); //If true, show the more details component
   const [answer, setAnswer] = React.useState(false); //If true, show the alert component
   const [message, setMessage] = React.useState(""); //The message that will be shown in the alert component
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('lg'));
-
+  //data is loans or deposits
   let data = props.data || [];
   let loansDetails = props.data || [];
   console.log("data is: ", data)
@@ -86,18 +85,47 @@ export default function DataTable(props) {
 
     setOpen(true);
   };
+
   const handleClose = () => {
     console.log("Close dialog");
     setAnswer(false);
     setWait(false);
     setOpen(false);
   };
+
+  function ApprovalLoan() {
+    setWait(true);
+    fetch('https://localhost:7275/api/LoanDetails/LoanApproval', {
+      method: "POST",
+      headers: {
+        "accept": "text/plain",
+        "confirmation": "15987532",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(currentRequest),
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        console.log("‼ In ApprovalLoan(), data is: ", data);
+        setTimeout(() => {
+          setWait(false);
+          handleClose();
+        }, 3000);
+      })
+      .catch((error) => {
+        console.log("Error in ApprovalLoan(): ", error);
+      });
+  }
+
+
   if (deposits != null || deposits != undefined) {
     data = deposits.map((deposit) => createData(deposit));
   }
   if (loanRequests != null || loanRequests != undefined) {
     data = loanRequests.map((loan) => createData2(loan));
   }
+
+
   //console.log("deposit data is: ", deposits, "loan data is: ", loanRequests)
   const titles = props.titles;
   const columns = [
@@ -250,7 +278,7 @@ export default function DataTable(props) {
                                   }
                                   const password = await response.json();
                                   console.log("Password of user is: ", password);
-
+                                  setCurrentUserPassword(password)
                                   //If server returned null, that means that the user doesn't exist or that something went wrong:
                                   if (password == null || password == undefined || password == "") {
                                     setWait(false)
@@ -320,7 +348,7 @@ export default function DataTable(props) {
                           <Button autoFocus onClick={handleClose}>
                             Disagree
                           </Button>
-                          <Button onClick={handleClose} autoFocus>
+                          <Button onClick={ApprovalLoan} autoFocus>
                             Agree
                           </Button>
                         </DialogActions>
