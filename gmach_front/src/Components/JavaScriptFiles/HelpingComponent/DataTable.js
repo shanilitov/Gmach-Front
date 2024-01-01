@@ -54,10 +54,9 @@ export default function DataTable(props) {
   const fullScreen = useMediaQuery(theme.breakpoints.down('lg'));
 
   let data = props.data || [];
+  let loansDetails = props.data || [];
   console.log("data is: ", data)
-  if(data && data.array){
-    console.log("data.array is: ", data.array);
-  }
+
   let loanRequests = props.data;  //It can't be const because we need to change it's value
   let deposits = props.deposits;  //It can't be const because we need to change it's value
 
@@ -67,18 +66,24 @@ export default function DataTable(props) {
     console.log("Open dialog");
     setCurrentRequest(row)
     setCurrentLoanId(row[0]);
-    if(data && data.array){
-      console.log("data.array is: ", data.array);
-    const match = data.array.forEach(element => {
+
+    const match = loansDetails.find(element => {
+      console.log("element is: ", element);
+      console.log("row is: ", row);
+      console.log("element.loanId is: ", element.loanId,);
+      console.log("row[0] is: ", row[0]);
+      console.log("element.loanId === row[0] is: ", element.loanId === row[0]);
       if (element.loanId === row[0]) {
         console.log("match is: ", element, " 😂");
         setMoreDetails(element);
+        console.log("moreDetails is: ", moreDetails, " 😂");
       }
-      else{
+      else {
         console.log("No match 😪")
       }
+    
     });
-  }
+      
     setOpen(true);
   };
   const handleClose = () => {
@@ -203,8 +208,23 @@ export default function DataTable(props) {
                             <p>Sum: {currentRequest[1]}</p>
                             <p>Return date: {currentRequest[2]}</p>
                             <p>Deed of guarantee:
-                              <img src={`${currentRequest[4]}`} alt="Deed of guarantee" />
+                              {moreDetails.loanFile}
+                              <img src={`${moreDetails.loanFile}`} alt="Deed of guarantee"  style={{height:"20%", width:"20%"}}/>
                             </p>
+                            <p>Guarantors: {moreDetails.guarantors.map((guarantor, index) => {
+                              return (
+                                <p key={index}>
+                                  {guarantor.guarantorId}
+                                  {guarantor.check ? "Check: ✔️" : "Check: ❌"}
+                                  <img src={`${guarantor.check}`} alt="Check" style={{ height: "20%", width: "20%" }} onClick={(event) => {
+                                    event.target.style.height = "100%";
+                                    event.target.style.width = "100%";
+                                  }} />
+                                  
+                                </p>
+                              )
+                            })}</p>
+
                           </div>
                         </DialogContent>
                         {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
