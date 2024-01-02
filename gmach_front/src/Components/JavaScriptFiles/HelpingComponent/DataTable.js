@@ -236,7 +236,10 @@ export default function DataTable(props) {
                             <p>Sum: {currentRequest[1]}</p>
                             <p>Return date: {currentRequest[2]}</p>
                             <p>{moreDetails.loanFile ? "Deed of guarantee: ✔️" : "Deed of guarantee: ❌"}
-                              <img src={`${moreDetails.loanFile}`} alt="Deed of guarantee unsupported." style={{ height: "20%", width: "20%" }} />
+                              <img src={`${moreDetails.loanFile}`} alt="Deed of guarantee unsupported." style={{ height: "20%", width: "20%" }} onClick={(event) => {
+                                    event.target.style.height = "100%";
+                                    event.target.style.width = "100%";
+                                  }} />
                             </p>
                             <p><strong>Guarantors:</strong> {moreDetails.guarantors && moreDetails.guarantors.map((guarantor, index) => {
                               return (

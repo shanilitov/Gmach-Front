@@ -411,7 +411,7 @@ export default function NewLoanFile(props) {
                 <br />
                 Apply number: <strong>#12D9e74#{code}</strong>
               </Typography>
-              <div>
+              <div> style = {{marginTop: "3%", marginLeft: "1%", padding: "3%"}}
                 <BasicButtons value="Back to home page" function={() => { window.location.href = "/"; }} />
               </div>
               
