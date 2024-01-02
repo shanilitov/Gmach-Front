@@ -238,16 +238,23 @@ export default function DataTable(props) {
                             <p>{moreDetails.loanFile ? "Deed of guarantee: ✔️" : "Deed of guarantee: ❌"}
                               <img src={`${moreDetails.loanFile}`} alt="Deed of guarantee unsupported." style={{ height: "20%", width: "20%" }} />
                             </p>
-                            <p>Guarantors: {moreDetails.guarantors && moreDetails.guarantors.map((guarantor, index) => {
+                            <p><strong>Guarantors:</strong> {moreDetails.guarantors && moreDetails.guarantors.map((guarantor, index) => {
                               return (
                                 <p key={index}>
                                   {guarantor.guarantorId}
-                                  {guarantor.check ? "Check: ✔️" : "Check: ❌"}
+                                  <p> {"Name: " + guarantor.name}</p>
+                                  <p>
+                                    <a href={`mailto:${guarantor.emailAddress}`}>Email: {guarantor.emailAddress}</a>
+                                  </p>
+                                 <p> {guarantor.check ? "Check: ✔️" : "Check: ❌"}
                                   <img src={`${guarantor.check}`} alt="Check unsupported " style={{ height: "20%", width: "20%" }} onClick={(event) => {
                                     event.target.style.height = "100%";
                                     event.target.style.width = "100%";
                                   }} />
+                                  </p>
+                                  <h2>--------------------------</h2>
                                 </p>
+
                               )
                             })}</p>
 
