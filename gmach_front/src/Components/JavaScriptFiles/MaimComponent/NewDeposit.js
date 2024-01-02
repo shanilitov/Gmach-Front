@@ -19,6 +19,7 @@ import DepositPaymentForm from '../HelpingComponent/DepositPaymentForm';
 import DepositDateAndAmount from '../HelpingComponent/DepositDateAndAmount';
 import ReviewDeposit from '../HelpingComponent/ReviewDeposit';
 import { Payment } from '@mui/icons-material';
+import BasicButtons from '../HelpingComponent/BasicButtons';
 
 function Copyright() {
   return (
@@ -47,7 +48,7 @@ export default function NewDeposit() {
   const [depositReturnDate, setDepositReturnDate] = React.useState("");
   const [check, setChecked] = React.useState(true); // Define the 'checked' variable
   const [card, setCard] = React.useState(""); // A card number from the DB
-  const [successed, setSuccessed]  =React.useState(false)//If deposit entered to DB successfuly 
+  const [successed, setSuccessed] = React.useState(false)//If deposit entered to DB successfuly 
   const { userId } = useParams();
   const { userName } = useParams();
 
@@ -217,7 +218,7 @@ export default function NewDeposit() {
       if (data == -2) {
         alert("You're not logged in. Please log in and try again.")
       }
-      if(data > 0){
+      if (data > 0) {
         alert("Your deposit was added successfully!")
         setSuccessed(true)
       }
@@ -263,21 +264,24 @@ export default function NewDeposit() {
             ))}
           </Stepper>
           {activeStep === steps.length ?
-           (
-            <React.Fragment>
-              <Typography variant="h5" gutterBottom>
-                Thank you for your giving.
-              </Typography>
-              <Typography variant="subtitle1">
-                Plus minus Thank you for your giving.
-                <Typography variant="subtitle1">
-                  <strong>Your deposit number is #2001539.</strong>
+            (
+              <React.Fragment>
+                <Typography variant="h5" gutterBottom>
+                  Thank you for your giving.
                 </Typography>
-                We have emailed you when your deposit will can be attracten.
+                <Typography variant="subtitle1">
+                  Plus minus Thank you for your giving.
+                  <Typography variant="subtitle1">
+                    <strong>Your deposit number is #2001539.</strong>
+                  </Typography>
+                  We have emailed you when your deposit will can be attracten.
 
-              </Typography>
-            </React.Fragment>
-          ):/*( <React.Fragment>
+                </Typography>
+                <div> style = {{marginTop: "3%", marginLeft: "1%", padding: "3%"}}
+                  <BasicButtons value="Back to home page" function={() => { window.location.href = "/"; }} />
+                </div>
+              </React.Fragment>
+            ) :/*( <React.Fragment>
             <Typography variant="h5" gutterBottom>
               Hooooops...
             </Typography>
@@ -292,45 +296,45 @@ export default function NewDeposit() {
               }, 3000) }>Try again</Button>
             </Typography>
           </React.Fragment>) ):*/ (
-            <React.Fragment>
-              {[getStepContent(activeStep), handleButtonShow]}
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                {activeStep !== 0 && (
-                  <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                    {activeStep === steps.length - 1 ? "Edit" : "back"}
-                  </Button>
-                )}
-                {allFields && handleButtonShow()}
-                {console.log("card: ", card, "card == '': ", card == '', "card == null: ", card == null)}
-                {allFields || card != '' ?
-                  <Button
-                    variant="contained"
-                    onClick={() => {
-                      handleNext();
-                      handleButtonShow();
-                    }}
-                    sx={{ mt: 3, ml: 1 }}
-                  >
-                    {activeStep === steps.length - 1 ? 'End' : 'Next'}
+              <React.Fragment>
+                {[getStepContent(activeStep), handleButtonShow]}
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  {activeStep !== 0 && (
+                    <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                      {activeStep === steps.length - 1 ? "Edit" : "back"}
+                    </Button>
+                  )}
+                  {allFields && handleButtonShow()}
+                  {console.log("card: ", card, "card == '': ", card == '', "card == null: ", card == null)}
+                  {allFields || card != '' ?
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        handleNext();
+                        handleButtonShow();
+                      }}
+                      sx={{ mt: 3, ml: 1 }}
+                    >
+                      {activeStep === steps.length - 1 ? 'End' : 'Next'}
 
-                  </Button> : <></>
-                }
-                {activeStep === steps.length - 1 ?
-                  <Button
-                    variant="contained"
-                    onClick={() => {
-                      handleNext();
-                      handleButtonShow();
-                    }}
-                    sx={{ mt: 3, ml: 1 }}
-                  >
-                    {activeStep === steps.length - 1 ? 'End' : 'Next'}
+                    </Button> : <></>
+                  }
+                  {activeStep === steps.length - 1 ?
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        handleNext();
+                        handleButtonShow();
+                      }}
+                      sx={{ mt: 3, ml: 1 }}
+                    >
+                      {activeStep === steps.length - 1 ? 'End' : 'Next'}
 
-                  </Button> : <></>
-                }
-              </Box>
-            </React.Fragment>
-          )}
+                    </Button> : <></>
+                  }
+                </Box>
+              </React.Fragment>
+            )}
         </Paper>
         <Copyright />
       </Container>

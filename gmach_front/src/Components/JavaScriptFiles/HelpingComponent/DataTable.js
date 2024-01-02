@@ -252,7 +252,7 @@ export default function DataTable(props) {
                                     event.target.style.width = "100%";
                                   }} />
                                   </p>
-                                  <h2>--------------------------</h2>
+                                  <h4>--------------------------</h4>
                                 </p>
 
                               )

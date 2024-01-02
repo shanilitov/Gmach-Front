@@ -19,6 +19,7 @@ import { useState, useEffect } from "react";
 import ErrorAlert from "../HelpingComponent/ErrorAlert";
 import usePagination from "@mui/material/usePagination/usePagination";
 import { useParams } from "react-router-dom";
+import BasicButtons from "../HelpingComponent/BasicButtons";
 
 
 function Copyright() {
@@ -410,6 +411,10 @@ export default function NewLoanFile(props) {
                 <br />
                 Apply number: <strong>#12D9e74#{code}</strong>
               </Typography>
+              <div>
+                <BasicButtons value="Back to home page" function={() => { window.location.href = "/"; }} />
+              </div>
+              
             </React.Fragment>
           ) : (
             <React.Fragment>
