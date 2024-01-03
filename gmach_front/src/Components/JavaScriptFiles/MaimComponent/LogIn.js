@@ -164,10 +164,6 @@ function LogIn() {
                     {wait ? <WaitComponent /> : null}
                     {showAlert ? <ErrorAlert msg={alertMsg} /> : null}
                     <div><a href="SignUp">New user? Please register</a></div>
-                    
-                    <h4>
-                        <a href="Admin" >admin</a>
-                    </h4>
 
                 </div>
             </div>
