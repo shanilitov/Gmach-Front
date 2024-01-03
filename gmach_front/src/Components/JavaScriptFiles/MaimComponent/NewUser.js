@@ -12,17 +12,16 @@ import logoPhoto from "../../../img/logoPhoto.png";
 import CircularIntegration from "../HelpingComponent/CircularIntegration";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
-
+import logo from '../../../CSSFiles/Images/Logo1.PNG';
 
 function NewUser() {
 
   //Navigate in case user register
   const navigate = useNavigate();
   const NavigateFunc = (data) => {
-    let id  = data.userId
-    let name  = data.userName
-    navigate(`/Register/${id}/${name}` )
+    let id = data.userId
+    let name = data.userName
+    navigate(`/Register/${id}/${name}`)
   }
 
   //chack if the values are good filled
@@ -154,20 +153,31 @@ function NewUser() {
 
   return (
     <div>
-      <div className="">
-        Sara
-        <img src={logoPhoto} alt="Logo" className="photo" />
-        <h1 id="h_newUser" color="blue" >הרשמה</h1><div className="back">
+        <div >
+          <a href="/">
+        <img src={logo} alt='Logo' id='CBarLogo' style={{
+          height: "auto",
+          width: "80%",
+          transition: "0.4s",
+          fontSize: "35px",
+          marginTop: "0%",
+          marginLeft: "1%",  
+          position: "fixed",  
+        }} />
+        </a>
+        </div>
+        <div className="" >
+        <h1 id="h_newUser" color="blue" >Sign Up</h1><div className="back">
           <div className="NewUserFeilds" onBlur={() => setShowAlert(false)}>
             <BasicTextFields
-              header="שם"
+              header="User name"
               type="text"
               func={(ev) => setUserName(ev.target.value)}
               onBlur={() => setShowAlert(false)}
               required
             />
             <BasicTextFields
-              header="תעודת זהות"
+              header="ID number"
               type="number"
               id="idField"
               func={(ev) => setUserId(ev.target.value)}
@@ -175,14 +185,14 @@ function NewUser() {
               required
             />
             <BasicTextFields
-              header="כתובת"
+              header="Address"
               type="text"
               func={(ev) => setAddress(ev.target.value)}
               onBlur={() => setShowAlert(false)}
               required
             />
             <BasicTextFields
-              header="טלפון"
+              header="Phone number"
               type="number"
               id="phoneField"
               onBlur={() => setShowAlert(false)}
@@ -190,7 +200,7 @@ function NewUser() {
               required
             />
             <BasicTextFields
-              header="כתובת מייל"
+              header="Email"
               type="email"
               id="emailField"
               onBlur={() => setShowAlert(false)}
@@ -198,7 +208,7 @@ function NewUser() {
               required
             />
             <BasicTextFields
-              header="צור סיסמא"
+              header="Password"
               type="password"
               id="passwordField"
               onBlur={() => setShowAlert(false)}
@@ -206,7 +216,7 @@ function NewUser() {
               required
             />
             <BasicTextFields
-              header="חזור על הסיסמא"
+              header="Confirm password"
               type="password"
               id="validField"
               onBlur={() => setShowAlert(false)}
@@ -215,7 +225,7 @@ function NewUser() {
             />
           </div>
           <div id="NewUserBtn" /*onClick={checkNewUser}*/>
-            <BasicButtons value="הרשם" function={checkNewUser} />
+            <BasicButtons value="Register" function={checkNewUser} />
             {showAlert === true ? <ErrorAlert msg={message} /> : <></>}
           </div>
         </div>

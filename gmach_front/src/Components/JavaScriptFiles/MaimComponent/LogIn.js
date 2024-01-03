@@ -127,7 +127,7 @@ function LogIn() {
     return (
         <div id="LogIn" >
             <img src={logoPhoto} alt="Logo" className="photo" />
-            <div className="back">
+            <div className="backLogIn">
                 <div className="LogInFields">
                     <h1>Log In</h1>
                     {/* work on the onChange */}
