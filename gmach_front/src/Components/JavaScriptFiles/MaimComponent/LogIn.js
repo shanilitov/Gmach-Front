@@ -132,8 +132,7 @@ function LogIn() {
                 height:"auto",
                 transition: "0.6s",
                 fontSize: "35px",
-                marginTop: "0%",
-                marginLeft: "1%",
+                margin:"0.5%",
                 position: "fixed",
             }} />            <div className="backLogIn">
                 <div className="LogInFields" style={{color:" #1976d2"}}>

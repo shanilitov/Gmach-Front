@@ -160,8 +160,7 @@ function NewUser() {
           width: "80%",
           transition: "0.4s",
           fontSize: "35px",
-          marginTop: "0%",
-          marginLeft: "1%",  
+          margin:"0",
           position: "fixed",  
         }} />
         </a>
