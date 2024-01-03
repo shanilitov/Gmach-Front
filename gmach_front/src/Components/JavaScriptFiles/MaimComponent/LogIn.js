@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import TextField from '@mui/material/TextField';
 import BasicButtons from "../HelpingComponent/BasicButtons";
 import Bar from "../HelpingComponent/Bar";
-import logoPhoto from "../../../img/logoPhoto.png";
 import "../../../CSSFiles/StylePage.css"
 import SignUp from "./NewUser";
 import App from "../../../App";
@@ -10,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import ErrorAlert from "../HelpingComponent/ErrorAlert";
 import AdminLogIn from "./AdminLogIn";
 import WaitComponent from "../HelpingComponent/WaitComponent";
+import logo from '../../../CSSFiles/Images/Logo1.PNG';
 
 
 function LogIn() {
@@ -66,7 +66,7 @@ function LogIn() {
                                         let date = new Date();
                                         date.setTime(date.getTime() + (1 * 60 * 60 * 1000)); // 1 hour
                                         document.cookie = `admin=true; expires=${date.toUTCString()}; path=/`;
-                                        setTimeout(() => {  
+                                        setTimeout(() => {
                                             NavigateFunc(data.userId, data.userName)
                                         }, 2000)
                                     }
@@ -126,9 +126,17 @@ function LogIn() {
 
     return (
         <div id="LogIn" >
-            <img src={logoPhoto} alt="Logo" className="photo" />
-            <div className="backLogIn">
-                <div className="LogInFields">
+            <img src={logo} alt='Logo' id='CBarLogo' style={{
+                height: "auto",
+                width: "80%",
+                height:"auto",
+                transition: "0.6s",
+                fontSize: "35px",
+                marginTop: "0%",
+                marginLeft: "1%",
+                position: "fixed",
+            }} />            <div className="backLogIn">
+                <div className="LogInFields" style={{color:" #1976d2"}}>
                     <h1>Log In</h1>
                     {/* work on the onChange */}
                     <div style={{ margin: " 4% 4% 4% 0% " }}>
@@ -163,10 +171,11 @@ function LogIn() {
                     <div onClick={loginClicked}><BasicButtons value="התחבר" /></div>
                     {wait ? <WaitComponent /> : null}
                     {showAlert ? <ErrorAlert msg={alertMsg} /> : null}
-                    <div><a href="SignUp">New user? Please register</a></div>
-                    
+                    <div style={{color:" rgb(80, 133, 202)"}}>
+                        <br></br><a href="SignUp" style={{ color: "#1976d2" }}><strong>New user? Please register</strong></a></div>
+
                     <h4>
-                        <a href="Admin" >admin</a>
+                        <a href="Admin" style={{ color: "#1976d2" }}>admin</a>
                     </h4>
 
                 </div>
