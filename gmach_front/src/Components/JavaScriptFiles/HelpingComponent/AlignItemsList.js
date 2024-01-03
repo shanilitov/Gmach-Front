@@ -86,7 +86,8 @@ export default function AlignItemsList(props) {
           }
         />
       </ListItem>
-     <div className='dialogBox'> <DialogOfDetails type="deposit" /></div> 
+      {showAlert?
+     <div className='dialogBox'> <DialogOfDetails type="deposit" /></div> :null}
       <Divider variant="inset" component="li" />
     </List>
     

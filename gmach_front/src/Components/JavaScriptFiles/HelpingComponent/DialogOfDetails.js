@@ -81,7 +81,7 @@ export default function DialogOfDetails(props) {
     return (
       <React.Fragment>
         <Button variant="outlined" onClick={handleClickOpen}>
-          More details
+        withdraw the deposit
         </Button>
         <BootstrapDialog
           onClose={handleClose}
