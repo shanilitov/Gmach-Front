@@ -105,8 +105,8 @@ export default function VerticalTabs(props) {
 
 
 
-        <Tab label="פעילות העמותה" {...a11yProps(5)} />
-        <Tab label="פעילות העמותה" {...a11yProps(6)} />
+        <Tab label="" {...a11yProps(5)} />
+        <Tab label=""{...a11yProps(6)} />
       </Tabs>
 
       <TabPanel value={value} index={0} >

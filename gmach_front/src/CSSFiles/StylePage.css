@@ -18,20 +18,20 @@
   background-color: #1976d2;
 }*/
 
-.smallNav{
-  margin-bottom: 5%!important;
-  margin-top: 0%!important;
+.smallNav {
+  margin-bottom: 5% !important;
+  margin-top: 0% !important;
   position: fixed;
-  height: 100px!important;
+  height: 100px !important;
   width: 100%;
   background-color: #1976d2;
 }
 
-.CustomBar{
+.CustomBar {
   background-color: #1976d2;
-  height: 10%!important;
+  height: 10% !important;
   width: 100%;
-  margin-top: 0%!important;
+  margin-top: 0% !important;
   margin-bottom: 5%;
   position: sticky;
 }
@@ -63,10 +63,10 @@
   position: sticky;
   width: 100%;
 }*/
- 
-#logo{
-  height: 100%!important;
-  width: 50%!important;
+
+#logo {
+  height: 100% !important;
+  width: 50% !important;
   margin-left: 1%;
   margin-top: -1%;
 
@@ -74,20 +74,18 @@
 
 #navbar {
   position: fixed;
-  top: 0; 
+  top: 0;
   width: 100%;
   z-index: 99;
 }
 
-#homeBtn{
+#homeBtn {
   padding: 2%;
   margin-top: 30%;
-height: 80%;
+  height: 80%;
 }
 
-.CBarLogo{
-  
-}
+.CBarLogo {}
 
 .photo {
   height: auto;
@@ -120,10 +118,10 @@ height: 80%;
 
 .back {
   background-color: rgba(250, 247, 247, 0.626) !important;
-  width: 100%;
+  width: 15%;
   height: 100%;
   position: absolute;
-  margin-top: -10px;
+  margin-left: 83%;
 }
 
 .NewUserPage {
@@ -138,13 +136,14 @@ height: 80%;
 
 #h_newUser {
   color: rgb(80, 133, 202);
+  margin-left: 80%;
   font-size: xx-large;
   text-align: center !important;
 }
 
 #NewUserBtn {
   align-items: center;
-  margin-left: 45%;
+  margin-left: 20%;
 }
 
 #showAlert {
@@ -161,7 +160,7 @@ height: 80%;
   background-color: rgba(231, 234, 243);
 }
 
-.Container{
+.Container {
   display: flex;
   flex-direction: row;
 }
@@ -189,13 +188,13 @@ height: 80%;
   max-width: 90%;
 }
 
-#AboutPicture2{
+#AboutPicture2 {
   margin-left: 50%;
 
 }
 
- 
-#H_OfAboutUs{
+
+#H_OfAboutUs {
   margin-right: 10%;
   margin-left: 2%;
 }
@@ -235,18 +234,21 @@ height: 80%;
 .SpaceBetweenCards {
   margin-top: 5%;
 }
-#p_chart1{
+
+#p_chart1 {
   grid-column: 1 / span 2;
   grid-row: 1;
   color: #002060;
   margin-right: 0%;
   z-index: 99;
 }
-#myChart{
-  grid-column:3;
+
+#myChart {
+  grid-column: 3;
   grid-row: 1;
 }
-.p_chart{
+
+.p_chart {
   margin-top: 12%;
   grid-column: 2 / span 3;
   grid-row: 2;
@@ -254,16 +256,17 @@ height: 80%;
   background-color: rgba(223, 221, 53, 0.5);
   font-size: larger;
   padding: 3%;
-  border:#002060 solid  2px;
+  border: #002060 solid 2px;
 }
-#myChart{
-  grid-column:1;
+
+#myChart {
+  grid-column: 1;
   grid-row: 2;
   margin-right: 10%;
   z-index: 3;
 }
 
-.Article_Container{
+.Article_Container {
   display: flex;
   flex-direction: row;
   margin-top: 8%;
@@ -274,7 +277,8 @@ height: 80%;
   padding: 2%;
   align-items: center;
 }
-.items{
+
+.items {
   flex: 1;
   color: #002060;
   margin-top: 3%;
@@ -284,16 +288,20 @@ height: 80%;
   padding: 2%;
   align-items: center;
 }
-.item{
-  text-decoration-color:rgba(223, 221, 53, 0.5) ;
+
+.item {
+  text-decoration-color: rgba(223, 221, 53, 0.5);
 }
-.contactFields{
+
+.contactFields {
   margin-top: 5%;
 }
-.EditNoteField{
+
+.EditNoteField {
   margin-top: 5%;
   width: 400%;
 }
-.className{
-  display:flex;
+
+.className {
+  display: flex;
 }

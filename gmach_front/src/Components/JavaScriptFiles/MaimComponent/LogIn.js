@@ -127,9 +127,9 @@ function LogIn() {
     return (
         <div id="LogIn" >
             <img src={logoPhoto} alt="Logo" className="photo" />
-            <div className="back">
+            <div className="backLogIn">
                 <div className="LogInFields">
-                    <h1>התחברות</h1>
+                    <h1>Log In</h1>
                     {/* work on the onChange */}
                     <div style={{ margin: " 4% 4% 4% 0% " }}>
                         <TextField
@@ -163,7 +163,12 @@ function LogIn() {
                     <div onClick={loginClicked}><BasicButtons value="התחבר" /></div>
                     {wait ? <WaitComponent /> : null}
                     {showAlert ? <ErrorAlert msg={alertMsg} /> : null}
-                    <div><a href="SignUp" >חדש במערכת? עבור להרשמה</a></div>
+                    <div><a href="SignUp">New user? Please register</a></div>
+                    
+                    <h4>
+                        <a href="Admin" >admin</a>
+                    </h4>
+
                 </div>
             </div>
         </div>)
