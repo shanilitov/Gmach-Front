@@ -76,7 +76,9 @@ export default function CreditCardDisplay(props) {
 
             {showAlert ? (<Alert severity="info" type="info" msg={alertMsg} />) : (<></>)}
             {console.log("In the main return value", userCards)}
-            {HasCards ? creditCards.map(element => (
+            {HasCards ? 
+            
+            creditCards.map(element => (
                 <div
                     style={{ cursor: 'pointer', margin: '10px' }}
                     onClick={() => {
@@ -89,7 +91,7 @@ export default function CreditCardDisplay(props) {
                         {`XXXX-XXXX-XXXX-${element.slice(-4)}`}
                     </Item>
                 </div>
-            )) : 'Loading...'}
+            )) : 'No cards found.'}
 
         </Grid>
     );

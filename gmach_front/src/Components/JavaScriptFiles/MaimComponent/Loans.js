@@ -83,7 +83,7 @@ export default function Loans(props) {
       >
         Loans
       </h2>
-      {anyLoans ? <div>{LoansInfo}</div> : "Loading..."}
+      {anyLoans ? <div>{LoansInfo}</div> : "No loans."}
 
 
       {ShowAlert ? <Alert type="info" msg="No loans in your account." /> : null}
