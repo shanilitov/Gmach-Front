@@ -43,7 +43,7 @@ export default function Application(props) {
       <Bar />
       <div style={{ padding: "1%", position: "sticky", top: 0 }}>
         <div style={{ width: "100%", marginTop: "10%", color: "rgb(223, 221, 53)", backgroundColor: "rgba(223, 221, 53,0.115)", fontSize: "large" }}>
-          <h2><strong>Hello, {name}</strong></h2>
+          <p style={{fontSize:"30px"}}> <strong>Hello, {name}</strong></p>
         </div>
         <div style={{ marginTop: "10px" }}>
           <VerticalTabs userId={id} userName={name}  />

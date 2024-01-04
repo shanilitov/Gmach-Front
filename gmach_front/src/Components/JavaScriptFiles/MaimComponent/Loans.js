@@ -83,10 +83,10 @@ export default function Loans(props) {
       >
         Loans
       </h2>
-      {anyLoans ? <div>{LoansInfo}</div> : "No loans."}
+      {anyLoans ? <div>{LoansInfo}</div> :null}
 
 
-      {ShowAlert ? <Alert type="info" msg="No loans in your account." /> : null}
+      {ShowAlert ? <Alert type="info" msg="You don't have any loans in your account." /> : null}
       {Error ? <Alert type="error" msg={ErrorMsg} /> : null}
 
       <p>Need a loan? click <a href={`/AddLoan/${id}`}>here.</a></p>

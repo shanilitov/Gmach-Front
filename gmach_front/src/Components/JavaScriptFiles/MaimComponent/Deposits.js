@@ -1,6 +1,8 @@
 import AlignItemsList from "../HelpingComponent/AlignItemsList";
 import React, { useState, useEffect } from "react";
 import moment from 'moment';
+import Alert from "../HelpingComponent/Alert";
+
 
 export default function Deposits(props) {
 
@@ -41,6 +43,14 @@ export default function Deposits(props) {
   useEffect(() => {
     async function fetchUserDeposits() {
       const cards = await getUserDeposits();
+      if (cards) {
+        setDeposits(cards);
+      }
+      else{
+        setAlertMsg("You don't have any deposits in your account.")
+        setShowAlert(true);
+      
+      }
     }
     console.log("In useEffect")
     fetchUserDeposits();
@@ -56,16 +66,19 @@ export default function Deposits(props) {
 
   return (
     <div>
-      <h2
+      <p
         style={{
           color: "rgb(0,32,96)",
           gridColumn: "2/span 3",
           gridRow: "1",
+          fontSize: "20px",
         }}
       >
-        Deposits
-      </h2>
-      {userHasDeposits ? depositInfo : "loading"}
+        <strong>Deposits</strong>
+        
+      </p>
+      {userHasDeposits ? depositInfo : null}
+      {showAlert ? <Alert type="info" msg={alertMsg} /> : null}
       <p>Want to add a amount for deposit? click <a href={`/NewDeposit/${id}/${name}`}>here</a>.</p>
     </div>
   )
