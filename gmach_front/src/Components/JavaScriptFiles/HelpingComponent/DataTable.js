@@ -99,10 +99,10 @@ export default function DataTable(props) {
       method: "POST",
       headers: {
         "accept": "text/plain",
-        "confirmation": "15987532",
+        'confirmation': '15987532',
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(currentRequest),
+      body: JSON.stringify(currentRequest[0]),
     })
       .then((response) => response.text())
       .then((data) => {
