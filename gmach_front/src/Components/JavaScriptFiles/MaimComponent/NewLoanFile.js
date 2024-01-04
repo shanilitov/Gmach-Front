@@ -44,6 +44,7 @@ const steps = [
 export default function NewLoanFile(props) {
 
   const { id } = useParams();
+  const { name } = useParams();
   const [activeStep, setActiveStep] = React.useState(0);
   //Data from sons:
   //AddressForm file:
@@ -412,7 +413,7 @@ export default function NewLoanFile(props) {
                 Apply number: <strong>#12D9e74#{code}</strong>
               </Typography>
               <div  style = {{marginTop: "3%", marginLeft: "1%", padding: "3%"}}>
-                <BasicButtons value="Back to home page" function={() => { window.location.href = "/"; }} />
+                <BasicButtons value="Back to your personal area" function={() => { window.location.href = `/Register/${id}/${name}`; }} />
               </div>
               
             </React.Fragment>

@@ -120,6 +120,8 @@ function NewUser() {
                     console.log("Error in server!")
                   }
                   else {
+                    console.log("data: ", data, "JSON.stringify(data): ", JSON.stringify(data));
+                    data = {userId: data, userName: userName}
                     NavigateFunc(data)
                   }
                 }

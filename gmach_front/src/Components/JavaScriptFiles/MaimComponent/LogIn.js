@@ -158,7 +158,17 @@ function LogIn() {
                                     type="text"
                                     label="Name"
                                     onChange={(ev) => {
-                                        const englishTextRegex = /^[A-Za-z]+$/;
+                                        const englishTextRegex = /^[A-Za-z\s]+$/;
+                                        if (
+                                            englishTextRegex.test(ev.target.value) ||
+                                            ev.target.value === ""
+                                        ) {
+                                            setShowAlert(false);
+                                            setname(ev.target.value); // Set the valid input to the name variable
+                                        }
+                                    }}
+                                    onBlur={(ev) => {
+                                        const englishTextRegex = /^[A-Za-z\s]+$/;
                                         if (
                                             englishTextRegex.test(ev.target.value) ||
                                             ev.target.value === ""
@@ -176,6 +186,16 @@ function LogIn() {
                                     type="password"
                                     label="Password"
                                     onChange={(ev) => {
+                                        const numberRegex = /^[0-9]+$/;
+                                        if (
+                                            numberRegex.test(ev.target.value) ||
+                                            ev.target.value === ""
+                                        ) {
+                                            setShowAlert(false);
+                                            setpassword(ev.target.value); // Set the valid input to the name variable
+                                        }
+                                    }}
+                                    onBlur={(ev) => {
                                         const numberRegex = /^[0-9]+$/;
                                         if (
                                             numberRegex.test(ev.target.value) ||

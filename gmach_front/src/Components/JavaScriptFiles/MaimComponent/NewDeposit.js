@@ -49,8 +49,8 @@ export default function NewDeposit() {
   const [check, setChecked] = React.useState(true); // Define the 'checked' variable
   const [card, setCard] = React.useState(""); // A card number from the DB
   const [successed, setSuccessed] = React.useState(false)//If deposit entered to DB successfuly 
-  const { userId } = useParams();
-  const { userName } = useParams();
+  const { id } = useParams();
+  const { name } = useParams();
 
   const steps = ['Payment details', 'Amount and date', 'Review details'];
 
@@ -74,7 +74,7 @@ export default function NewDeposit() {
     switch (step) {
       case 0:
         // return <Details />;
-        return <DepositPaymentForm onCardName={cardNameHandler} onCardNumber={cardNumberHandler} onExpDate={expDateHandler} onCvv={cvvHandler} onFields={handleButtonShow} checkBox={CheckboxHandler} userID={userId} onExistingCard={handleCard} />;
+        return <DepositPaymentForm onCardName={cardNameHandler} onCardNumber={cardNumberHandler} onExpDate={expDateHandler} onCvv={cvvHandler} onFields={handleButtonShow} checkBox={CheckboxHandler} userID={id} onExistingCard={handleCard} />;
       case 1:
         return <DepositDateAndAmount onAmount={depositAmountHandler} onDate={depositReturnDateHandler} onFields={handleButtonShow} />;
       case 2:
@@ -192,7 +192,7 @@ export default function NewDeposit() {
     let account = {}
     let depositData = {
       DepositId: 0,
-      UserId: parseInt(userId),
+      UserId: parseInt(id),
       Sum: parseInt(depositAmount),
       DateToPull: new Date(depositReturnDate).toISOString().split('T')[0],
       /*cardName: cardName,
@@ -278,7 +278,7 @@ export default function NewDeposit() {
 
                 </Typography>
                 <div  style = {{marginTop: "3%", marginLeft: "1%", padding: "3%"}}>
-                  <BasicButtons value="Back to home page" function={() => { window.location.href = "/"; }} />
+                  <BasicButtons value="Back to your personal area" function={() => { window.location.href = `/Register/${id}/${name}`; }} />
                 </div>
               </React.Fragment>
             ) :/*( <React.Fragment>
