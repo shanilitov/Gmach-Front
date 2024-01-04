@@ -110,10 +110,10 @@ export default function VerticalTabs(props) {
       </Tabs>
 
       <TabPanel value={value} index={0} >
-        <Deposits id={userId} name={userName} />
+       <Deposits id={userId} name={userName} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Loans id={userId} name={userName} />
+      <Loans id={userId} name={userName} />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <AllUsersDeposits admin={getCookie('admin')} />

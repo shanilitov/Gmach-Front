@@ -257,8 +257,8 @@ export default function NewDeposit() {
             New deposit file
           </Typography>
           <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
-            {steps.map((label) => (
-              <Step key={label}>
+            {steps.map((label, index) => (
+              <Step key={index}>
                 <StepLabel>{label}</StepLabel>
               </Step>
             ))}
@@ -277,7 +277,7 @@ export default function NewDeposit() {
                   We have emailed you when your deposit will can be attracten.
 
                 </Typography>
-                <div> style = {{marginTop: "3%", marginLeft: "1%", padding: "3%"}}
+                <div  style = {{marginTop: "3%", marginLeft: "1%", padding: "3%"}}>
                   <BasicButtons value="Back to home page" function={() => { window.location.href = "/"; }} />
                 </div>
               </React.Fragment>

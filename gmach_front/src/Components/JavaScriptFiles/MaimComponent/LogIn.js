@@ -94,12 +94,16 @@ function LogIn() {
                         })
                 }
                 catch (Error) {
-                    console.log("Error:  ", Error.message);
-                    setAlertMsg("Error:  " + Error.message)
+                    if(Error == 'TypeError: Failed to fetch')
+                    {setAlertMsg("Server is down. Please try again later.")}
+                    else{
+                    setAlertMsg("Error: " + Error.message)
+                    }
+                    console.log("Error: ", Error.message);
                     setShowAlert(true);
                     setTimeout(() => {
                         setShowAlert(false)
-                    }, 3000);
+                    }, 4000);
                 }
             }
         }
@@ -125,61 +129,83 @@ function LogIn() {
 
 
     return (
-        <div id="LogIn" >
-            <img src={logo} alt='Logo' id='CBarLogo' style={{
-                height: "auto",
-                width: "80%",
-                height:"auto",
-                transition: "0.6s",
-                fontSize: "35px",
-                margin:"0.5%",
-                position: "fixed",
-            }} />            <div className="backLogIn">
-                <div className="LogInFields" style={{color:" #1976d2"}}>
-                    <h1>Log In</h1>
-                    {/* work on the onChange */}
-                    <div style={{ margin: " 4% 4% 4% 0% " }}>
-                        <TextField
-                            header="Name"
-                            type="text"
-                            label="Name"
-                            onChange={(ev) => {
-                                const englishTextRegex = /^[A-Za-z]+$/;
-                                if (englishTextRegex.test(ev.target.value) || ev.target.value === "") {
-                                    setShowAlert(false);
-                                    setname(ev.target.value); // Set the valid input to the name variable
-                                } else {
-                                    setShowAlert(true);
-                                    setAlertMsg("User name must be in English letters only.");
-                                }
-                            }}
-                        />
+        <div id="LogIn">
+            {[
+                <img
+                    src={logo}
+                    alt="Logo"
+                    id="CBarLogo"
+                    style={{
+                        height: "auto",
+                        width: "80%",
+                        height: "auto",
+                        transition: "0.6s",
+                        fontSize: "35px",
+                        margin: "0.5%",
+                        position: "fixed",
+                    }}
+                    key="logo"
+                />,
+                <div className="backLogIn" key="backLogIn">
+                    <div className="LogInFields" style={{ color: "#1976d2" }}>
+                        <h1>Log In</h1>
+                        {/* work on the onChange */}
+                        <div style={{ margin: " 4% 4% 4% 4% " }}>
+                         
+                                
+                                <TextField
+                                    header="Name"
+                                    type="text"
+                                    label="Name"
+                                    onChange={(ev) => {
+                                        const englishTextRegex = /^[A-Za-z]+$/;
+                                        if (
+                                            englishTextRegex.test(ev.target.value) ||
+                                            ev.target.value === ""
+                                        ) {
+                                            setShowAlert(false);
+                                            setname(ev.target.value); // Set the valid input to the name variable
+                                        }
+                                    }}
+                                    key="textField"
+                                />
+                               
+                               
+                                <TextField
+                                    header="Password"
+                                    type="password"
+                                    label="Password"
+                                    onChange={(ev) => {
+                                        const numberRegex = /^[0-9]+$/;
+                                        if (
+                                            numberRegex.test(ev.target.value) ||
+                                            ev.target.value === ""
+                                        ) {
+                                            setShowAlert(false);
+                                            setpassword(ev.target.value); // Set the valid input to the name variable
+                                        }
+                                    }}
+                                    key="textField"
+                                />
+                                </div>
+                                 <div onClick={loginClicked}><BasicButtons value="LogIn" /></div>
+                                {wait ? <WaitComponent /> : null}
+                                 {showAlert ? <ErrorAlert msg={alertMsg} /> : null}
+                                 <div style={{color:" rgb(80, 133, 202)"}}>
+                                     <br></br><a href="SignUp" style={{ color: "#1976d2" }}><strong>New user? Please register</strong></a></div>
+             
+                                 <h4>
+                                     <a href="Admin" style={{ color: "#1976d2" }}>admin</a>
+                                 </h4>
+             
+                                
+                            
+                        </div>
                     </div>
-                    <div style={{ margin: "4% 4% 4% 0% " }}>
-                        <TextField header="Password" type="password" label="Password" onChange={(ev) => {
-                            const numberRegex = /^[0-9]+$/;
-                            if (numberRegex.test(ev.target.value) || ev.target.value === "") {
-                                setShowAlert(false);
-                                setpassword(ev.target.value)
-                            } else {
-                                setAlertMsg("Password must contain only numbers.");
-                                setShowAlert(true);
-                            }
-                        }} />
-                    </div>
-                    <div onClick={loginClicked}><BasicButtons value="התחבר" /></div>
-                    {wait ? <WaitComponent /> : null}
-                    {showAlert ? <ErrorAlert msg={alertMsg} /> : null}
-                    <div style={{color:" rgb(80, 133, 202)"}}>
-                        <br></br><a href="SignUp" style={{ color: "#1976d2" }}><strong>New user? Please register</strong></a></div>
-
-                    <h4>
-                        <a href="Admin" style={{ color: "#1976d2" }}>admin</a>
-                    </h4>
-
-                </div>
-            </div>
-        </div>)
+               
+            ]}
+        </div>
+    );
 }
 
 
