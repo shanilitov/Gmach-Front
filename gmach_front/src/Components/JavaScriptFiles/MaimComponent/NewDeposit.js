@@ -49,6 +49,7 @@ export default function NewDeposit() {
   const [check, setChecked] = React.useState(true); // Define the 'checked' variable
   const [card, setCard] = React.useState(""); // A card number from the DB
   const [successed, setSuccessed] = React.useState(false)//If deposit entered to DB successfuly 
+  const [error, setError] = React.useState("")
   const { id } = useParams();
   const { name } = useParams();
 
@@ -184,51 +185,89 @@ export default function NewDeposit() {
     console.log("depositAmount: ", depositAmount);
     console.log("depositReturnDate: ", depositReturnDate);
     if (cardName && cardNumber && expDate && cvv && depositAmount && depositReturnDate) {
+      const card = {
+        cardId: 0,
+        userId: parseInt(id),
+        creditCardNumber: _cardNumber,
+        ownersName: cardName,
+        validity: expDate,
+        CVV: cvv,
+      }
+      console.log("card: ", card);
+      let URL = "https://localhost:7275/api/CreditCard/AddACreditCard";
+      fetch(URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(card),
+      })
+        .then((response) => {
+          response.json().then((data) => {
+            console.log("Server responsed!! Data: " + JSON.stringify(data));
+            if (data == -3) {
+              setError("You're not logged in. Please log in and try again.")
+            }
+            if (data > 0) {
+              alert("Your card was added successfully!")
+              setCard(data)
+              let depositData = {
+                DepositId: 0,
+                UserId: parseInt(id),
+                Sum: parseInt(depositAmount),
+                DateToPull: new Date(depositReturnDate).toISOString().split('T')[0],
+                /*cardName: cardName,
+                cardNumber: _cardNumber,
+                expDate: expDate,
+                cvv: cvv,
+                depositAmount: depositAmount,
+                depositReturnDate: depositReturnDate,*/
+              }
+              console.log("depositData: ", depositData);
+              fetch('https://localhost:7275/api/Deposit/AddADeposit', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(depositData)
+              }).then(response => {
+                console.log("Response is: ", response);
+                console.log("Res message: ", response.message)
+                return response.json();
+              }).then(data => {
+                console.log("Data is: ", data);
+                if (data == -2) {
+                  alert("You're not logged in. Please log in and try again.")
+                }
+                if (data > 0) {
+                  alert("Your deposit was added successfully!")
+                  setSuccessed(true)
+                }
+                else if (data == -1) {
+                  alert("Error. Please try again.")
+                }
 
+              }).catch(err => {
+                console.log("Error is: ", err);
+              })
+            }
+            else if (data == -1) {
+              setError("Error. Please try again.")
+            }
+          })
+            .catch((error) => {
+              console.error('Error:', error);
+              setError("Error: " + error)
+            })
+            .finally(() => {
+              console.log("Finally");
+            });
+        })
 
     }
-
-    console.log("user1: ");
-    let account = {}
-    let depositData = {
-      DepositId: 0,
-      UserId: parseInt(id),
-      Sum: parseInt(depositAmount),
-      DateToPull: new Date(depositReturnDate).toISOString().split('T')[0],
-      /*cardName: cardName,
-      cardNumber: _cardNumber,
-      expDate: expDate,
-      cvv: cvv,
-      depositAmount: depositAmount,
-      depositReturnDate: depositReturnDate,*/
+    else {
+      setError("Please fill all the fields.")
     }
-    console.log("depositData: ", depositData);
-    fetch('https://localhost:7275/api/Deposit/AddADeposit', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(depositData)
-    }).then(response => {
-      console.log("Response is: ", response);
-      console.log("Res message: ", response.message)
-      return response.json();
-    }).then(data => {
-      console.log("Data is: ", data);
-      if (data == -2) {
-        alert("You're not logged in. Please log in and try again.")
-      }
-      if (data > 0) {
-        alert("Your deposit was added successfully!")
-        setSuccessed(true)
-      }
-      else if (data == -1) {
-        alert("Error. Please try again.")
-      }
-
-    }).catch(err => {
-      console.log("Error is: ", err);
-    })
   }
 
 
@@ -264,80 +303,86 @@ export default function NewDeposit() {
             ))}
           </Stepper>
           {activeStep === steps.length ?
-            (
-              <React.Fragment>
+            (successed ?
+              (
+                <React.Fragment>
+                  <Typography variant="h5" gutterBottom>
+                    Thank you for your giving.
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    Plus minus Thank you for your giving.
+                    <Typography variant="subtitle1">
+                      <strong>Your deposit number is #2001539.</strong>
+                    </Typography>
+                    We have emailed you when your deposit will can be attracten.
+
+                  </Typography>
+                  <div style={{ marginTop: "3%", marginLeft: "1%", padding: "3%" }}>
+                    <BasicButtons value="Back to your personal area" function={() => { window.location.href = `/Register/${id}/${name}`; }} />
+                  </div>
+                </React.Fragment>
+              ) : (<React.Fragment>
                 <Typography variant="h5" gutterBottom>
-                  Thank you for your giving.
+                  <strong>Hooooops...</strong>
+               
+                <Typography variant="subtitle1">
+                  Sorry, but something bad happend, and your giving doesn't enter to PlusMinus's accoumt.
                 </Typography>
                 <Typography variant="subtitle1">
-                  Plus minus Thank you for your giving.
-                  <Typography variant="subtitle1">
-                    <strong>Your deposit number is #2001539.</strong>
-                  </Typography>
-                  We have emailed you when your deposit will can be attracten.
-
+                  {error}
                 </Typography>
-                <div  style = {{marginTop: "3%", marginLeft: "1%", padding: "3%"}}>
-                  <BasicButtons value="Back to your personal area" function={() => { window.location.href = `/Register/${id}/${name}`; }} />
-                </div>
-              </React.Fragment>
-            ) :/*( <React.Fragment>
-            <Typography variant="h5" gutterBottom>
-              Hooooops...
-            </Typography>
-            <Typography variant="subtitle1">
-            Sorry, but something bad happend, and your giving dowsn't enter to PlusMinus's accoumt.
-              <Typography variant="subtitle1">
-                Please try again.  (If the problem repeat- write for us and we will check it as soon as we can.)
+                <Typography variant="subtitle1">
+                  Please try again.  (If the problem repeat- write for us and we will check it as soon as we can.)
+                </Typography>
+                <Button onClick={
+                  setTimeout(() => {
+                    setActiveStep(0)
+                  }, 3000)}>Try again</Button>
               </Typography>
-             <Button onClick={
-              setTimeout(()=>{
-                setActiveStep(0)
-              }, 3000) }>Try again</Button>
-            </Typography>
-          </React.Fragment>) ):*/ (
-              <React.Fragment>
-                {[getStepContent(activeStep), handleButtonShow]}
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  {activeStep !== 0 && (
-                    <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                      {activeStep === steps.length - 1 ? "Edit" : "back"}
-                    </Button>
-                  )}
-                  {allFields && handleButtonShow()}
-                  {console.log("card: ", card, "card == '': ", card == '', "card == null: ", card == null)}
-                  {allFields || card != '' ?
-                    <Button
-                      variant="contained"
-                      onClick={() => {
-                        handleNext();
-                        handleButtonShow();
-                      }}
-                      sx={{ mt: 3, ml: 1 }}
-                    >
-                      {activeStep === steps.length - 1 ? 'End' : 'Next'}
-
-                    </Button> : <></>
-                  }
-                  {activeStep === steps.length - 1 ?
-                    <Button
-                      variant="contained"
-                      onClick={() => {
-                        handleNext();
-                        handleButtonShow();
-                      }}
-                      sx={{ mt: 3, ml: 1 }}
-                    >
-                      {activeStep === steps.length - 1 ? 'End' : 'Next'}
-
-                    </Button> : <></>
-                  }
-                </Box>
-              </React.Fragment>
+              </React.Fragment>)
+        ) : (
+        <React.Fragment>
+          {[getStepContent(activeStep), handleButtonShow]}
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            {activeStep !== 0 && (
+              <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                {activeStep === steps.length - 1 ? "Edit" : "back"}
+              </Button>
             )}
-        </Paper>
-        <Copyright />
-      </Container>
-    </React.Fragment>
+            {allFields && handleButtonShow()}
+            {console.log("card: ", card, "card == '': ", card == '', "card == null: ", card == null)}
+            {allFields || card != '' ?
+              <Button
+                variant="contained"
+                onClick={() => {
+                  handleNext();
+                  handleButtonShow();
+                }}
+                sx={{ mt: 3, ml: 1 }}
+              >
+                {activeStep === steps.length - 1 ? 'End' : 'Next'}
+
+              </Button> : <></>
+            }
+            {activeStep === steps.length - 1 ?
+              <Button
+                variant="contained"
+                onClick={() => {
+                  handleNext();
+                  handleButtonShow();
+                }}
+                sx={{ mt: 3, ml: 1 }}
+              >
+                {activeStep === steps.length - 1 ? 'End' : 'Next'}
+
+              </Button> : <></>
+            }
+          </Box>
+        </React.Fragment>
+            )}
+      </Paper>
+      <Copyright />
+    </Container>
+    </React.Fragment >
   );
 }
