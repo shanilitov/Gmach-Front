@@ -28,6 +28,7 @@ export default function DialogOfDetails(props) {
   const handleClose = () => {
     setOpen(false);
   };
+  let canBeWithdraw = props.canBeWithdraw
 
   if (type === "loan") { return (<>
   <React.Fragment>
@@ -80,9 +81,10 @@ export default function DialogOfDetails(props) {
   if (type === "deposit") {
     return (
       <React.Fragment>
+        {canBeWithdraw?
         <Button variant="outlined" onClick={handleClickOpen}>
         withdraw the deposit
-        </Button>
+        </Button>: null}
         <BootstrapDialog
           onClose={handleClose}
           aria-labelledby="customized-dialog-title"

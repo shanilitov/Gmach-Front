@@ -16,6 +16,7 @@ export default function AlignItemsList(props) {
   const [showAlert, setShowAlert] = useState(props.showAlert);
   const [AmountSize, setAmountSize] = useState(0);
 
+  console.log("props are: ", props, "{props} asr: ", { props });
   function addCommasToNumberString(str) {
     const num = parseInt(str.replace(/,/g, ''));
     return num.toLocaleString('en-US');
@@ -87,7 +88,7 @@ export default function AlignItemsList(props) {
         />
       </ListItem>
       {showAlert?
-     <div className='dialogBox'> <DialogOfDetails type="deposit" /></div> :null}
+     <div className='dialogBox'> <DialogOfDetails type="deposit" canBeWithdraw={showAlert}/></div> :null}
       <Divider variant="inset" component="li" />
     </List>
     

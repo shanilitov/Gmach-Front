@@ -312,7 +312,12 @@ export default function NewDeposit() {
                   <Typography variant="subtitle1">
                     Plus minus Thank you for your giving.
                     <Typography variant="subtitle1">
-                      <strong>Your deposit number is #2001539.</strong>
+                      <p>
+                        Thank you for considering making a donation to our cause.
+                      </p><p>
+                        Your contribution will help us make a positive impact in the community. </p><p>
+                        Every donation, no matter how big or small, makes a difference.</p><p>
+                        <strong>Together, we can create a better future.</strong></p>
                     </Typography>
                     We have emailed you when your deposit will can be attracten.
 
@@ -324,65 +329,65 @@ export default function NewDeposit() {
               ) : (<React.Fragment>
                 <Typography variant="h5" gutterBottom>
                   <strong>Hooooops...</strong>
-               
-                <Typography variant="subtitle1">
-                  Sorry, but something bad happend, and your giving doesn't enter to PlusMinus's accoumt.
+
+                  <Typography variant="subtitle1">
+                    Sorry, but something bad happend, and your giving doesn't enter to PlusMinus's accoumt.
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    {error}
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    Please try again.  (If the problem repeat- write for us and we will check it as soon as we can.)
+                  </Typography>
+                  <Button onClick={
+                    setTimeout(() => {
+                      setActiveStep(0)
+                    }, 3000)}>Try again</Button>
                 </Typography>
-                <Typography variant="subtitle1">
-                  {error}
-                </Typography>
-                <Typography variant="subtitle1">
-                  Please try again.  (If the problem repeat- write for us and we will check it as soon as we can.)
-                </Typography>
-                <Button onClick={
-                  setTimeout(() => {
-                    setActiveStep(0)
-                  }, 3000)}>Try again</Button>
-              </Typography>
               </React.Fragment>)
-        ) : (
-        <React.Fragment>
-          {[getStepContent(activeStep), handleButtonShow]}
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            {activeStep !== 0 && (
-              <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                {activeStep === steps.length - 1 ? "Edit" : "back"}
-              </Button>
-            )}
-            {allFields && handleButtonShow()}
-            {console.log("card: ", card, "card == '': ", card == '', "card == null: ", card == null)}
-            {allFields || card != '' ?
-              <Button
-                variant="contained"
-                onClick={() => {
-                  handleNext();
-                  handleButtonShow();
-                }}
-                sx={{ mt: 3, ml: 1 }}
-              >
-                {activeStep === steps.length - 1 ? 'End' : 'Next'}
+            ) : (
+              <React.Fragment>
+                {[getStepContent(activeStep), handleButtonShow]}
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  {activeStep !== 0 && (
+                    <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                      {activeStep === steps.length - 1 ? "Edit" : "back"}
+                    </Button>
+                  )}
+                  {allFields && handleButtonShow()}
+                  {console.log("card: ", card, "card == '': ", card == '', "card == null: ", card == null)}
+                  {allFields || card != '' ?
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        handleNext();
+                        handleButtonShow();
+                      }}
+                      sx={{ mt: 3, ml: 1 }}
+                    >
+                      {activeStep === steps.length - 1 ? 'End' : 'Next'}
 
-              </Button> : <></>
-            }
-            {activeStep === steps.length - 1 ?
-              <Button
-                variant="contained"
-                onClick={() => {
-                  handleNext();
-                  handleButtonShow();
-                }}
-                sx={{ mt: 3, ml: 1 }}
-              >
-                {activeStep === steps.length - 1 ? 'End' : 'Next'}
+                    </Button> : <></>
+                  }
+                  {activeStep === steps.length - 1 ?
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        handleNext();
+                        handleButtonShow();
+                      }}
+                      sx={{ mt: 3, ml: 1 }}
+                    >
+                      {activeStep === steps.length - 1 ? 'End' : 'Next'}
 
-              </Button> : <></>
-            }
-          </Box>
-        </React.Fragment>
+                    </Button> : <></>
+                  }
+                </Box>
+              </React.Fragment>
             )}
-      </Paper>
-      <Copyright />
-    </Container>
+        </Paper>
+        <Copyright />
+      </Container>
     </React.Fragment >
   );
 }

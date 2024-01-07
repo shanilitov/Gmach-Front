@@ -13,6 +13,7 @@ import AboutUs from "./AboutUs";
 import AllUsersDeposits from "./AllUsersDeposits";
 import AllUsersLoans from "./AllUsersLoansReqests";
 import AllUsersLoansV from "./AllUsersLoansV";
+import Donations from "./Donations";
 
 
 function TabPanel(props) {
@@ -99,8 +100,9 @@ export default function VerticalTabs(props) {
         <Tab label="Deposits" {...a11yProps(0)} />
         <Tab label="Loans" {...a11yProps(1)} />
         {getCookie('admin') ? <Tab label="Users Deposits"  {...a11yProps(2)} /> : null}
-        {getCookie('admin') ? <Tab label="Users Loans" {...a11yProps(3)} /> : null}
-        {getCookie('admin') ? <Tab label="Loans requests" {...a11yProps(4)} /> : null}
+        {getCookie('admin') ? <Tab label="Donations"  {...a11yProps(3)} /> : null}
+        {getCookie('admin') ? <Tab label="Users Loans" {...a11yProps(4)} /> : null}
+        {getCookie('admin') ? <Tab label="Loans requests" {...a11yProps(5)} /> : null}
 
 
 
@@ -110,28 +112,29 @@ export default function VerticalTabs(props) {
       </Tabs>
 
       <TabPanel value={value} index={0} >
-       <Deposits id={userId} name={userName} />
+        <Deposits id={userId} name={userName} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-      <Loans id={userId} name={userName} />
+        <Loans id={userId} name={userName} />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <AllUsersDeposits admin={getCookie('admin')} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <AllUsersLoansV/>
-        </TabPanel>
+        <Donations admin={getCookie('admin')}/>
+      </TabPanel>
       <TabPanel value={value} index={4}>
+        <AllUsersLoansV />
+      </TabPanel>
+      <TabPanel value={value} index={5}>
         <AllUsersLoans admin={getCookie('admin')} />
       </TabPanel>
 
 
-      <TabPanel value={value} index={5}>
+      <TabPanel value={value} index={6}>
         <Blog id={userId} />
       </TabPanel>
-      <TabPanel value={value} index={6}>
 
-      </TabPanel>
     </Box>
   );
 }

@@ -59,7 +59,7 @@ export default function Deposits(props) {
 
   const depositInfo = deposits.map((d, index) => (
     <div key={index}>
-      <AlignItemsList amount={`Deposit amount: ${d.sum.toString()}`} date={moment(d.DatToPull).format('DD/MM/YYYY')} />
+      <AlignItemsList amount={`Deposit amount: ${d.sum.toString()}`} date={moment(d.dateToPull).format('DD/MM/YYYY')} />
       <div className="SpaceBetweenCards"></div>
     </div>
   ));
