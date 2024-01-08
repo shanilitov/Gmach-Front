@@ -63,7 +63,7 @@ export default function AlignItemsList(props) {
   }, [today, date],)
 
   return (
-    <List sx={{ width: '100%', maxWidth: 600, bgcolor: 'Background.paper'  }}>
+    <List sx={{ width: '100%', maxWidth: 600, bgcolor: 'Background.paper', display:"grid", gridColumn:"2"}}>
       <ListItem alignItems="flex-start" >
         <ListItemAvatar>
           <Avatar alt="ProfileImg" src="https://cucuvia.com/UploadImages-HE/Org27/Catalog38/1.jpg" />

@@ -83,8 +83,8 @@ export default function DialogOfDetails(props) {
       <React.Fragment>
         {canBeWithdraw?
         <Button variant="outlined" onClick={handleClickOpen}>
-        withdraw the deposit
-        </Button>: null}
+        withdraw   the   deposit
+        </Button>: <div style={{hight:"20%", padding:"5%"}}> </div>}
         <BootstrapDialog
           onClose={handleClose}
           aria-labelledby="customized-dialog-title"
