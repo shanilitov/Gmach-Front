@@ -14,6 +14,7 @@ import AllUsersDeposits from "./AllUsersDeposits";
 import AllUsersLoans from "./AllUsersLoansReqests";
 import AllUsersLoansV from "./AllUsersLoansV";
 import Donations from "./Donations";
+import Messages from "./Messages";
 
 
 function TabPanel(props) {
@@ -103,12 +104,11 @@ export default function VerticalTabs(props) {
         {getCookie('admin') ? <Tab label="Donations"  {...a11yProps(3)} /> : null}
         {getCookie('admin') ? <Tab label="Users Loans" {...a11yProps(4)} /> : null}
         {getCookie('admin') ? <Tab label="Loans requests" {...a11yProps(5)} /> : null}
+        {getCookie('admin') ? <Tab label="Messages" {...a11yProps(6)} /> : null}
 
 
 
-
-        <Tab label="" {...a11yProps(5)} />
-        <Tab label=""{...a11yProps(6)} />
+       
       </Tabs>
 
       <TabPanel value={value} index={0} >
@@ -129,9 +129,12 @@ export default function VerticalTabs(props) {
       <TabPanel value={value} index={5}>
         <AllUsersLoans admin={getCookie('admin')} />
       </TabPanel>
+       <TabPanel value={value} index={6}>
+        <Messages admin={getCookie('admin')} />
+      </TabPanel>
 
 
-      <TabPanel value={value} index={6}>
+      <TabPanel value={value} index={7}>
         <Blog id={userId} />
       </TabPanel>
 
