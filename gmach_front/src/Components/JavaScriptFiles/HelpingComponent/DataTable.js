@@ -93,6 +93,51 @@ export default function DataTable(props) {
     setOpen(false);
   };
 
+  const ClickOnDeposit = (row) => {
+    setOpen(true);
+    console.log("Row is: ", row);
+    console.log("Open dialog");
+    setCurrentRequest(row)
+    setCurrentLoanId(row[0]);
+  }
+
+  const ReleaseDeposit = () => {
+    console.log("Release deposit start. currentRequest is: ", currentRequest);
+    setWait(true);
+    fetch(`https://localhost:7275/api/LoanDetails/Remove/${currentLoanId}`, {
+      method: "POST",
+      headers: {
+        "accept": "text/plain",
+        "Content-Type": "application/json"
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text();
+      })
+      .then((data) => {
+        console.log("‼ In ReleaseDepsit(), data is: ", data);
+
+        setTimeout(() => {
+          setWait(false);
+          setMessage("Deposit released successfully");
+          setAnswer(true);
+        }, 3000);
+      })
+      .catch((error) => {
+        console.log("Error in ReleaseDeposit(): ", error);
+      });
+  }
+
+  const CloseReleaseDeposit = () => {
+    console.log("Close dialog");
+    setAnswer(false);
+    setWait(false);
+    setOpen(false);
+  };
+
   function ApprovalLoan() {
     setWait(true);
     fetch('https://localhost:7275/api/LoanDetails/LoanApproval', {
@@ -185,20 +230,44 @@ export default function DataTable(props) {
                 //If it's a deposits table
                 data.map((row, index) => {
                   return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === 'number'
-                              ? column.format(value)
-                              : column.id === 2  // Check if it's the 'Return date' column
-                                ? formatDate(value) // Call the formatDate function
-                                : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
+                    <>
+                      <TableRow hover role="button" onClick={() => ClickOnDeposit(row)} tabIndex={-1} key={index}>
+                        {columns.map((column) => {
+                          const value = row[column.id];
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              {column.format && typeof value === 'number'
+                                ? column.format(value)
+                                : column.id === 2  // Check if it's the 'Return date' column
+                                  ? formatDate(value) // Call the formatDate function
+                                  : value}
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                      <Dialog fullScreen={fullScreen}
+                        open={open}
+                        onClose={CloseReleaseDeposit}
+                        aria-labelledby="responsive-dialog-title">
+
+                        <DialogTitle id="responsive-dialog-title">{"Release deposit"}</DialogTitle>
+                        <DialogContent>
+                          <DialogContentText>
+                            User number {currentRequest[3]} needs to get his deposit back.
+                          </DialogContentText>
+                          <DialogContentText>
+                            Deposit id: {currentRequest[0]}
+                          </DialogContentText>
+                          {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
+                          <DialogActions>
+                            <Button autoFocus onClick={ReleaseDeposit}>Release</Button>
+                            <Button autoFocus onClick={CloseReleaseDeposit}>Close</Button>
+
+                          </DialogActions>
+                        </DialogContent>
+                      </Dialog>
+                    </>
+
                   );
                 }) ://If it's a loan requests table
                 data.map((row, index) => {
@@ -237,9 +306,9 @@ export default function DataTable(props) {
                             <p>Return date: {currentRequest[2]}</p>
                             <p>{moreDetails.loanFile ? "Deed of guarantee: ✔️" : "Deed of guarantee: ❌"}
                               <img src={`${moreDetails.loanFile}`} alt="Deed of guarantee unsupported." style={{ height: "20%", width: "20%" }} onClick={(event) => {
-                                    event.target.style.height = "100%";
-                                    event.target.style.width = "100%";
-                                  }} />
+                                event.target.style.height = "100%";
+                                event.target.style.width = "100%";
+                              }} />
                             </p>
                             <p><strong>Guarantors:</strong> {moreDetails.guarantors && moreDetails.guarantors.map((guarantor, index) => {
                               return (
@@ -249,11 +318,11 @@ export default function DataTable(props) {
                                   <p>
                                     <a href={`mailto:${guarantor.emailAddress}`}>Email: {guarantor.emailAddress}</a>
                                   </p>
-                                 <p> {guarantor.check ? "Check: ✔️" : "Check: ❌"}
-                                  <img src={`${guarantor.check}`} alt="Check unsupported " style={{ height: "20%", width: "20%" }} onClick={(event) => {
-                                    event.target.style.height = "100%";
-                                    event.target.style.width = "100%";
-                                  }} />
+                                  <p> {guarantor.check ? "Check: ✔️" : "Check: ❌"}
+                                    <img src={`${guarantor.check}`} alt="Check unsupported " style={{ height: "20%", width: "20%" }} onClick={(event) => {
+                                      event.target.style.height = "100%";
+                                      event.target.style.width = "100%";
+                                    }} />
                                   </p>
                                   <h4>--------------------------</h4>
                                 </p>
@@ -368,7 +437,7 @@ export default function DataTable(props) {
 
                 })
             }
-          </TableBody>
+          </TableBody >
         </Table>
       </TableContainer>
       <TablePagination

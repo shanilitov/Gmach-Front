@@ -57,7 +57,6 @@ function AllUsersDeposits(props) {
     }, []);
 
     /**
-     * 
      * @returns {Promise<Object[]>} The fetched deposits.
      * @throws {Error} If the server returns an error.
      * @async
