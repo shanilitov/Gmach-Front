@@ -15,7 +15,7 @@ export default function AllUsersDeposits(props) {
     useEffect(() => {
         try {
             fetchData().then((data) => {
-                console.log("Data getr from server is: ", data);
+                console.log("Data got from server is: ", data);
                 console.log("check: ", data[0].guarantors[0].check)
                 setLoanRequests(data);
             });
@@ -36,6 +36,7 @@ export default function AllUsersDeposits(props) {
         try {
             const response = await fetch("https://localhost:7275/api/LoanDetails/GetAllNotApprovaledLoans");
             const data = await response.json();
+            console.log("in fetchData. data before sent: ", data)
             return data;
         }
         catch (err) {

@@ -104,7 +104,7 @@ export default function DataTable(props) {
   const ReleaseDeposit = () => {
     console.log("Release deposit start. currentRequest is: ", currentRequest);
     setWait(true);
-    fetch(`https://localhost:7275/api/LoanDetails/Remove/${currentLoanId}`, {
+    fetch(``, {
       method: "POST",
       headers: {
         "accept": "text/plain",
