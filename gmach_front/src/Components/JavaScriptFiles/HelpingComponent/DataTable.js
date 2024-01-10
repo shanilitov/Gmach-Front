@@ -54,6 +54,8 @@ export default function DataTable(props) {
   //data is loans or deposits
   let data = props.data || [];
   let loansDetails = props.data || [];
+  let index = 0;
+
   console.log("data is: ", data)
 
   let loanRequests = props.data;  //It can't be const because we need to change it's value
@@ -165,6 +167,22 @@ export default function DataTable(props) {
 
   if (deposits != null || deposits != undefined) {
     data = deposits.map((deposit) => createData(deposit));
+    // Create an array for deposits that haven't returned yet (dateToPull < today)
+    const depositsNotReturned = deposits.filter(deposit => new Date(deposit.dateToPull) < new Date());
+    // Create an array for deposits that return today (dateToPull = today)
+    const depositsReturnToday = deposits.filter(deposit => {
+      const today = new Date();
+      const depositDate = new Date(deposit.dateToPull);
+      return depositDate.getFullYear() === today.getFullYear() &&
+        depositDate.getMonth() === today.getMonth() &&
+        depositDate.getDate() === today.getDate();
+    });
+    // Create an array for deposits that have already returned (dateToPull > today)
+    const depositsReturned = deposits.filter(deposit => new Date(deposit.dateToPull) > new Date());
+    console.log("🚴‍♂️  depositsNotReturned is: ", depositsNotReturned);
+    console.log("🚴‍♂️🚴‍♂️  depositsReturnToday is: ", depositsReturnToday);
+    console.log("🚴‍♂️🚴‍♂️🚴‍♂️  depositsReturned is: ", depositsReturned);
+    data = [depositsNotReturned, depositsReturnToday, depositsReturned];
   }
   if (loanRequests != null || loanRequests != undefined) {
     data = loanRequests.map((loan) => createData2(loan));
@@ -208,31 +226,33 @@ export default function DataTable(props) {
   }
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth, backgroundColor: "rgba(223, 221, 53, 0.5)" }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {
-              loanRequests == undefined ?
-                //If it's a deposits table
-                data.map((row, index) => {
-                  return (
-                    <>
-                      <TableRow hover role="button" onClick={() => ClickOnDeposit(row)} tabIndex={-1} key={index}>
-                        {columns.map((column) => {
+    <div>
+      {
+        loanRequests !== undefined ?
+
+          //If it's a loan requests table
+          <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+            <TableContainer sx={{ maxHeight: 440 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow>
+                    {columns.map((column) => (
+                      <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{ minWidth: column.minWidth, backgroundColor: "rgba(223, 221, 53, 0.5)" }}
+                      >
+                        {column.label}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+
+                  {data.map((row, index) => {
+                    return (
+                      <>
+                        <TableRow hover role="button" onClick={() => handleClickOpen(row)} tabIndex={-1} key={index}>                      {columns.map((column) => {
                           const value = row[column.id];
                           return (
                             <TableCell key={column.id} align={column.align}>
@@ -244,211 +264,413 @@ export default function DataTable(props) {
                             </TableCell>
                           );
                         })}
-                      </TableRow>
-                      <Dialog fullScreen={fullScreen}
-                        open={open}
-                        onClose={CloseReleaseDeposit}
-                        aria-labelledby="responsive-dialog-title">
+                        </TableRow>
 
-                        <DialogTitle id="responsive-dialog-title">{"Release deposit"}</DialogTitle>
-                        <DialogContent>
-                          <DialogContentText>
-                            User number {currentRequest[3]} needs to get his deposit back.
-                          </DialogContentText>
-                          <DialogContentText>
-                            Deposit id: {currentRequest[0]}
-                          </DialogContentText>
+                        <Dialog
+                          fullScreen={fullScreen}
+                          open={open}
+                          onClose={handleClose}
+                          aria-labelledby="responsive-dialog-title"
+                        >
+                          <DialogTitle id="responsive-dialog-title">{"Loan request"}</DialogTitle>
+                          <DialogContent>
+                            <DialogContentText>
+                              User number {currentRequest[3]} wants to take a loan. Do you agree?
+                              {console.log(currentRequest)}
+                            </DialogContentText>
+                            <div>
+                              <h4>Loan details:</h4>
+                              <p>Loan id: {currentRequest[0]}</p>
+                              <p>Sum: {currentRequest[1]}</p>
+                              <p>Return date: {currentRequest[2]}</p>
+                              <p>{moreDetails.loanFile ? "Deed of guarantee: ✔️" : "Deed of guarantee: ❌"}
+                                <img src={`${moreDetails.loanFile}`} alt="Deed of guarantee unsupported." style={{ height: "20%", width: "20%" }} onClick={(event) => {
+                                  event.target.style.height = "100%";
+                                  event.target.style.width = "100%";
+                                }} />
+                              </p>
+                              <p><strong>Guarantors:</strong> {moreDetails.guarantors && moreDetails.guarantors.map((guarantor, index) => {
+                                return (
+                                  <p key={index}>
+                                    {guarantor.guarantorId}
+                                    <p> {"Name: " + guarantor.name}</p>
+                                    <p>
+                                      <a href={`mailto:${guarantor.emailAddress}`}>Email: {guarantor.emailAddress}</a>
+                                    </p>
+                                    <p> {guarantor.check ? "Check: ✔️" : "Check: ❌"}
+                                      <img src={`${guarantor.check}`} alt="Check unsupported " style={{ height: "20%", width: "20%" }} onClick={(event) => {
+                                        event.target.style.height = "100%";
+                                        event.target.style.width = "100%";
+                                      }} />
+                                    </p>
+                                    <h4>--------------------------</h4>
+                                  </p>
+
+                                )
+                              })}</p>
+
+                            </div>
+                          </DialogContent>
                           {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
+                          {answer ? <div style={{ paddingBottom: "2%" }}><Alert type="info" msg={message} /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
                           <DialogActions>
-                            <Button autoFocus onClick={ReleaseDeposit}>Release</Button>
-                            <Button autoFocus onClick={CloseReleaseDeposit}>Close</Button>
-
-                          </DialogActions>
-                        </DialogContent>
-                      </Dialog>
-                    </>
-
-                  );
-                }) ://If it's a loan requests table
-                data.map((row, index) => {
-                  return (
-                    <>
-                      <TableRow hover role="button" onClick={() => handleClickOpen(row)} tabIndex={-1} key={index}>                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === 'number'
-                              ? column.format(value)
-                              : column.id === 2  // Check if it's the 'Return date' column
-                                ? formatDate(value) // Call the formatDate function
-                                : value}
-                          </TableCell>
-                        );
-                      })}
-                      </TableRow>
-
-                      <Dialog
-                        fullScreen={fullScreen}
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="responsive-dialog-title"
-                      >
-                        <DialogTitle id="responsive-dialog-title">{"Loan request"}</DialogTitle>
-                        <DialogContent>
-                          <DialogContentText>
-                            User number {currentRequest[3]} wants to take a loan. Do you agree?
-                            {console.log(currentRequest)}
-                          </DialogContentText>
-                          <div>
-                            <h4>Loan details:</h4>
-                            <p>Loan id: {currentRequest[0]}</p>
-                            <p>Sum: {currentRequest[1]}</p>
-                            <p>Return date: {currentRequest[2]}</p>
-                            <p>{moreDetails.loanFile ? "Deed of guarantee: ✔️" : "Deed of guarantee: ❌"}
-                              <img src={`${moreDetails.loanFile}`} alt="Deed of guarantee unsupported." style={{ height: "20%", width: "20%" }} onClick={(event) => {
-                                event.target.style.height = "100%";
-                                event.target.style.width = "100%";
-                              }} />
-                            </p>
-                            <p><strong>Guarantors:</strong> {moreDetails.guarantors && moreDetails.guarantors.map((guarantor, index) => {
-                              return (
-                                <p key={index}>
-                                  {guarantor.guarantorId}
-                                  <p> {"Name: " + guarantor.name}</p>
-                                  <p>
-                                    <a href={`mailto:${guarantor.emailAddress}`}>Email: {guarantor.emailAddress}</a>
-                                  </p>
-                                  <p> {guarantor.check ? "Check: ✔️" : "Check: ❌"}
-                                    <img src={`${guarantor.check}`} alt="Check unsupported " style={{ height: "20%", width: "20%" }} onClick={(event) => {
-                                      event.target.style.height = "100%";
-                                      event.target.style.width = "100%";
-                                    }} />
-                                  </p>
-                                  <h4>--------------------------</h4>
-                                </p>
-
-                              )
-                            })}</p>
-
-                          </div>
-                        </DialogContent>
-                        {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
-                        {answer ? <div style={{ paddingBottom: "2%" }}><Alert type="info" msg={message} /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
-                        <DialogActions>
-                          <Button autoFocus onClick={() => {
-                            setAnswer(false);
-                            console.log("current loan id is: ", currentLoanId + ";  fetch started");
-                            setWait(true);
-                            const fetchData = async () => {
-                              try {
+                            <Button autoFocus onClick={() => {
+                              setAnswer(false);
+                              console.log("current loan id is: ", currentLoanId + ";  fetch started");
+                              setWait(true);
+                              const fetchData = async () => {
                                 try {
-                                  const URL = `https://localhost:7275/api/User/GetUserPassword/${id}`;
-                                  const response = await fetch(URL, {
-                                    method: 'GET',
-                                    headers: {
-                                      'Content-Type': 'application/json',
-                                    },
-                                  });
-                                  if (response == null) {
-                                    setWait(false)
-                                    setMessage("Soory, server response with NULL")
-                                    setAnswer(true);
-                                    console.log("response is null");
-                                  }
-                                  const password = await response.json();
-                                  console.log("Password of user is: ", password);
-                                  setCurrentUserPassword(password)
-                                  //If server returned null, that means that the user doesn't exist or that something went wrong:
-                                  if (password == null || password == undefined || password == "") {
-                                    setWait(false)
-                                    setMessage("Sorry, but there is a problem. Server doesn't new you... ");
-                                    setAnswer(true);
-                                  }
-                                  //If server returned the user password:
-                                  else {
-                                    const url = `https://localhost:7275/api/LoanDetails/AdminGetLoanForApproval`;
-                                    const response = await fetch(url, {
-                                      method: 'POST',
+                                  try {
+                                    const URL = `https://localhost:7275/api/User/GetUserPassword/${id}`;
+                                    const response = await fetch(URL, {
+                                      method: 'GET',
                                       headers: {
                                         'Content-Type': 'application/json',
-                                        'confirmation': password
                                       },
-                                      body: JSON.stringify({
-                                        //  loanId: currentLoanId,
-                                      })
                                     });
-                                    const data = await response.json();
-                                    console.log("data from server is: ", data);
-                                    console.log("current loan id is: ", currentLoanId);
-                                    console.log("data.includes(currentLoanId)", data.includes(currentLoanId));
-                                    if (data.includes(currentLoanId)) {
-                                      setTimeout(() => {
-                                        setWait(false)
-                                        setMessage("The algorithm recommends approving this loan request. \nThe approvaled loans are: " + data + ".");
-                                        setAnswer(true);
-                                      }, 2500);
-
-                                    } else {
-                                      setTimeout(() => {
-                                        setWait(false)
-                                        setMessage("The algorithm recommends rejecting this loan request. ");
-                                        setAnswer(true)
-                                      }, 2500);
-                                    }
-
-                                    if (data == null || data == undefined || data == "") {
+                                    if (response == null) {
                                       setWait(false)
-                                      setMessage("Sorry, something went wrong.");
+                                      setMessage("Soory, server response with NULL")
+                                      setAnswer(true);
+                                      console.log("response is null");
+                                    }
+                                    const password = await response.json();
+                                    console.log("Password of user is: ", password);
+                                    setCurrentUserPassword(password)
+                                    //If server returned null, that means that the user doesn't exist or that something went wrong:
+                                    if (password == null || password == undefined || password == "") {
+                                      setWait(false)
+                                      setMessage("Sorry, but there is a problem. Server doesn't new you... ");
                                       setAnswer(true);
                                     }
+                                    //If server returned the user password:
+                                    else {
+                                      const url = `https://localhost:7275/api/LoanDetails/AdminGetLoanForApproval`;
+                                      const response = await fetch(url, {
+                                        method: 'POST',
+                                        headers: {
+                                          'Content-Type': 'application/json',
+                                          'confirmation': password
+                                        },
+                                        body: JSON.stringify({
+                                          //  loanId: currentLoanId,
+                                        })
+                                      });
+                                      const data = await response.json();
+                                      console.log("data from server is: ", data);
+                                      console.log("current loan id is: ", currentLoanId);
+                                      console.log("data.includes(currentLoanId)", data.includes(currentLoanId));
+                                      if (data.includes(currentLoanId)) {
+                                        setTimeout(() => {
+                                          setWait(false)
+                                          setMessage("The algorithm recommends approving this loan request. \nThe approvaled loans are: " + data + ".");
+                                          setAnswer(true);
+                                        }, 2500);
 
+                                      } else {
+                                        setTimeout(() => {
+                                          setWait(false)
+                                          setMessage("The algorithm recommends rejecting this loan request. ");
+                                          setAnswer(true)
+                                        }, 2500);
+                                      }
+
+                                      if (data == null || data == undefined || data == "") {
+                                        setWait(false)
+                                        setMessage("Sorry, something went wrong.");
+                                        setAnswer(true);
+                                      }
+
+                                    }
                                   }
+                                  catch (error) {
+                                    setWait(false);
+                                    setMessage("Sorry, but there is a problem.  ", error);
+                                    setAnswer(true);
+                                  }
+
                                 }
                                 catch (error) {
-                                  setWait(false);
-                                  setMessage("Sorry, but there is a problem.  ", error);
-                                  setAnswer(true);
+                                  console.log("Error is: ", error);
+                                  setMessage("Sorry, but there is a problem. ", error);
                                 }
-
                               }
-                              catch (error) {
-                                console.log("Error is: ", error);
-                                setMessage("Sorry, but there is a problem. ", error);
-                              }
-                            }
-                            fetchData().catch((error) => {
-                              console.error("Error fetching data:", error);
-                              setMessage("Error fetching data:", error);
-                            });
+                              fetchData().catch((error) => {
+                                console.error("Error fetching data:", error);
+                                setMessage("Error fetching data:", error);
+                              });
 
-                          }}>
-                            Check feasibility
-                          </Button>
-                          <Button autoFocus onClick={handleClose}>
-                            Disagree
-                          </Button>
-                          <Button onClick={ApprovalLoan} autoFocus>
-                            Agree
-                          </Button>
-                        </DialogActions>
-                      </Dialog>
-                    </>
-                  );
+                            }}>
+                              Check feasibility
+                            </Button>
+                            <Button autoFocus onClick={handleClose}>
+                              Disagree
+                            </Button>
+                            <Button onClick={ApprovalLoan} autoFocus>
+                              Agree
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
+                      </>
+                    );
 
-                })
-            }
-          </TableBody >
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
+                  }
+                  )}
+
+
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 100]}
+              component="div"
+              count={data.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Paper >
+          :
+
+          //If it's a deposits table
+
+          <div>
+
+
+            {data[0] && data[0].length > 0 &&
+              (<Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                <TableContainer sx={{ maxHeight: 440 }}>
+                  <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                      <TableRow>
+                        {columns.map((column) => (
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                            style={{ minWidth: column.minWidth, backgroundColor: "rgba(223, 221, 53, 0.5)" }}
+                          >
+                            {column.label}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {data[0] && data[0].length > 0 && (
+
+                        data[0].map((row, index) => {
+                          return (
+                            <>
+                              <TableRow hover role="checkbox" tabIndex={-1} key={index}>{/*onClick={() => ClickOnDeposit(row)} */}
+                                {columns.map((column) => {
+                                  const value = row[column.id];
+                                  return (
+                                    <TableCell key={column.id} align={column.align}>
+                                      {column.format && typeof value === 'number'
+                                        ? column.format(value)
+                                        : column.id === 2  // Check if it's the 'Return date' column
+                                          ? formatDate(value) // Call the formatDate function
+                                          : value}
+                                    </TableCell>
+                                  );
+                                })}
+                              </TableRow>
+                              <Dialog fullScreen={fullScreen}
+                                open={open}
+                                onClose={CloseReleaseDeposit}
+                                aria-labelledby="responsive-dialog-title">
+
+                                <DialogTitle id="responsive-dialog-title">{"Release deposit"}</DialogTitle>
+                                <DialogContent>
+                                  <DialogContentText>
+                                    User number {currentRequest[3]} needs to get his deposit back.
+                                  </DialogContentText>
+                                  <DialogContentText>
+                                    Deposit id: {currentRequest[0]}
+                                  </DialogContentText>
+                                  {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
+                                  <DialogActions>
+                                    <Button autoFocus onClick={ReleaseDeposit}>Release</Button>
+                                    <Button autoFocus onClick={CloseReleaseDeposit}>Close</Button>
+
+                                  </DialogActions>
+                                </DialogContent>
+                              </Dialog>
+                            </>
+                          );
+                        })
+                      )}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  rowsPerPageOptions={[10, 25, 100]}
+                  component="div"
+                  count={data.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </Paper>)}
+
+
+            {data[1] && data[1].length > 0 &&
+              (<Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                <TableContainer sx={{ maxHeight: 440 }}>
+                  <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                      <TableRow>
+                        {columns.map((column) => (
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                            style={{ minWidth: column.minWidth, backgroundColor: "rgba(223, 221, 53, 0.5)" }}
+                          >
+                            {column.label}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {data[1] && data[1].length > 0 && (
+
+                        data[1].map((row, index) => {
+                          return (
+                            <>
+                              <TableRow hover role="checkbox" tabIndex={-1} key={index}>{/*onClick={() => ClickOnDeposit(row)} */}
+                                {columns.map((column) => {
+                                  const value = row[column.id];
+                                  return (
+                                    <TableCell key={column.id} align={column.align}>
+                                      {column.format && typeof value === 'number'
+                                        ? column.format(value)
+                                        : column.id === 2  // Check if it's the 'Return date' column
+                                          ? formatDate(value) // Call the formatDate function
+                                          : value}
+                                    </TableCell>
+                                  );
+                                })}
+                              </TableRow>
+                              <Dialog fullScreen={fullScreen}
+                                open={open}
+                                onClose={CloseReleaseDeposit}
+                                aria-labelledby="responsive-dialog-title">
+
+                                <DialogTitle id="responsive-dialog-title">{"Release deposit"}</DialogTitle>
+                                <DialogContent>
+                                  <DialogContentText>
+                                    User number {currentRequest[3]} needs to get his deposit back.
+                                  </DialogContentText>
+                                  <DialogContentText>
+                                    Deposit id: {currentRequest[0]}
+                                  </DialogContentText>
+                                  {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
+                                  <DialogActions>
+                                    <Button autoFocus onClick={ReleaseDeposit}>Release</Button>
+                                    <Button autoFocus onClick={CloseReleaseDeposit}>Close</Button>
+
+                                  </DialogActions>
+                                </DialogContent>
+                              </Dialog>
+                            </>
+                          );
+                        })
+                      )}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  rowsPerPageOptions={[10, 25, 100]}
+                  component="div"
+                  count={data.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </Paper>)}
+
+
+            {data[2] && data[2].length > 0 &&
+              (<Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                <TableContainer sx={{ maxHeight: 440 }}>
+                  <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                      <TableRow>
+                        {columns.map((column) => (
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                            style={{ minWidth: column.minWidth, backgroundColor: "rgba(223, 221, 53, 0.5)" }}
+                          >
+                            {column.label}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {data[2] && data[2].length > 0 && (
+
+                        data[2].map((row, index) => {
+                          return (
+                            <>
+                              <TableRow hover role="checkbox" tabIndex={-1} key={index}>{/*onClick={() => ClickOnDeposit(row)} */}
+                                {columns.map((column) => {
+                                  const value = row[column.id];
+                                  return (
+                                    <TableCell key={column.id} align={column.align}>
+                                      {column.format && typeof value === 'number'
+                                        ? column.format(value)
+                                        : column.id === 2  // Check if it's the 'Return date' column
+                                          ? formatDate(value) // Call the formatDate function
+                                          : value}
+                                    </TableCell>
+                                  );
+                                })}
+                              </TableRow>
+                              <Dialog fullScreen={fullScreen}
+                                open={open}
+                                onClose={CloseReleaseDeposit}
+                                aria-labelledby="responsive-dialog-title">
+
+                                <DialogTitle id="responsive-dialog-title">{"Release deposit"}</DialogTitle>
+                                <DialogContent>
+                                  <DialogContentText>
+                                    User number {currentRequest[3]} needs to get his deposit back.
+                                  </DialogContentText>
+                                  <DialogContentText>
+                                    Deposit id: {currentRequest[0]}
+                                  </DialogContentText>
+                                  {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
+                                  <DialogActions>
+                                    <Button autoFocus onClick={ReleaseDeposit}>Release</Button>
+                                    <Button autoFocus onClick={CloseReleaseDeposit}>Close</Button>
+
+                                  </DialogActions>
+                                </DialogContent>
+                              </Dialog>
+                            </>
+                          );
+                        })
+                      )}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  rowsPerPageOptions={[10, 25, 100]}
+                  component="div"
+                  count={data.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </Paper>)}
+          </div>
+
+      }
+
+    </div>
   );
 }
