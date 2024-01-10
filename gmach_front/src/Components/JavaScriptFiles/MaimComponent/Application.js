@@ -17,41 +17,48 @@ export default function Application(props) {
   //If the cookie is not expired- we will enable the admin more options
   // If the cookie is in expired- we will enable the user to log in again
   function getCookie(name) {
-    let cookieArray = document.cookie.split('; ');
+    return localStorage.getItem(name);
+    
+    /*let cookieArray = document.cookie.split('; ');
     let cookie = cookieArray.find(row => row.startsWith(name + '='));
     if (cookie) {
       let value = cookie.split('=')[1];
       return value;
     }
-    return null;
-  }
+    return null;*/
+    }
 
-  
-  React.useEffect(()=>{
-    console.log("ID id: ", id);
-    console.log("Cookie value is: ", getCookie('admin'));
-  })
-  
+    React.useEffect(()=>{
+      console.log("ID id: ", id);
+      console.log("Cookie value is: ", getCookie('admin'));
 
+      // Check if localStorage has an 'admin' property
+      if (localStorage.getItem('admin')) {
+        console.log('localStorage has an "admin" property');
+       
+      } else {
+        console.log('localStorage does not have an "admin" property');
+      }
+    })
 
-  const container = {
-    display: "grid",
+    const container = {
+      display: "grid",
 
-  };
-  return (
-    <div>
-      <Bar />
-      <div style={{ padding: "1%", position: "sticky", top: 0 }}>
-        <div style={{ width: "100%", marginTop: "10%", color: "rgb(223, 221, 53)", backgroundColor: "rgba(223, 221, 53,0.115)", fontSize: "large" }}>
-          <p style={{fontSize:"30px"}}> <strong>Hello, {name}</strong></p>
+    };
+    return (
+      <div>
+        <Bar />
+        <div style={{ padding: "1%", position: "sticky", top: 0 }}>
+          <div style={{ width: "100%", marginTop: "10%", color: "rgb(223, 221, 53)", backgroundColor: "rgba(223, 221, 53,0.115)", fontSize: "large" }}>
+            <p style={{fontSize:"30px"}}> <strong>Hello, {name}</strong></p>
+          </div>
+          <div style={{ marginTop: "10px" }}>
+            <VerticalTabs userId={id} userName={name}  />
+          </div>
         </div>
-        <div style={{ marginTop: "10px" }}>
-          <VerticalTabs userId={id} userName={name}  />
-        </div>
+        <div></div>
       </div>
-      <div></div>
-    </div>
-  );
+    );
 
 
-}
+    }

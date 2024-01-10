@@ -11,6 +11,7 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 
 
 export default function contactField(props) {
+    console.log(props)
     const text = props.text;
     const type = props.type;
     const icon = props.icon;

@@ -63,9 +63,19 @@ function LogIn() {
                                     {
                                         console.log("Admin is logged in!")
                                         setWait(true)
-                                        let date = new Date();
-                                        date.setTime(date.getTime() + (1 * 60 * 60 * 1000)); // 1 hour
-                                        document.cookie = `admin=true; expires=${date.toUTCString()}; path=/`;
+
+                                        //Set cookie for admin
+                                        //let date = new Date();
+                                        //date.setTime(date.getTime() + (1 * 60 * 60 * 1000)); // 1 hour
+                                        //document.cookie = `admin=true; expires=${date.toUTCString()}; path=/`;
+
+
+                                        //Set local storage for admin
+                                        localStorage.setItem("admin", true);
+                                        const expirationDate = new Date();
+                                        expirationDate.setTime(expirationDate.getTime() + (1 * 60 * 60 * 1000)); // 1 hour
+                                        localStorage.setItem("admin", true);
+                                        localStorage.setItem("adminExpiration", expirationDate.getTime());
                                         setTimeout(() => {
                                             NavigateFunc(data.userId, data.userName)
                                         }, 2000)

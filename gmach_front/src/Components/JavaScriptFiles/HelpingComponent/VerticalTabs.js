@@ -51,13 +51,15 @@ function a11yProps(index) {
 }
 
 function getCookie(name) {
+  return localStorage.getItem(name);
+  /*
   let cookieArray = document.cookie.split('; ');
   let cookie = cookieArray.find(row => row.startsWith(name + '='));
   if (cookie) {
     let value = cookie.split('=')[1];
     return value;
   }
-  return null;
+  return null;*/
 }
 
 
