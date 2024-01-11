@@ -18,6 +18,7 @@ import { useTheme } from '@mui/material/styles';
 import WaitComponent from "../HelpingComponent/WaitComponent";
 import Alert from "./Alert";
 import { useParams } from 'react-router-dom';
+import { TextField } from '@mui/material';
 
 
 function createData(deposit) {
@@ -51,6 +52,8 @@ export default function DataTable(props) {
   const [message, setMessage] = React.useState(""); //The message that will be shown in the alert component
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('lg'));
+  const [problem, setProblem] = React.useState(""); //The problem that the admin will report
+  const [thereProblem, setThereProblem] = React.useState(false); //If true, show the text field for the problem
   //data is loans or deposits
   let data = props.data || [];
   let loansDetails = props.data || [];
@@ -93,7 +96,37 @@ export default function DataTable(props) {
     setAnswer(false);
     setWait(false);
     setOpen(false);
+    setThereProblem(false);
   };
+
+
+  const reportAProblem = async () => {
+    console.log("Report a problem");
+    const _problem = problem;
+    try {
+      const response = await fetch(`your-api-endpoint`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          loanId: currentLoanId,
+          problem: _problem,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      else {
+        const data = await response.json();
+        console.log("Reported problem successfully:", data);
+        return data;
+      }
+    } catch (error) {
+      console.error("Error reporting problem:", error);
+    }
+  };
+
 
   const ClickOnDeposit = (row) => {
     setOpen(true);
@@ -133,6 +166,28 @@ export default function DataTable(props) {
       });
   }
 
+  const handleCloseReport = () => {
+    console.log("Problem is: ", problem);
+    var ans = reportAProblem();
+    if (ans) {
+      setThereProblem(false);
+      setWait(true);
+      setTimeout(() => {
+        setWait(false);
+        setOpen(false);
+        
+      }, 2000);
+    }
+    else {
+      setWait(false);
+      setMessage("Sorry, something went wrong. Please try again later.");
+      setAnswer(true);
+      setOpen(false);
+    }
+    setProblem("");
+    setThereProblem(false);
+  }
+
   const CloseReleaseDeposit = () => {
     console.log("Close dialog");
     setAnswer(false);
@@ -142,26 +197,29 @@ export default function DataTable(props) {
 
   function ApprovalLoan() {
     setWait(true);
-    fetch('https://localhost:7275/api/LoanDetails/LoanApproval', {
-      method: "POST",
-      headers: {
-        "accept": "text/plain",
-        'confirmation': '15987532',
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(currentRequest[0]),
-    })
-      .then((response) => response.text())
-      .then((data) => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://localhost:7275/api/LoanDetails/LoanApproval', {
+          method: "POST",
+          headers: {
+            "accept": "text/plain",
+            'confirmation': '15987532',
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(currentRequest[0]),
+        });
+        const data = await response.text();
         console.log("‼ In ApprovalLoan(), data is: ", data);
         setTimeout(() => {
           setWait(false);
           handleClose();
         }, 3000);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.log("Error in ApprovalLoan(): ", error);
-      });
+      }
+    };
+
+    fetchData();
   }
 
 
@@ -182,7 +240,25 @@ export default function DataTable(props) {
     console.log("🚴‍♂️  depositsNotReturned is: ", depositsNotReturned);
     console.log("🚴‍♂️🚴‍♂️  depositsReturnToday is: ", depositsReturnToday);
     console.log("🚴‍♂️🚴‍♂️🚴‍♂️  depositsReturned is: ", depositsReturned);
-    data = [depositsNotReturned, depositsReturnToday, depositsReturned];
+    data = [
+      depositsNotReturned.map(deposit => {
+        const depositDate = new Date(deposit.dateToPull);
+        const formattedDate = depositDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        return { ...deposit, dateToPull: formattedDate };
+      }),
+      depositsReturnToday.map(deposit => {
+        const depositDate = new Date(deposit.dateToPull);
+        const formattedDate = depositDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        return { ...deposit, dateToPull: formattedDate };
+      }),
+      depositsReturned.map(deposit => {
+        const depositDate = new Date(deposit.dateToPull);
+        const formattedDate = depositDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        return { ...deposit, dateToPull: formattedDate };
+      })
+    ];
+    console.log("🚴‍♂️🚴‍♂️🚴‍♂️🚴‍♂️  data is: ", data);
+    //data = [depositsNotReturned, depositsReturnToday, depositsReturned];
   }
   if (loanRequests != null || loanRequests != undefined) {
     data = loanRequests.map((loan) => createData2(loan));
@@ -283,15 +359,15 @@ export default function DataTable(props) {
                               <p>Loan id: {currentRequest[0]}</p>
                               <p>Sum: {currentRequest[1]}</p>
                               <p>Return date: {currentRequest[2]}</p>
-                              <p>{moreDetails.loanFile ? "Deed of guarantee: ✔️" : "Deed of guarantee: ❌"}
-                                <img src={`${moreDetails.loanFile}`} alt="Deed of guarantee unsupported." style={{ height: "20%", width: "20%" }} onClick={(event) => {
+                              <p>{moreDetails && moreDetails.loanFile ? "Deed of guarantee: ✔️" : "Deed of guarantee: ❌"}
+                                <img src={`${moreDetails && moreDetails.loanFile}`} alt="Deed of guarantee unsupported." style={{ height: "20%", width: "20%" }} onClick={(event) => {
                                   event.target.style.height = "100%";
                                   event.target.style.width = "100%";
                                 }} />
                               </p>
-                              <p><strong>Guarantors:</strong> {moreDetails.guarantors && moreDetails.guarantors.map((guarantor, index) => {
+                              <p><strong>Guarantors:</strong> {moreDetails && moreDetails.guarantors && moreDetails.guarantors.map((guarantor, index) => {
                                 return (
-                                  <p key={index}>
+                                  <div key={index}>
                                     {guarantor.guarantorId}
                                     <p> {"Name: " + guarantor.name}</p>
                                     <p>
@@ -303,16 +379,20 @@ export default function DataTable(props) {
                                         event.target.style.width = "100%";
                                       }} />
                                     </p>
-                                    <h4>--------------------------</h4>
-                                  </p>
-
-                                )
+                                  </div>
+                                );
                               })}</p>
 
                             </div>
                           </DialogContent>
                           {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
                           {answer ? <div style={{ paddingBottom: "2%" }}><Alert type="info" msg={message} /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
+                          {thereProblem ? <div>
+                            <TextField type="text"  onChange={(ev) => setProblem(ev.target.value)} />
+                            <Button onClick={handleCloseReport}>Report</Button>
+                            {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
+                            {answer ? <div style={{ paddingBottom: "2%" }}><Alert type="info" msg={message} /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
+                          </div> : null}
                           <DialogActions>
                             <Button autoFocus onClick={() => {
                               setAnswer(false);
@@ -402,6 +482,9 @@ export default function DataTable(props) {
 
                             }}>
                               Check feasibility
+                            </Button>
+                            <Button autoFocus onClick={() => { setThereProblem(true) }}>
+                              Report a problem
                             </Button>
                             <Button autoFocus onClick={handleClose}>
                               Disagree

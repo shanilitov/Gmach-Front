@@ -87,8 +87,21 @@ function AllUsersDeposits(props) {
 
     async function getLoans() {
         try {
-            const response = await fetch("https://localhost:7275/api/LoanDetails/GetAllApprovaledLoans");
-            const data = await response.json();
+            async function fetchLoans() {
+                try {
+                    const response = await fetch("https://localhost:7275/api/LoanDetails/GetAllApprovaledLoans");
+                    const data = await response.json();
+                    return data;
+                } catch (err) {
+                    console.log("Error fetching loans data: ", err);
+                    setAlertMsg("Error fetching loans data: " + err);
+                    setShowAlert(true);
+                    setTimeout(() => {
+                        setShowAlert(false);
+                    }, 3000);
+                }
+            }
+            const data = await fetchLoans();
             console.log("🎶🎶🎶 is data iPromise??? ", data);
             if (data.length > 0) {
                 console.log("🌵  data in getLoansSum(): ", data);
