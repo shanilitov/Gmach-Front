@@ -19,6 +19,7 @@ import WaitComponent from "../HelpingComponent/WaitComponent";
 import Alert from "./Alert";
 import { useParams } from 'react-router-dom';
 import { TextField } from '@mui/material';
+import "../../../CSSFiles/StylePage.css";
 
 
 function createData(deposit) {
@@ -519,8 +520,8 @@ export default function DataTable(props) {
           <div>
 
 
-            {data[0] && data[0].length > 0 &&
-              (<Paper sx={{ width: '100%', overflow: 'hidden' }}>
+            {
+              (<div className='depositsTable'><h3 color='rgb(0, 32, 96)'>Deposits in PlusMinus account</h3><Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 440 }}>
                   <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -593,11 +594,11 @@ export default function DataTable(props) {
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
                 />
-              </Paper>)}
+              </Paper></div>)}
 
 
-            {data[1] && data[1].length > 0 &&
-              (<Paper sx={{ width: '100%', overflow: 'hidden' }}>
+            {
+              (<div className='depositsTable'><h3 color='rgb(0, 32, 96)'>Deposits need to returned today</h3><Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 440 }}>
                   <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -670,11 +671,11 @@ export default function DataTable(props) {
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
                 />
-              </Paper>)}
+              </Paper></div>)}
 
 
-            {data[2] && data[2].length > 0 &&
-              (<Paper sx={{ width: '100%', overflow: 'hidden' }}>
+            {
+              (<div className='depositsTable'><h3 color='rgb(0, 32, 96)'>Deposits already returned </h3><Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 440 }}>
                   <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -747,7 +748,7 @@ export default function DataTable(props) {
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
                 />
-              </Paper>)}
+              </Paper></div>)}
           </div>
 
       }

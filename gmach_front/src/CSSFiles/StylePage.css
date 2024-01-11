@@ -325,3 +325,9 @@
   justify-content: "flex-end";
   
 }
+
+.depositsTable{
+  margin-top: 5%;
+  margin-bottom: 5%;
+  color: #002060;
+}
