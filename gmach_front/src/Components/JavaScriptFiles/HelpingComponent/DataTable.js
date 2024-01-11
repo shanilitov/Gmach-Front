@@ -104,7 +104,7 @@ export default function DataTable(props) {
     console.log("Report a problem");
     const _problem = problem;
     try {
-      const response = await fetch(`your-api-endpoint`, {
+      const response = await fetch(`api`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -180,8 +180,7 @@ export default function DataTable(props) {
     }
     else {
       setWait(false);
-      setMessage("Sorry, something went wrong. Please try again later.");
-      setAnswer(true);
+      alert("Sorry, something went wrong. Please try again later.");
       setOpen(false);
     }
     setProblem("");
@@ -391,7 +390,6 @@ export default function DataTable(props) {
                             <TextField type="text"  onChange={(ev) => setProblem(ev.target.value)} sx={{width:"70%", margin:"2%"}} />
                             <Button variant="contained" onClick={handleCloseReport} sx={{marginTop:"2.5%", padding:"2.2%", width:"20%"}}>Report</Button>
                             {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
-                            {answer ? <div style={{ paddingBottom: "2%" }}><Alert type="info" msg={message} /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
                           </div> : null}
                           <DialogActions>
                             <Button autoFocus onClick={() => {
