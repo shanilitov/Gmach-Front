@@ -388,8 +388,8 @@ export default function DataTable(props) {
                           {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
                           {answer ? <div style={{ paddingBottom: "2%" }}><Alert type="info" msg={message} /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
                           {thereProblem ? <div>
-                            <TextField type="text"  onChange={(ev) => setProblem(ev.target.value)} />
-                            <Button onClick={handleCloseReport}>Report</Button>
+                            <TextField type="text"  onChange={(ev) => setProblem(ev.target.value)} sx={{width:"70%", margin:"2%"}} />
+                            <Button variant="contained" onClick={handleCloseReport} sx={{marginTop:"2.5%", padding:"2.2%", width:"20%"}}>Report</Button>
                             {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
                             {answer ? <div style={{ paddingBottom: "2%" }}><Alert type="info" msg={message} /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
                           </div> : null}
