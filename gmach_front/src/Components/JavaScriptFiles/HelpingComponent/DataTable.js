@@ -55,6 +55,8 @@ export default function DataTable(props) {
   const fullScreen = useMediaQuery(theme.breakpoints.down('lg'));
   const [problem, setProblem] = React.useState(""); //The problem that the admin will report
   const [thereProblem, setThereProblem] = React.useState(false); //If true, show the text field for the problem
+
+  const depositsOrder = ['depositId', 'sum', 'dateToPull' , 'userId'];
   //data is loans or deposits
   let data = props.data || [];
   let loansDetails = props.data || [];
@@ -262,6 +264,7 @@ export default function DataTable(props) {
   }
   if (loanRequests != null || loanRequests != undefined) {
     data = loanRequests.map((loan) => createData2(loan));
+    //console.log("22222")
   }
 
 
@@ -545,7 +548,9 @@ export default function DataTable(props) {
                             <>
                               <TableRow hover role="checkbox" tabIndex={-1} key={index}>{/*onClick={() => ClickOnDeposit(row)} */}
                                 {columns.map((column) => {
-                                  const value = row[column.id];
+                                  console.log(column.id)
+                                  const value = row[depositsOrder[column.id]];
+                                  console.log(value)
                                   return (
                                     <TableCell key={column.id} align={column.align}>
                                       {column.format && typeof value === 'number'
@@ -622,7 +627,7 @@ export default function DataTable(props) {
                             <>
                               <TableRow hover role="checkbox" tabIndex={-1} key={index}>{/*onClick={() => ClickOnDeposit(row)} */}
                                 {columns.map((column) => {
-                                  const value = row[column.id];
+                                  const value = row[depositsOrder[column.id]];
                                   return (
                                     <TableCell key={column.id} align={column.align}>
                                       {column.format && typeof value === 'number'
@@ -699,7 +704,7 @@ export default function DataTable(props) {
                             <>
                               <TableRow hover role="checkbox" tabIndex={-1} key={index}>{/*onClick={() => ClickOnDeposit(row)} */}
                                 {columns.map((column) => {
-                                  const value = row[column.id];
+                                  const value = row[depositsOrder[column.id]];
                                   return (
                                     <TableCell key={column.id} align={column.align}>
                                       {column.format && typeof value === 'number'
