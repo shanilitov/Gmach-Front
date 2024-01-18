@@ -224,9 +224,9 @@ function LogIn() {
                                  <div style={{color:" rgb(80, 133, 202)"}}>
                                      <br></br><a href="SignUp" style={{ color: "#1976d2" }}><strong>New user? Please register</strong></a></div>
              
-                                 <h4>
+                                 {/* <h4>
                                      <a href="Admin" style={{ color: "#1976d2" }}>admin</a>
-                                 </h4>
+                                 </h4> */}
              
                                 
                             
