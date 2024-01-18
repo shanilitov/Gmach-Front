@@ -12,6 +12,7 @@ import "../../../CSSFiles/StylePage.css";
 
 
 export default function Messages(props) {
+    const id = props.id;
     return (
      
             <div style={{ color: 'rgb(0, 32, 96)', width: '300%', '@media (max-width: 600px)': { width: '100%' } }}>
