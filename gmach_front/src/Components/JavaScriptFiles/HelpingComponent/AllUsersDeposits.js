@@ -148,8 +148,8 @@ function AllUsersDeposits(props) {
                     {showAlert ? <Alert type="error" msg={alertMsg} /> : null}
                     <Table deposits={deposits} titles={titles} />
                     <div style={{ backgroundColor: "rgba(223, 221, 53, 0.5)", height: "10%", margin: "3%", padding: "1%" }}>
-                        <h3>Total: {total.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</h3>
-                        <h5>Total deposits only: {sumAllDeposits(deposits).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</h5>
+                        <p style={{fontSize:"18px"}}> Total in PlusMinus account: {total.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
+                        <p style={{fontSize:"12px"}}>Total deposits only: {sumAllDeposits(deposits).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
                     </div>
                 </div>
             </> : null)

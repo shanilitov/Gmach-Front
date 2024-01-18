@@ -84,6 +84,7 @@ const sidebar = {
 const defaultTheme = createTheme();
 
 export default function Blog() {
+  localStorage.removeItem("admin");
   return (
     <>
     <CustomBar/>
