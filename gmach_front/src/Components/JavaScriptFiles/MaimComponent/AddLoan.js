@@ -17,11 +17,13 @@ function AddLoan(props){
     ]
     return(
         <div>
+           {/*
            <FloatingActionButtonZoom />
             <h1>פתיחת בקשת הלוואה חדשה</h1>
             <h2>{name}:שם</h2>
             <BasicTextFields value="סכום ההלוואה" type="number" />
             <Asynchronous optionsToSelect={optionsToSelect} nameOfSelector="בחר מסלול הלואה" />
+    */}
         </div>
     )
 }
