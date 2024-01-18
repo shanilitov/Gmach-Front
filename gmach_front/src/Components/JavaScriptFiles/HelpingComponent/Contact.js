@@ -26,13 +26,13 @@ function Contact() {
     const [content, setContent] = useState('fields');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
+    const [header, setHeader] = useState('');
     const [_message, setMessage] = useState('');
     const [wait, setWait] = useState(false);
 
     const sendData = () => {
-        if (name === '' || email === '' || phone === '' || _message === '') {
-            console.log("empty fields. name: " + name + " email: " + email + " phone: " + phone + " message: " + _message )
+        if (name === '' || email === '' || _message === '' || header === '') {
+            console.log("empty fields. name: " + name + " email: " + email + "header" + header + " message: " + _message )
             setContent('wait')
             setTimeout(() => {
                 alert("Please fill all the fields")
@@ -44,23 +44,27 @@ function Contact() {
             setContent(<WaitComponent />)
             setWait(true)
             console.log("send data")
-            let message = `${email},${name},${phone},${_message}`;
-            const data = {
-                id: 0,
-                FromUserId: -2,
-                toUserId: 20,
-                text: message,
-                viewed: false
+            let data = {
+                id : 0,
+                fullName : name,
+                email : email,
+                header : header,
+                text : _message,
+                handled: false
             }
-            fetch('https://localhost:7275/api/Message/SendNewMessage', {
+            console.log(data)
+            fetch('https://localhost:7275/api/Message/AddNewContactRequest', {
                 method: 'POST',
                 headers: {
+                    'accept': 'text/plain',
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(data)
-            }).then((response) => response.json()).then((data) => {
-                if (data === true) {
-                    console.log('Success:', data);
+            }).then((response) => response.json())
+            .then((data) => {
+                console.log(data)
+                if (data > 0) {
+                    console.log('Success! the message id: ', data);
 
                     setTimeout(() => {
                         setWait(false)
@@ -117,16 +121,16 @@ function Contact() {
                     (
                         <div className='contactFields'>
                             <h1 >Contact us</h1>
-                            <div onChange={(ev) => { setName(ev) }}>
+                            <div onChange={(ev) => { setName(ev.target.value) }}>
                             <ContactField text="Name" type="text" icon="AccountCircle"  />
                             </div>
-                            <div onFocus={(ev) => { setEmail(ev) }} > 
+                            <div onChange={(ev) => { setEmail(ev.target.value) }} > 
                             <ContactField text="Email" type="email" icon="DraftsIcon" />
                             </div>  
-                            <div onFocus={(ev) => { setPhone(ev) }} >
-                            <ContactField text="Phone" type="tel" icon="PhoneIcon" />
+                            <div onChange={(ev) => { setHeader(ev.target.value) }} >
+                            <ContactField text="Titel" type="text" icon="EditNoteIcon" />
                             </div>
-                            <div onChange={(ev) => { setMessage(ev) }} >
+                            <div onChange={(ev) => { setMessage(ev.target.value) }} >
                             <ContactField text="Message" type="text" icon="EditNoteIcon" />
                             </div>
                             <div className='contactFields'>
