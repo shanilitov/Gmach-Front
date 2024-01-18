@@ -20,7 +20,7 @@ import CustomBar from '../HelpingComponent/CustomBar';
 const sections = [
   { title: 'About us', url: '/AboutUs' },//Blog1- talking about the company.
   { title: 'Activity', url: '/Graphes' }, //Grafes- show the activity in company in grafs.
-  { title: 'Searches', url: '/Searches' }, //Blog2- talking about searches in economy.
+  //{ title: 'Searches', url: '/Searches' }, //Blog2- talking about searches in economy.
   { title: 'Our services', url: '/Services' },//Blog3- talking about the services that we give.
  { title: 'Contact us', url: '/ContactUs' },//Blog4- details how to contact us.
  { title: 'Articles', url: '/Articles' },//Articles that talking about economy etc.
@@ -99,7 +99,7 @@ export default function Blog() {
               <FeaturedPost key={post.title} post={post} />
             ))}
           </Grid>
-          <Grid container spacing={5} sx={{ mt: 3 }}>
+          {/* <Grid container spacing={5} sx={{ mt: 3 }}>
             <Main title="From the firehose" posts={posts} />
             <Sidebar
               title={sidebar.title}
@@ -107,12 +107,12 @@ export default function Blog() {
               archives={sidebar.archives}
               social={sidebar.social}
             />
-          </Grid>
+          </Grid> */}
         </main>
       </Container>
       <Footer
-        title="Footer"
-        description="Something here to give the footer a purpose!"
+        title="Plus Minus"
+        description="Created by Sara Daum and Shani Litov"
       />
     </ThemeProvider>
     </div>

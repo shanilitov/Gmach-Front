@@ -9,11 +9,68 @@ export default function AboutUs() {
     const sections = [
         { title: 'About us', url: '/AboutUs' },//Blog1- talking about the company.
         { title: 'Activity', url: '/Graphes' }, //Grafes- show the activity in company in grafs.
-        { title: 'Searches', url: '/Searches' }, //Blog2- talking about searches in economy.
+        //{ title: 'Searches', url: '/Searches' }, //Blog2- talking about searches in economy.
         { title: 'Our services', url: '/Services' },//Blog3- talking about the services that we give.
         { title: 'Contact us', url: '/ContactUs' },//Blog4- details how to contact us.
         { title: 'Articles', url: '/Articles' },//Articles that talking about economy etc.
     ];
+
+    const AboutUs = () => {
+        return (
+            <div className="about-us">
+                <h2>About Us</h2>
+                <p>Welcome to PlusMinus - Empowering Through Compassion!</p>
+
+                <p>
+                    At [Your Organization's Name], we are dedicated to the principles of gemilut chasadim, acts of loving-kindness,
+                    and our mission revolves around managing an interest-free loan system. As a gemach (short for gemilut chasadim),
+                    we operate as a benevolent association committed to fostering a sense of community and mutual support.
+                </p>
+
+                <h3>Our Purpose</h3>
+                <p>
+                    Our primary focus is on administering interest-free loans to individuals in need, creating a platform where
+                    generosity and compassion come together. We firmly believe in the power of people helping people, and we have
+                    built our organization on the values of Jewish brotherhood, unity, and assisting one another in times of
+                    financial challenge.
+                </p>
+
+                <h3>The Interest-Free Loan System</h3>
+                <p>
+                    What sets us apart is our unique interest-free loan system. This system is designed to assist those facing
+                    temporary financial difficulties by providing them with a structured loan from funds entrusted to us by
+                    individuals with the means and desire to contribute. The borrowed funds are then repaid without any interest,
+                    making it a sustainable and ethical way to provide financial assistance.
+                </p>
+
+                <h3>Our Community</h3>
+                <p>
+                    [Your Organization's Name] operates as a community-driven initiative, bringing together individuals who are
+                    willing to contribute to the well-being of others. The sense of responsibility and commitment within our
+                    community is the driving force behind our success. Every member, whether providing financial support or
+                    receiving assistance, is an integral part of a network built on trust, compassion, and shared values.
+                </p>
+
+                <h3>Core Values</h3>
+                <p>
+                    Our organization is rooted in Jewish values, emphasizing the importance of brotherhood, empathy, and the mitzvah
+                    of lending a helping hand. We are guided by the principle that true wealth is found in the ability to uplift
+                    others and create a supportive environment for those facing challenges.
+                </p>
+
+                <h3>Get Involved</h3>
+                <p>
+                    Join us on our mission to make a meaningful impact in the lives of individuals and families. Whether you are
+                    seeking assistance or looking to contribute, [Your Organization's Name] welcomes you to be part of our
+                    compassionate community.
+                </p>
+
+                <p>Thank you for visiting us, and together, let's continue to build a world where kindness and generosity prevail.</p>
+            </div>
+        );
+    };
+
+
 
 
     return (
@@ -42,41 +99,64 @@ export default function AboutUs() {
             <div className="Container">
                 <div className="Container1" style={{ marginTop: "13%" }}>
                     <img className="AboutPicture" src="https://www.roseandcrownpa.com/wp-content/uploads/2023/01/%D7%94%D7%A9%D7%A7%D7%A2%D7%94-%D7%9B%D7%A1%D7%A4%D7%99%D7%AA-1.png" />
-                    <h2 id="H_OfAboutUs">What is our purpose?</h2>
-                    <div className="AboutContent">
-                        <p>
-                            Plus Minus ## was ...</p>
-                        <p> sdhgs dhfdujfh dj djjsf jngfjndjffoi fuff skf ryc tbh kt husg, dawir dkti dkmklp xokrnv qapoxe.</p>
-                        <p>  dnhgu calppe xerlpo bvna tbh kt huuangd, ukt nchbv knv fk vzni zv ffv.</p>
-                        <p>   tct' nv vdcuk kjxs? vrh f,uc athi kvo ahgur!!</p>
-                        <p>  tz knv kvmhc dcuk fk fl nmunmo.</p>
-                    </div>
-                    <div className="AboutContent">
 
-                        <p>    thi kh mggcchio gfahu urmui kvrho t, vykpui' zv vurhs kh t, vnmc ruj.</p>
-                        <p> udo, knv tbhvhh jhhc, kunr kvae tyz zv?</p>
-                        <p> tbh kt husg.</p>
-                        <p>  cfk tupi nv atbh husg, zv akt fk tjs hfuk kgau fk scrukfi.</p>
+                    <div className="AboutContent">
+                        <div className="about-us">
+                            <h2>About Us</h2>
+                            <p>Welcome to PlusMinus - Empowering Through Compassion!</p>
+
+                            <p>
+                                At PlusMinus, we are dedicated to the principles of gemilut chasadim, acts of loving-kindness,
+                                and our mission revolves around managing an interest-free loan system. As a gemach (short for gemilut chasadim),
+                                we operate as a benevolent association committed to fostering a sense of community and mutual support.
+                            </p>
+
+                            <h3>Our Purpose</h3>
+                            <p>
+                                Our primary focus is on administering interest-free loans to individuals in need, creating a platform where
+                                generosity and compassion come together. We firmly believe in the power of people helping people, and we have
+                                built our organization on the values of Jewish brotherhood, unity, and assisting one another in times of
+                                financial challenge.
+                            </p>
+
+                            <h3>The Interest-Free Loan System</h3>
+                            <p>
+                                What sets us apart is our unique interest-free loan system. This system is designed to assist those facing
+                                temporary financial difficulties by providing them with a structured loan from funds entrusted to us by
+                                individuals with the means and desire to contribute. The borrowed funds are then repaid without any interest,
+                                making it a sustainable and ethical way to provide financial assistance.
+                            </p>
+
+                            <h3>Our Community</h3>
+                            <p>
+                                [Your Organization's Name] operates as a community-driven initiative, bringing together individuals who are
+                                willing to contribute to the well-being of others. The sense of responsibility and commitment within our
+                                community is the driving force behind our success. Every member, whether providing financial support or
+                                receiving assistance, is an integral part of a network built on trust, compassion, and shared values.
+                            </p>
+
+                            <h3>Core Values</h3>
+                            <p>
+                                Our organization is rooted in Jewish values, emphasizing the importance of brotherhood, empathy, and the mitzvah
+                                of lending a helping hand. We are guided by the principle that true wealth is found in the ability to uplift
+                                others and create a supportive environment for those facing challenges.
+                            </p>
+
+                            <h3>Get Involved</h3>
+                            <p>
+                                Join us on our mission to make a meaningful impact in the lives of individuals and families. Whether you are
+                                seeking assistance or looking to contribute, [Your Organization's Name] welcomes you to be part of our
+                                compassionate community.
+                            </p>
+
+                            <p>Thank you for visiting us, and together, let's continue to build a world where kindness and generosity prevail.</p>
+                        </div>
                     </div>
-                    <p> עמותת "פלוס מינוס" הוקמה במטרה להקל על משפחות בני התורה הנאנקים תחת עול הפרנסה.
-                    </p>
-                    <p></p>
                 </div>
             </div>
             <div style={{ backgroundColor: "rgba(223, 221, 53, 0.5)", height: "1%", width: "85%", marginLeft: "auto", marginRight: "auto" }}></div>
-            < div className="Container2">
-                <img id="AboutPicture2" className="AboutPicture" src="https://www.roseandcrownpa.com/wp-content/uploads/2023/01/%D7%94%D7%A9%D7%A7%D7%A2%D7%94-%D7%9B%D7%A1%D7%A4%D7%99%D7%AA-1.png" />
-                <div className="AboutContent">
-                    <p> jshfsjh js thbkkdgi thi kh gmxho hunhumr kfmuc nkt nkt tck</p>
-                    <p>  tbh k hsg, vn tbh gurtn, js eri zvkt xmoodpds cjdfjks wlks joilfal sjgb jkaofv</p>
-                    <p> tkviekscs mmk ak jsl? kslwkJ glkw jgilkz njdb n eikr falv kokfksl </p>
-                    <p>    thi kh mggcchio gfahu urmui kvrho t, vykpui' zv vurhs kh t, vnmc ruj.</p>
-                    <p> udo, knv tbhvhh jhhc, kunr kvae tyz zv?</p>
-                    <p> tbh kt husg.</p>
-                    <p>  cfk tupi nv atbh husg, zv akt fk tjs hfuk kgau fk scrukfi.</p>
 
-                </div>
-            </div>
+
             <Footer />
         </div >
     )

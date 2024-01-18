@@ -16,65 +16,65 @@ export default function TitlebarImageList() {
   const sections = [
     { title: 'About us', url: '/AboutUs' },//Blog1- talking about the company.
     { title: 'Activity', url: '/Graphes' }, //Grafes- show the activity in company in grafs.
-    { title: 'Searches', url: '/Searches' }, //Blog2- talking about searches in economy.
+    // { title: 'Searches', url: '/Searches' }, //Blog2- talking about searches in economy.
     { title: 'Our services', url: '/Services' },//Blog3- talking about the services that we give.
     { title: 'Contact us', url: '/ContactUs' },//Blog4- details how to contact us.
     { title: 'Articles', url: '/Articles' },//Articles that talking about economy etc.
-];
+  ];
 
   return (
     <div>
-     <Bar/>
-     <div style={{ zIndex: "99", height: "5%", backgroundColor:"rgba(0, 32, 96, 0.5)", marginTop: "0px", color: "rgb(223, 221, 53)", position: "fixed", width: "100%", padding: "1%"}}>
-                <Toolbar
-                    component="nav"
-                    variant="dense"
-                    sx={{ justifyContent: 'space-between', overflowX: 'auto' }}
-                >
-                    {sections.map((section) => (
-                        <Link
-                            color="inherit"
-                            noWrap
-                            key={section.title}
-                            variant="body2"
-                            href={section.url}
-                            sx={{ p: 1, flexShrink: 0 }}
-                        >
-                            {section.title}
-                        </Link>
-                    ))}
-                </Toolbar>
-            </div>
-     <div style={{marginTop: "10%", marginLeft:"10%", padding: "5%"}}>
-      <ImageList sx={{ width: "90%" ,height: 850 }}>
-        <ImageListItem key="Subheader" cols={2}>
-          <div style={{position: "fixed", top:"27%"}}><ListSubheader component="div"><h2><strong>Our services:</strong></h2></ListSubheader></div>
-        </ImageListItem>
-        {itemData.map((item) => (
-          <ImageListItem key={item.img}>
-            <img
-              src={`${item.img}?w=248&fit=crop&auto=format`}
-              srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-              alt={item.title}
-              loading="lazy"
-            />
-            <ImageListItemBar
-              title={item.title}
-              subtitle={item.author}
-              actionIcon={
-                <IconButton
-                  sx={{ color: "rgba(255, 255, 255, 0.54)" }}
-                  aria-label={`info about ${item.title}`}
-                >
-                  <InfoIcon />
-                </IconButton>
-              }
-            />
-          </ImageListItem>
-        ))}
-      </ImageList>
+      <Bar />
+      <div style={{ zIndex: "99", height: "5%", backgroundColor: "rgba(0, 32, 96, 0.5)", marginTop: "0px", color: "rgb(223, 221, 53)", position: "fixed", width: "100%", padding: "1%" }}>
+        <Toolbar
+          component="nav"
+          variant="dense"
+          sx={{ justifyContent: 'space-between', overflowX: 'auto' }}
+        >
+          {sections.map((section) => (
+            <Link
+              color="inherit"
+              noWrap
+              key={section.title}
+              variant="body2"
+              href={section.url}
+              sx={{ p: 1, flexShrink: 0 }}
+            >
+              {section.title}
+            </Link>
+          ))}
+        </Toolbar>
       </div>
-      <Footer/>
+      <div style={{ marginTop: "10%", marginLeft: "10%", padding: "5%" }}>
+        <ImageList sx={{ width: "90%", height: 850 }}>
+          <ImageListItem key="Subheader" cols={2}>
+            <div style={{ position: "fixed", top: "27%" }}><ListSubheader component="div"><h2><strong>Our services:</strong></h2></ListSubheader></div>
+          </ImageListItem>
+          {itemData.map((item) => (
+            <ImageListItem key={item.img}>
+              <img
+                src={`${item.img}?w=248&fit=crop&auto=format`}
+                srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                alt={item.title}
+                loading="lazy"
+              />
+              <ImageListItemBar
+                title={item.title}
+                subtitle={item.author}
+                actionIcon={
+                  <IconButton
+                    sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+                    aria-label={`info about ${item.title}`}
+                  >
+                    <InfoIcon />
+                  </IconButton>
+                }
+              />
+            </ImageListItem>
+          ))}
+        </ImageList>
+      </div>
+      <Footer />
     </div>
   );
 }

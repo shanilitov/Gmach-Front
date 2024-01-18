@@ -18,7 +18,7 @@ function Contact() {
     const sections = [
         { title: 'About us', url: '/AboutUs' },
         { title: 'Activity', url: '/Graphes' },
-        { title: 'Searches', url: '/Searches' },
+        //{ title: 'Searches', url: '/Searches' },
         { title: 'Our services', url: '/Services' },
         { title: 'Contact us', url: '/ContactUs' },
         { title: 'Articles', url: '/Articles' },
