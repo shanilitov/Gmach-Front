@@ -133,7 +133,7 @@ export default function VerticalTabs(props) {
         <AllUsersLoans admin={getCookie('admin')} />
       </TabPanel>
       <TabPanel value={value} index={6}>
-        <Messages  id={userId}/>
+        <Messages id={userId} />
       </TabPanel>
 
 

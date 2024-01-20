@@ -20,6 +20,7 @@ import Alert from "./Alert";
 import { useParams } from 'react-router-dom';
 import { TextField } from '@mui/material';
 import "../../../CSSFiles/StylePage.css";
+import Messages from './Messages';
 
 
 function createData(deposit) {
@@ -56,7 +57,7 @@ export default function DataTable(props) {
   const [problem, setProblem] = React.useState(""); //The problem that the admin will report
   const [thereProblem, setThereProblem] = React.useState(false); //If true, show the text field for the problem
 
-  const depositsOrder = ['depositId', 'sum', 'dateToPull' , 'userId'];
+  const depositsOrder = ['depositId', 'sum', 'dateToPull', 'userId'];
   //data is loans or deposits
   let data = props.data || [];
   let loansDetails = props.data || [];
@@ -66,6 +67,7 @@ export default function DataTable(props) {
 
   let loanRequests = props.data;  //It can't be const because we need to change it's value
   let deposits = props.deposits;  //It can't be const because we need to change it's value
+  let messages = props.messages;
 
   //Functions to open the dialog
   const handleClickOpen = (row) => {
@@ -178,7 +180,7 @@ export default function DataTable(props) {
       setTimeout(() => {
         setWait(false);
         setOpen(false);
-        
+
       }, 2000);
     }
     else {
@@ -391,8 +393,8 @@ export default function DataTable(props) {
                           {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
                           {answer ? <div style={{ paddingBottom: "2%" }}><Alert type="info" msg={message} /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
                           {thereProblem ? <div>
-                            <TextField type="text"  onChange={(ev) => setProblem(ev.target.value)} sx={{width:"70%", margin:"2%"}} />
-                            <Button variant="contained" onClick={handleCloseReport} sx={{marginTop:"2.5%", padding:"2.2%", width:"20%"}}>Report</Button>
+                            <TextField type="text" onChange={(ev) => setProblem(ev.target.value)} sx={{ width: "70%", margin: "2%" }} />
+                            <Button variant="contained" onClick={handleCloseReport} sx={{ marginTop: "2.5%", padding: "2.2%", width: "20%" }}>Report</Button>
                             {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
                           </div> : null}
                           <DialogActions>
@@ -753,8 +755,27 @@ export default function DataTable(props) {
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
                 />
-              </Paper></div>)}
+              </Paper></div>)
+
+
+            }
+
+
+            {
+              //message table
+              messages !== undefined ?
+                (<div className='MessagesTable'><h3 color='rgb(0, 32, 96)'>Messages</h3>
+                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                    {messages.map((message) => {
+                      <Messages id={message.FromUserId} message={message.Text}/>
+                    })}
+                </Paper>
+                </div>):
+                (<></>)
+              }
           </div>
+
+
 
       }
 
