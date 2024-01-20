@@ -12,7 +12,7 @@ function Articles() {
         { title: 'About us', url: '/AboutUs' },//Blog1- talking about the company.
         { title: 'Activity', url: '/Graphes' }, //Grafes- show the activity in company in grafs.
         //{ title: 'Searches', url: '/Searches' }, //Blog2- talking about searches in economy.
-        { title: 'Our services', url: '/Services' },//Blog3- talking about the services that we give.
+       // { title: 'Our services', url: '/Services' },//Blog3- talking about the services that we give.
         { title: 'Contact us', url: '/ContactUs' },//Blog4- details how to contact us.
         { title: 'Articles', url: '/Articles' },//Articles that talking about economy etc.
     ];
