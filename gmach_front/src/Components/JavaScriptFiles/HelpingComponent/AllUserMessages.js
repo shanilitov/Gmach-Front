@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import Alert from "./Alert";
+import Messages from "./Messages";
 
-export default function AllUserMessages(props){
+export default function AllUserMessages(props) {
     const id = props.id
-    const [Messages, setMessages] = useState([])
+    const [userMessages, setUserMessages] = useState([]);
     const [showAlert, setShowAlert] = useState(false);
     const [alertMsg, setAlertMsg] = useState("");
 
@@ -13,7 +15,8 @@ export default function AllUserMessages(props){
         try {
             fetchData().then((data) => {
                 console.log("Data got from server is: ", data);
-                setMessages(data);
+                setUserMessages(data);
+
             });
         }
         catch (err) {
@@ -26,7 +29,7 @@ export default function AllUserMessages(props){
         }
     }, [])
 
-    
+
     async function fetchData() {
         try {
             const response = await fetch(`https://localhost:7275/api/Message/GetMessagesByUserId?id=${id}`);
@@ -45,12 +48,21 @@ export default function AllUserMessages(props){
         }
     }
 
+    const messagesDisplay = userMessages.map((m, index) => (
+        <div key={index}>
+            {console.log(m)}
+            <Messages id={m.fromUserId} message={m.text.toString()} />
+        </div>
+    ));
+
+
     return (
         <div style={{ width: "250%" }}>
             <h3>Your Messages</h3>
-            {Messages.map((m)=>{
-                <Messages id={m.FromUserId} message={m.Text} viewed={m.Viewed}/>
-            })}
+            {showAlert ? <Alert msg={alertMsg} type="error" /> : null}
+            {messagesDisplay}
+            {userMessages === undefined ? 
+            <h1>You dont have any mesages yet</h1> : <></>}
         </div>
     )
 }
