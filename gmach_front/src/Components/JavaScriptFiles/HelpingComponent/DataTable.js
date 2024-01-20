@@ -67,7 +67,7 @@ export default function DataTable(props) {
 
   let loanRequests = props.data;  //It can't be const because we need to change it's value
   let deposits = props.deposits;  //It can't be const because we need to change it's value
-  let messages = props.messages;
+
 
   //Functions to open the dialog
   const handleClickOpen = (row) => {
@@ -761,18 +761,7 @@ export default function DataTable(props) {
             }
 
 
-            {
-              //message table
-              messages !== undefined ?
-                (<div className='MessagesTable'><h3 color='rgb(0, 32, 96)'>Messages</h3>
-                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                    {messages.map((message) => {
-                      <Messages id={message.FromUserId} message={message.Text}/>
-                    })}
-                </Paper>
-                </div>):
-                (<></>)
-              }
+            
           </div>
 
 

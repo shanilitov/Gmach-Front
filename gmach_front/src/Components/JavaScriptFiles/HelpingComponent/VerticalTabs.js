@@ -16,6 +16,7 @@ import AllUsersLoansV from "./AllUsersLoansV";
 import Donations from "./Donations";
 import Messages from "./Messages";
 import { useParams } from "react-router-dom";
+import AllUserMessages from "./AllUserMessages";
 
 
 function TabPanel(props) {
@@ -133,7 +134,7 @@ export default function VerticalTabs(props) {
         <AllUsersLoans admin={getCookie('admin')} />
       </TabPanel>
       <TabPanel value={value} index={6}>
-        <Messages id={userId} />
+        <AllUserMessages id={userId} />
       </TabPanel>
 
 
