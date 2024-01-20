@@ -9,6 +9,7 @@ import CardMedia from '@mui/material/CardMedia';
 
 function FeaturedPost(props) {
   const { post } = props;
+  const link = post.link;
 
   return (
     <Grid item xs={12} md={6}>
@@ -25,7 +26,7 @@ function FeaturedPost(props) {
               {post.description}
             </Typography>
             <Typography variant="subtitle1" color="primary">
-              <a href='/AboutUs' >Continue reading...</a>
+              <a href={link} >Continue reading...</a>
             </Typography>
           </CardContent>
           <CardMedia
