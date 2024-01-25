@@ -35,12 +35,17 @@ export default function CreditCardDisplay(props) {
     const [errorMsg, setErrorMsg] = React.useState("");
     const [userCards, setUserCards] = useState([]); // Array of user credit cards
     const [HasCards, setHasCard] = useState(false)
-
+    const token = localStorage.getItem('token')
     let x = 0;
 
     const GetUserCards = async () => {
         try {
-            const response = await fetch(`https://localhost:7275/api/Card/GetAllCards/${userID}`);
+            const response = await fetch(`https://localhost:7275/api/Card/GetAllCards/${userID}`, {
+                method: 'GET',
+                headers: {
+                  'Authorization': `Bearer ${token}`
+                }
+              });
             const data = await response.json().then(data => {console.log(data)
             console.log("Data is: ", data);
             

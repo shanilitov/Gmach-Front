@@ -44,12 +44,15 @@ export default function AdminLogIn() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
+  const token = localStorage.getItem('token')
+
   const FetchLogIn = async (email, password) => {
     console.log("start!! ", email, password);
     try {
       const response = await fetch(`https://localhost:7275/api/User/Admin/LogIn`, {
         method: 'POST',
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ email, password })

@@ -5,11 +5,17 @@ import moment from "moment";
 export default function AllUsersLoansV(props) {
     const [Loans, setLoans] = useState([]);
     const [anyLoans, setAnyLoans] = useState(false);
+    const token = localStorage.getItem('token')
     
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`https://localhost:7275/api/LoanDetails/GetAllApprovaledLoans`);
+                const response = await fetch('https://localhost:7275/api/LoanDetails/GetAllApprovaledLoans', {
+                    method: 'GET',
+                    headers: {
+                      'Authorization': `Bearer ${token}`
+                    }
+                  });
                 const data = await response.json();
                 console.log(data);
                 setLoans(data);

@@ -7,6 +7,8 @@ export default function AllUserMessages(props) {
     const [userMessages, setUserMessages] = useState([]);
     const [showAlert, setShowAlert] = useState(false);
     const [alertMsg, setAlertMsg] = useState("");
+    const token = localStorage.getItem('token')
+
 
 
     useEffect(() => {
@@ -32,7 +34,12 @@ export default function AllUserMessages(props) {
 
     async function fetchData() {
         try {
-            const response = await fetch(`https://localhost:7275/api/Message/GetMessagesByUserId?id=${id}`);
+            const response = await fetch(`https://localhost:7275/api/Message/GetMessagesByUserId?id=${id}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             const data = await response.json();
             console.log("in fetchData. data before sent: ", data)
             return data;
@@ -61,8 +68,8 @@ export default function AllUserMessages(props) {
             <h3>Your Messages</h3>
             {showAlert ? <Alert msg={alertMsg} type="error" /> : null}
             {messagesDisplay}
-            {userMessages === undefined ? 
-            <h1>You dont have any mesages yet</h1> : <></>}
+            {userMessages === undefined ?
+                <h1>You dont have any mesages yet</h1> : <></>}
         </div>
     )
 }

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Bar from './Bar';
 import "../../../CSSFiles/StylePage.css"
 import Toolbar from '@mui/material/Toolbar';
@@ -19,7 +19,7 @@ function Contact() {
         { title: 'About us', url: '/AboutUs' },
         { title: 'Activity', url: '/Graphes' },
         //{ title: 'Searches', url: '/Searches' },
-       // { title: 'Our services', url: '/Services' },
+        // { title: 'Our services', url: '/Services' },
         { title: 'Contact us', url: '/ContactUs' },
         { title: 'Articles', url: '/Articles' },
     ];
@@ -28,11 +28,21 @@ function Contact() {
     const [email, setEmail] = useState('');
     const [header, setHeader] = useState('');
     const [_message, setMessage] = useState('');
+    const [showAlert, setShowAlert] = useState(false);
     const [wait, setWait] = useState(false);
+    
+    
+
+    useEffect(() => {
+        login('temp', 'temp')
+    }, [])
+
+    const token = localStorage.getItem('token')
 
     const sendData = () => {
+
         if (name === '' || email === '' || _message === '' || header === '') {
-            console.log("empty fields. name: " + name + " email: " + email + "header" + header + " message: " + _message )
+            console.log("empty fields. name: " + name + " email: " + email + "header" + header + " message: " + _message)
             setContent('wait')
             setTimeout(() => {
                 alert("Please fill all the fields")
@@ -45,48 +55,91 @@ function Contact() {
             setWait(true)
             console.log("send data")
             let data = {
-                id : 0,
-                fullName : name,
-                email : email,
-                header : header,
-                text : _message,
+                id: 0,
+                fullName: name,
+                email: email,
+                header: header,
+                text: _message,
                 handled: false
             }
             console.log(data)
             fetch('https://localhost:7275/api/Message/AddNewContactRequest', {
                 method: 'POST',
                 headers: {
+                    'Authorization': `Bearer ${token}`,
                     'accept': 'text/plain',
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(data)
             }).then((response) => response.json())
-            .then((data) => {
-                console.log(data)
-                if (data > 0) {
-                    console.log('Success! the message id: ', data);
+                .then((data) => {
+                    console.log(data)
+                    if (data > 0) {
+                        console.log('Success! the message id: ', data);
 
-                    setTimeout(() => {
-                        setWait(false)
-                        setContent('send')
-                    }, 2000);
+                        setTimeout(() => {
+                            setWait(false)
+                            setContent('send')
+                        }, 2000);
+                    }
+
+                    else {
+                        console.log('Error:', data);
+                        setContent('fields')
+
+                    }
                 }
-
-                else {
-                    console.log('Error:', data);
-                    setContent('fields')
-
-                }
-            }
-            ).catch((error) => {
-                console.error('Error:', error);
-            });
+                ).catch((error) => {
+                    console.error('Error:', error);
+                });
         }
 
     }
 
 
+    // פונקציה שבוצעת התחברות ומקבלת את הטוקן מהשרת
+    async function login(username, password) {
+        try {
+            const response = await fetch("https://localhost:7275/login", {
+                method: 'POST',
+                body: new URLSearchParams({
+                    'username': username,
+                    'password': password
+                }),
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+            });
 
+            if (response.ok) {
+                const data = await response.json();
+                const token = data.token;
+
+                // שמירת הטוקן ב-LocalStorage (או במקום אחר)
+                localStorage.setItem('token', token);
+
+            } else {
+                console.error('Failed to login:', response.statusText);
+                setMessage('Failed to login:', response.statusText)
+                console.log("Error: ", Error.message);
+                setMessage(true);
+                setTimeout(() => {
+                    setShowAlert(false)
+                }, 4000);
+            }
+        } catch (Error) {
+            if (Error == 'TypeError: Failed to fetch') { setMessage("Server is down. Please try again later.") }
+            else {
+                setMessage("Error: " + Error.message)
+            }
+            console.log("Error: ", Error.message);
+            setShowAlert(true);
+            setTimeout(() => {
+                setShowAlert(false)
+            }, 4000);
+        }
+    }
 
     return (
         <div>
@@ -122,16 +175,16 @@ function Contact() {
                         <div className='contactFields'>
                             <h1 >Contact us</h1>
                             <div onChange={(ev) => { setName(ev.target.value) }}>
-                            <ContactField text="Name" type="text" icon="AccountCircle"  />
+                                <ContactField text="Name" type="text" icon="AccountCircle" />
                             </div>
-                            <div onChange={(ev) => { setEmail(ev.target.value) }} > 
-                            <ContactField text="Email" type="email" icon="DraftsIcon" />
-                            </div>  
+                            <div onChange={(ev) => { setEmail(ev.target.value) }} >
+                                <ContactField text="Email" type="email" icon="DraftsIcon" />
+                            </div>
                             <div onChange={(ev) => { setHeader(ev.target.value) }} >
-                            <ContactField text="Titel" type="text" icon="EditNoteIcon" />
+                                <ContactField text="Titel" type="text" icon="EditNoteIcon" />
                             </div>
                             <div onChange={(ev) => { setMessage(ev.target.value) }} >
-                            <ContactField text="Message" type="text" icon="EditNoteIcon" />
+                                <ContactField text="Message" type="text" icon="EditNoteIcon" />
                             </div>
                             <div className='contactFields'>
                                 <Button variant="outlined" endIcon={<SendIcon />} onClick={() => { sendData() }}>

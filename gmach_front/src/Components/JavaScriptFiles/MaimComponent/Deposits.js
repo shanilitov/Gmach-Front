@@ -15,11 +15,16 @@ export default function Deposits(props) {
   const [errorMsg, setErrorMsg] = useState("")
   const [deposits, setDeposits] = useState([])
   const [userHasDeposits, setUserHasDeposits] = useState(false)
-
+  const token = localStorage.getItem('token')
   //ask the user's diposits from the server
   const getUserDeposits = async () => {
     try {
-      const response = await fetch(`https://localhost:7275/api/Deposit/AllUserDeposits/${id}`);
+      const response = await fetch(`https://localhost:7275/api/Deposit/AllUserDeposits/${id}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       const data = await response.json().then(data => {
         console.log(data)
 
