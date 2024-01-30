@@ -20,7 +20,7 @@ function AllUsersDeposits(props) {
     const [total, setTotal] = useState(0);
 
     let isAdmin = props.admin;
-
+    const token = localStorage.getItem('token')
 
     /**
      * Fetches all deposits from the server.
@@ -38,10 +38,12 @@ function AllUsersDeposits(props) {
                     let sum = sumAllDeposits(data);
                     getLoans().then((fetchedLoans) => {
                         console.log("💒💒 loans that were fetched: ", fetchedLoans);
-                        if (fetchedLoans.length > 0) {
-                            setLoans(fetchedLoans);
-                            loansSum = calculateLoansSum(fetchedLoans);
-                            console.log("🌵🌵🌵🌵🌵  loansSum: ", loansSum);
+                        if (fetchedLoans != undefined) {
+                            if (fetchedLoans.length > 0) {
+                                setLoans(fetchedLoans);
+                                loansSum = calculateLoansSum(fetchedLoans);
+                                console.log("🌵🌵🌵🌵🌵  loansSum: ", loansSum);
+                            }
                         }
                         console.log("🎈 loansSum: ", loansSum, " sum: ", sum);
                         setTotal(parseFloat(sum) - parseFloat(loansSum));
@@ -63,7 +65,12 @@ function AllUsersDeposits(props) {
      */
     async function fetchData() {
         try {
-            const response = await fetch("https://localhost:7275/api/Deposit/GetAll");
+            const response = await fetch("https://localhost:7275/api/Deposit/GetAll", {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             const data = await response.json();
             return data;
         } catch (err) {
@@ -89,7 +96,12 @@ function AllUsersDeposits(props) {
         try {
             async function fetchLoans() {
                 try {
-                    const response = await fetch("https://localhost:7275/api/LoanDetails/GetAllApprovaledLoans");
+                    const response = await fetch("https://localhost:7275/api/LoanDetails/GetAllApprovaledLoans", {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
                     const data = await response.json();
                     return data;
                 } catch (err) {
@@ -148,8 +160,8 @@ function AllUsersDeposits(props) {
                     {showAlert ? <Alert type="error" msg={alertMsg} /> : null}
                     <Table deposits={deposits} titles={titles} />
                     <div style={{ backgroundColor: "rgba(223, 221, 53, 0.5)", height: "10%", margin: "3%", padding: "1%" }}>
-                        <p style={{fontSize:"18px"}}> Total in PlusMinus account: {total.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
-                        <p style={{fontSize:"12px"}}>Total deposits only: {sumAllDeposits(deposits).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
+                        <p style={{ fontSize: "18px" }}> Total in PlusMinus account: {total.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
+                        <p style={{ fontSize: "12px" }}>Total deposits only: {sumAllDeposits(deposits).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
                     </div>
                 </div>
             </> : null)

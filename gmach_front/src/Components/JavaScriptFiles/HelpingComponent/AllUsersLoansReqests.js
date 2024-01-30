@@ -9,7 +9,7 @@ export default function AllUsersDeposits(props) {
     const [showAlert, setShowAlert] = useState(false);
     const [alertMsg, setAlertMsg] = useState("");
     //const [allData, setAllData] = useState([]);
-
+    const token = localStorage.getItem('token')
     let isAdmin = props.admin;
 
     useEffect(() => {
@@ -34,7 +34,12 @@ export default function AllUsersDeposits(props) {
 
     async function fetchData() {
         try {
-            const response = await fetch("https://localhost:7275/api/LoanDetails/GetAllNotApprovaledLoans");
+            const response = await fetch("https://localhost:7275/api/LoanDetails/GetAllNotApprovaledLoans", {
+                method: 'GET',
+                headers: {
+                  'Authorization': `Bearer ${token}`
+                }
+              });
             const data = await response.json();
             console.log("in fetchData. data before sent: ", data)
             return data;

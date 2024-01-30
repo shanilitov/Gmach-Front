@@ -54,6 +54,7 @@ export default function NewDeposit() {
   const { name } = useParams();
 
   const steps = ['Payment details', 'Amount and date', 'Review details'];
+  const token = localStorage.getItem('token')
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -198,6 +199,7 @@ export default function NewDeposit() {
       fetch(URL, {
         method: "POST",
         headers: {
+          'Authorization': `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(card),
@@ -227,6 +229,7 @@ export default function NewDeposit() {
               fetch('https://localhost:7275/api/Deposit/AddADeposit', {
                 method: 'POST',
                 headers: {
+                  'Authorization': `Bearer ${token}`,
                   'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(depositData)

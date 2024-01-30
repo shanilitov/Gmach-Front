@@ -57,6 +57,8 @@ export default function DataTable(props) {
   const [problem, setProblem] = React.useState(""); //The problem that the admin will report
   const [thereProblem, setThereProblem] = React.useState(false); //If true, show the text field for the problem
 
+  const token = localStorage.getItem('token')
+
   const depositsOrder = ['depositId', 'sum', 'dateToPull', 'userId'];
   //data is loans or deposits
   let data = props.data || [];
@@ -112,6 +114,7 @@ export default function DataTable(props) {
       const response = await fetch(`api`, {
         method: "POST",
         headers: {
+          'Authorization': `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -147,6 +150,7 @@ export default function DataTable(props) {
     fetch(``, {
       method: "POST",
       headers: {
+        'Authorization': `Bearer ${token}`,
         "accept": "text/plain",
         "Content-Type": "application/json"
       },
@@ -206,6 +210,7 @@ export default function DataTable(props) {
         const response = await fetch('https://localhost:7275/api/LoanDetails/LoanApproval', {
           method: "POST",
           headers: {
+            'Authorization': `Bearer ${token}`,
             "accept": "text/plain",
             'confirmation': '15987532',
             "Content-Type": "application/json"
@@ -409,6 +414,7 @@ export default function DataTable(props) {
                                     const response = await fetch(URL, {
                                       method: 'GET',
                                       headers: {
+                                        'Authorization': `Bearer ${token}`,
                                         'Content-Type': 'application/json',
                                       },
                                     });
@@ -433,6 +439,7 @@ export default function DataTable(props) {
                                       const response = await fetch(url, {
                                         method: 'POST',
                                         headers: {
+                                          'Authorization': `Bearer ${token}`,
                                           'Content-Type': 'application/json',
                                           'confirmation': password
                                         },

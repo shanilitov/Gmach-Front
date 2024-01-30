@@ -21,7 +21,7 @@ function LogIn() {
     const [user, setUser] = useState({});
     const [wait, setWait] = useState(false);
 
-
+    const token = localStorage.getItem('token')
 
     //Navigate in case user register
     const navigate = useNavigate();
@@ -36,6 +36,8 @@ function LogIn() {
             setShowAlert(true)
         }
         else {
+            login(name, password)
+
             let URL = "https://localhost:7275/api/User/LogIn";
             let data = {
                 'userName': name,
@@ -44,6 +46,7 @@ function LogIn() {
             let option = {
                 method: "POST",
                 headers: {
+                    'Authorization': `Bearer ${token}`,
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(data),
@@ -104,10 +107,9 @@ function LogIn() {
                         })
                 }
                 catch (Error) {
-                    if(Error == 'TypeError: Failed to fetch')
-                    {setAlertMsg("Server is down. Please try again later.")}
-                    else{
-                    setAlertMsg("Error: " + Error.message)
+                    if (Error == 'TypeError: Failed to fetch') { setAlertMsg("Server is down. Please try again later.") }
+                    else {
+                        setAlertMsg("Error: " + Error.message)
                     }
                     console.log("Error: ", Error.message);
                     setShowAlert(true);
@@ -118,6 +120,51 @@ function LogIn() {
             }
         }
     }
+
+    // פונקציה שבוצעת התחברות ומקבלת את הטוקן מהשרת
+    async function login(username, password) {
+        try {
+            const response = await fetch("https://localhost:7275/login", {
+                method: 'POST',
+                body: new URLSearchParams({
+                    'username': username,
+                    'password': password
+                }),
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const token = data.token;
+
+                // שמירת הטוקן ב-LocalStorage (או במקום אחר)
+                localStorage.setItem('token', token);
+
+            } else {
+                console.error('Failed to login:', response.statusText);
+                setAlertMsg('Failed to login:', response.statusText)
+                console.log("Error: ", Error.message);
+                setShowAlert(true);
+                setTimeout(() => {
+                    setShowAlert(false)
+                }, 4000);
+            }
+        } catch (Error) {
+            if (Error == 'TypeError: Failed to fetch') { setAlertMsg("Server is down. Please try again later.") }
+            else {
+                setAlertMsg("Error: " + Error.message)
+            }
+            console.log("Error: ", Error.message);
+            setShowAlert(true);
+            setTimeout(() => {
+                setShowAlert(false)
+            }, 4000);
+        }
+    }
+
 
     function loginClicked() {
         console.log('login clicked')
@@ -161,78 +208,78 @@ function LogIn() {
                         <h1>Log In</h1>
                         {/* work on the onChange */}
                         <div style={{ margin: " 4% 4% 4% 4% " }}>
-                         
-                                
-                                <TextField
-                                    header="Name"
-                                    type="text"
-                                    label="Name"
-                                    onChange={(ev) => {
-                                        const englishTextRegex = /^[A-Za-z\s]+$/;
-                                        if (
-                                            englishTextRegex.test(ev.target.value) ||
-                                            ev.target.value === ""
-                                        ) {
-                                            setShowAlert(false);
-                                            setname(ev.target.value); // Set the valid input to the name variable
-                                        }
-                                    }}
-                                    onBlur={(ev) => {
-                                        const englishTextRegex = /^[A-Za-z\s]+$/;
-                                        if (
-                                            englishTextRegex.test(ev.target.value) ||
-                                            ev.target.value === ""
-                                        ) {
-                                            setShowAlert(false);
-                                            setname(ev.target.value); // Set the valid input to the name variable
-                                        }
-                                    }}
-                                    key="textField"
-                                />
-                               
-                               
-                                <TextField
-                                    header="Password"
-                                    type="password"
-                                    label="Password"
-                                    onChange={(ev) => {
-                                        const numberRegex = /^[0-9]+$/;
-                                        if (
-                                            numberRegex.test(ev.target.value) ||
-                                            ev.target.value === ""
-                                        ) {
-                                            setShowAlert(false);
-                                            setpassword(ev.target.value); // Set the valid input to the name variable
-                                        }
-                                    }}
-                                    onBlur={(ev) => {
-                                        const numberRegex = /^[0-9]+$/;
-                                        if (
-                                            numberRegex.test(ev.target.value) ||
-                                            ev.target.value === ""
-                                        ) {
-                                            setShowAlert(false);
-                                            setpassword(ev.target.value); // Set the valid input to the name variable
-                                        }
-                                    }}
-                                    key="textField"
-                                />
-                                </div>
-                                 <div onClick={loginClicked}><BasicButtons value="LogIn" /></div>
-                                {wait ? <WaitComponent /> : null}
-                                 {showAlert ? <ErrorAlert msg={alertMsg} /> : null}
-                                 <div style={{color:" rgb(80, 133, 202)"}}>
-                                     <br></br><a href="SignUp" style={{ color: "#1976d2" }}><strong>New user? Please register</strong></a></div>
-             
-                                 {/* <h4>
+
+
+                            <TextField
+                                header="Name"
+                                type="text"
+                                label="Name"
+                                onChange={(ev) => {
+                                    const englishTextRegex = /^[A-Za-z\s]+$/;
+                                    if (
+                                        englishTextRegex.test(ev.target.value) ||
+                                        ev.target.value === ""
+                                    ) {
+                                        setShowAlert(false);
+                                        setname(ev.target.value); // Set the valid input to the name variable
+                                    }
+                                }}
+                                onBlur={(ev) => {
+                                    const englishTextRegex = /^[A-Za-z\s]+$/;
+                                    if (
+                                        englishTextRegex.test(ev.target.value) ||
+                                        ev.target.value === ""
+                                    ) {
+                                        setShowAlert(false);
+                                        setname(ev.target.value); // Set the valid input to the name variable
+                                    }
+                                }}
+                                key="textField"
+                            />
+
+
+                            <TextField
+                                header="Password"
+                                type="password"
+                                label="Password"
+                                onChange={(ev) => {
+                                    const numberRegex = /^[0-9]+$/;
+                                    if (
+                                        numberRegex.test(ev.target.value) ||
+                                        ev.target.value === ""
+                                    ) {
+                                        setShowAlert(false);
+                                        setpassword(ev.target.value); // Set the valid input to the name variable
+                                    }
+                                }}
+                                onBlur={(ev) => {
+                                    const numberRegex = /^[0-9]+$/;
+                                    if (
+                                        numberRegex.test(ev.target.value) ||
+                                        ev.target.value === ""
+                                    ) {
+                                        setShowAlert(false);
+                                        setpassword(ev.target.value); // Set the valid input to the name variable
+                                    }
+                                }}
+                                key="textField"
+                            />
+                        </div>
+                        <div onClick={loginClicked}><BasicButtons value="LogIn" /></div>
+                        {wait ? <WaitComponent /> : null}
+                        {showAlert ? <ErrorAlert msg={alertMsg} /> : null}
+                        <div style={{ color: " rgb(80, 133, 202)" }}>
+                            <br></br><a href="SignUp" style={{ color: "#1976d2" }}><strong>New user? Please register</strong></a></div>
+
+                        {/* <h4>
                                      <a href="Admin" style={{ color: "#1976d2" }}>admin</a>
                                  </h4> */}
-             
-                                
-                            
-                        </div>
+
+
+
                     </div>
-               
+                </div>
+
             ]}
         </div>
     );

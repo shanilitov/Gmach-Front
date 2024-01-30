@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import logo from '../../../CSSFiles/Images/Logo1.PNG';
 
 function NewUser() {
-
+  const token = localStorage.getItem('token')
   //Navigate in case user register
   const navigate = useNavigate();
   const NavigateFunc = (data) => {
@@ -69,6 +69,8 @@ function NewUser() {
     console.log("validPassword: " + validPassword);
 
     if (isInputValid()) {
+      login('temp', 'temp') //temp token just for the sign in proccess.
+
       //This object used to register user
       const NewUser = {
         UserEmail: email,
@@ -102,6 +104,7 @@ function NewUser() {
           fetch(URL, {
             method: "POST",
             headers: {
+              'Authorization': `Bearer ${token}`,
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
@@ -121,7 +124,10 @@ function NewUser() {
                   }
                   else {
                     console.log("data: ", data, "JSON.stringify(data): ", JSON.stringify(data));
-                    data = {userId: data, userName: userName}
+                    data = { userId: data, userName: userName }
+
+                    login(data.userName, password)
+
                     NavigateFunc(data)
                   }
                 }
@@ -151,23 +157,65 @@ function NewUser() {
     }
   }
 
+  // פונקציה שבוצעת התחברות ומקבלת את הטוקן מהשרת
+  async function login(username, password) {
+    try {
+      const response = await fetch("https://localhost:7275/login", {
+        method: 'POST',
+        body: new URLSearchParams({
+          'username': username,
+          'password': password
+        }),
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+      });
 
+      if (response.ok) {
+        const data = await response.json();
+        const token = data.token;
+
+        // שמירת הטוקן ב-LocalStorage (או במקום אחר)
+        localStorage.setItem('token', token);
+
+      } else {
+        console.error('Failed to login:', response.statusText);
+        setMessage('Failed to login:', response.statusText)
+        console.log("Error: ", Error.message);
+        setShowAlert(true);
+        setTimeout(() => {
+          setShowAlert(false)
+        }, 4000);
+      }
+    } catch (Error) {
+      if (Error == 'TypeError: Failed to fetch') { setMessage("Server is down. Please try again later.") }
+      else {
+        setMessage("Error: " + Error.message)
+      }
+      console.log("Error: ", Error.message);
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false)
+      }, 4000);
+    }
+  }
 
   return (
     <div>
-        <div >
-          <a href="/">
-        <img src={logo} alt='Logo' id='CBarLogo' style={{
-          height: "auto",
-          width: "80%",
-          transition: "0.4s",
-          fontSize: "35px",
-          margin:"0",
-          position: "fixed",  
-        }} />
+      <div >
+        <a href="/">
+          <img src={logo} alt='Logo' id='CBarLogo' style={{
+            height: "auto",
+            width: "80%",
+            transition: "0.4s",
+            fontSize: "35px",
+            margin: "0",
+            position: "fixed",
+          }} />
         </a>
-        </div>
-        <div className="" >
+      </div>
+      <div className="" >
         <h1 id="h_newUser" color="blue" >Sign Up</h1><div className="back">
           <div className="NewUserFeilds" onBlur={() => setShowAlert(false)}>
             <BasicTextFields

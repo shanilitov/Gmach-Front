@@ -23,11 +23,17 @@ export default function Loans(props) {
   const [alertMsg, setAlertMsg] = useState("")
   const [Error, setError] = useState(false)
   const [ErrorMsg, setErrorMsg] = useState("")
+  const token = localStorage.getItem('token')
 
   useEffect(() => {
     const fetchLoans = async () => {
       try {
-        const response = await fetch(`https://localhost:7275/api/LoanDetails/GetUserLoans/${id}`);
+        const response = await fetch(`https://localhost:7275/api/LoanDetails/GetUserLoans/${id}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         const data = await response.json().then(data => {
           console.log( data)
 

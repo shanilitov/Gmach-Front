@@ -74,6 +74,9 @@ export default function NewLoanFile(props) {
   const [check1, setCheck1] = React.useState("");
   const [check2, setCheck2] = React.useState("");
 
+  const token = localStorage.getItem('token')
+
+
   const handleNext = () => {
     setActiveStep(activeStep + 1);
     if (activeStep === steps.length - 1) {
@@ -219,6 +222,7 @@ export default function NewLoanFile(props) {
       const response = await fetch(URL, {
         method: "POST",
         headers: {
+          'Authorization': `Bearer ${token}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify(BankAccount)
@@ -267,6 +271,7 @@ export default function NewLoanFile(props) {
           const response = await fetch(URL2, {
             method: "POST",
             headers: {
+              'Authorization': `Bearer ${token}`,
               "Content-Type": "application/json"
             },
             body: JSON.stringify(Loan)
@@ -329,6 +334,7 @@ export default function NewLoanFile(props) {
       const response = await fetch(URL2, {
         method: "POST",
         headers: {
+          'Authorization': `Bearer ${token}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify(Loan)
