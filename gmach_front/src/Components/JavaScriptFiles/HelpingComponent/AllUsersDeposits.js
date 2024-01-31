@@ -158,7 +158,7 @@ function AllUsersDeposits(props) {
             <>
                 <div style={{ width: "250%" }}>
                     {showAlert ? <Alert type="error" msg={alertMsg} /> : null}
-                    <Table deposits={deposits} titles={titles} />
+                    <Table deposits={deposits} titles={titles}  />
                     <div style={{ backgroundColor: "rgba(223, 221, 53, 0.5)", height: "10%", margin: "3%", padding: "1%" }}>
                         <p style={{ fontSize: "18px" }}> Total in PlusMinus account: {total.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
                         <p style={{ fontSize: "12px" }}>Total deposits only: {sumAllDeposits(deposits).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>

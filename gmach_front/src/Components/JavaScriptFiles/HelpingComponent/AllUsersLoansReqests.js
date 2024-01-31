@@ -18,6 +18,7 @@ export default function AllUsersDeposits(props) {
                 console.log("Data got from server is: ", data);
                 console.log("check: ", data[0].guarantors[0].check)
                 setLoanRequests(data);
+                console.log("LoanRequests: ", LoanRequests, " data: ", data);
             });
         }
         catch (err) {

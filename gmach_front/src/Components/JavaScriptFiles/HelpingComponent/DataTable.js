@@ -61,6 +61,7 @@ export default function DataTable(props) {
 
   const depositsOrder = ['depositId', 'sum', 'dateToPull', 'userId'];
   //data is loans or deposits
+  console.log("props.data is: ", props.data)
   let data = props.data || [];
   let loansDetails = props.data || [];
   let index = 0;
@@ -235,7 +236,7 @@ export default function DataTable(props) {
   if (deposits != null || deposits != undefined) {
     data = deposits.map((deposit) => createData(deposit));
     // Create an array for deposits that haven't returned yet (dateToPull < today)
-    const depositsNotReturned = deposits.filter(deposit => new Date(deposit.dateToPull) < new Date());
+    const depositsNotReturned = deposits.filter(deposit => new Date(deposit.dateToPull) > new Date());
     // Create an array for deposits that return today (dateToPull = today)
     const depositsReturnToday = deposits.filter(deposit => {
       const today = new Date();
@@ -245,7 +246,7 @@ export default function DataTable(props) {
         depositDate.getDate() === today.getDate();
     });
     // Create an array for deposits that have already returned (dateToPull > today)
-    const depositsReturned = deposits.filter(deposit => new Date(deposit.dateToPull) > new Date());
+    const depositsReturned = deposits.filter(deposit => new Date(deposit.dateToPull) < new Date());
     console.log("🚴‍♂️  depositsNotReturned is: ", depositsNotReturned);
     console.log("🚴‍♂️🚴‍♂️  depositsReturnToday is: ", depositsReturnToday);
     console.log("🚴‍♂️🚴‍♂️🚴‍♂️  depositsReturned is: ", depositsReturned);
@@ -768,7 +769,7 @@ export default function DataTable(props) {
             }
 
 
-            
+
           </div>
 
 

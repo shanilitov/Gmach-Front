@@ -19,21 +19,21 @@ export default function Deposit(props) {
         }
     }, [today, dates, i_dates]);
     const depositInfo = sums.map((sum, index) => (
-        <div key={index}>
+        < span key={index}>
             <h2>Deposit amount: {sum.toString()}</h2>
             <h2>Withdrawal date: {`${new Date(dates[index]).getDay()}/${new Date(dates[index]).getMonth()}/${new Date(dates[index]).getFullYear()}`}</h2>
 
-        </div>
+        </span>
     ));
 
     return(
         
-       <div>
+       <>
             <h1>Deposit</h1>
             {depositInfo}
             <h2>Today's date: {today}</h2>
             {showAlert ? <><Alert type="info" msg="Deposit can be extended" /></>: null}
-        </div>
+        </>
     )
 }
 

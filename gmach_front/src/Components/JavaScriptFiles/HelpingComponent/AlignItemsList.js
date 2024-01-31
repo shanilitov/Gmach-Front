@@ -69,8 +69,8 @@ export default function AlignItemsList(props) {
           <Avatar alt="ProfileImg" src="https://cucuvia.com/UploadImages-HE/Org27/Catalog38/1.jpg" />
         </ListItemAvatar>
         <ListItemText
-          primary={titles[AmountSize]}
-          secondary={
+            primary={"Deposit amount: " + sum.toString() + "$"}
+            secondary={
             <React.Fragment>
               <Typography
                 sx={{ display: 'inline' }}
@@ -80,8 +80,7 @@ export default function AlignItemsList(props) {
               >
                 {props.name}
               </Typography>
-              <h2 style={{color: 'rgb(0,32,96)'} }>Deposit amount: {sum}</h2>
-              <h3>Withdrawal date: {date}</h3>
+              <p style={{color: 'rgb(0,32,96)', fontSize: '20'} }>Withdrawal date: {date}</p>
               {showAlert ? <Alert type="info" msg="Deposit can be extended" /> : <></>}
             </React.Fragment>
           }
@@ -89,7 +88,7 @@ export default function AlignItemsList(props) {
       </ListItem>
       {showAlert?
      <div className='dialogBox'> <DialogOfDetails type="deposit" canBeWithdraw={showAlert}/></div> :null}
-      <Divider variant="inset" component="li" />
+     <Divider variant="inset" component="li" />
     </List>
     
   );

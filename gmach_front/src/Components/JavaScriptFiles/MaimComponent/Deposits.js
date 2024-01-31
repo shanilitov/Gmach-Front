@@ -71,7 +71,7 @@ export default function Deposits(props) {
 
   return (
     <div>
-      <p
+      {/*<p
         style={{
           color: "rgb(0,32,96)",
           gridColumn: "2/span 3",
@@ -81,7 +81,7 @@ export default function Deposits(props) {
       >
         <strong>Deposits</strong>
         
-      </p>
+      </p>*/}
       {userHasDeposits ? depositInfo : null}
       {showAlert ? <Alert type="info" msg={alertMsg} /> : null}
       <p>Want to add a amount for deposit? click <a href={`/NewDeposit/${id}/${name}`}>here</a>.</p>
