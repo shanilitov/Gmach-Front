@@ -11,9 +11,11 @@ export default function Slider() {
     function plusSlides(n) {
         if (n < 0) {
             if (slideIndex >1)
+            console.log("BIGGER?? slideIndex: ", slideIndex);
                 setSlideIndex(slideIndex + n);
         }
         if (slideIndex < 3)
+        console.log("SMALLER?? slideIndex: ", slideIndex);
             setSlideIndex(slideIndex + n);
     }
 
@@ -50,19 +52,19 @@ export default function Slider() {
                 {/* Full-width images with number and caption text */}
                 <div className="mySlides fade">
                     <div className="numbertext">1 / 3</div>
-                    <img src="https://img.freepik.com/free-photo/saving-money-concept-preset-by-male-hand-putting-money-coin-stack-growing-business-arrange-coins-into-heaps-with-hands-content-about-money_1150-45705.jpg" style={{ width: "100%" }} />
+                    <img src="https://img.freepik.com/free-photo/saving-money-concept-preset-by-male-hand-putting-money-coin-stack-growing-business-arrange-coins-into-heaps-with-hands-content-about-money_1150-45705.jpg" style={{ height: "50%", width:"auto" }} />
                     <div className="text">Caption Text</div>
                 </div>
 
                 <div className="mySlides fade">
                     <div className="numbertext">2 / 3</div>
-                    <img src="https://media.istockphoto.com/id/1542679122/photo/father-and-son-coin-bank.webp?b=1&s=170667a&w=0&k=20&c=0vrMPSi6H9VJ2VeVoxTDuvEKK4v5PFDEaPQ7UYWEVCU=" style={{ width: "100%" }} />
+                    <img src="https://media.istockphoto.com/id/1542679122/photo/father-and-son-coin-bank.webp?b=1&s=170667a&w=0&k=20&c=0vrMPSi6H9VJ2VeVoxTDuvEKK4v5PFDEaPQ7UYWEVCU=" style={{ height: "50%" ,  width:"auto"}} />
                     <div className="text">Caption Two</div>
                 </div>
 
                 <div className="mySlides fade">
                     <div className="numbertext">3 / 3</div>
-                    <img src="https://media.istockphoto.com/id/1503371245/photo/percentage-sign-on-top-of-coin-stacks-before-blue-financial-graph.webp?b=1&s=170667a&w=0&k=20&c=iMNT5BdW-v-hi1sy9MpkxdFllh3Ab2Qq_NQhZ3ZQdzc=" style={{ width: "100%" }} />
+                    <img src="https://media.istockphoto.com/id/1503371245/photo/percentage-sign-on-top-of-coin-stacks-before-blue-financial-graph.webp?b=1&s=170667a&w=0&k=20&c=iMNT5BdW-v-hi1sy9MpkxdFllh3Ab2Qq_NQhZ3ZQdzc=" style={{ height: "50%",  width:"auto" }} />
                     <div className="text">Caption Three</div>
                 </div>
 

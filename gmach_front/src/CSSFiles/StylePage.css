@@ -351,8 +351,8 @@
 
 /* Slideshow container */
 .slideshow-container {
-  max-width: 90%;
-  height: 100%;
+  max-width: 32%;
+  height: 40%;
   position: relative;
   margin: auto;
 }

@@ -108,11 +108,14 @@ export default function Blog() {
     <>
       <CustomBar />
       <div style={{ marginTop: '22%' }}>
-        {/*<Slider/>*/}
+      <div style={{height:"50%"}}>
+      {/*<Slider/>*/}
+      </div>
         <ThemeProvider theme={defaultTheme}>
           <CssBaseline />
           <Container maxWidth="lg">
             <Header title="Blog" sections={sections} />
+
             <main>
               <a href='./AboutUs' style={{ textDecoration: "none" }}><MainFeaturedPost post={mainFeaturedPost} link={'./AboutUs'} /></a>
               <Grid container spacing={4}>
