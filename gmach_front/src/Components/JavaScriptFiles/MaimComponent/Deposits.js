@@ -16,6 +16,7 @@ export default function Deposits(props) {
   const [deposits, setDeposits] = useState([])
   const [userHasDeposits, setUserHasDeposits] = useState(false)
   const token = localStorage.getItem('token')
+
   //ask the user's diposits from the server
   const getUserDeposits = async () => {
     try {
@@ -25,17 +26,20 @@ export default function Deposits(props) {
           'Authorization': `Bearer ${token}`
         }
       });
-      const data = await response.json().then(data => {
+      await response.json().then(data => {
         console.log(data)
-
         if (data.length > 0) {
-          console.log(data)
+          console.log("data.length > 0 is TRUE!!")
           setDeposits(data)
           setUserHasDeposits(true)
+          setTimeout(() => {
+            return data
+          }, 1000);
         }
         else {
           setAlertMsg("You don't have any deposits saved in system.")
-          setShowAlert(true);
+          if (data.length <= 0)
+            setShowAlert(true);
         }
       });
     } catch (error) {
@@ -48,13 +52,17 @@ export default function Deposits(props) {
   useEffect(() => {
     async function fetchUserDeposits() {
       const cards = await getUserDeposits();
+      console.log("Cards are: ", cards)
       if (cards) {
         setDeposits(cards);
       }
-      else{
-        setAlertMsg("You don't have any deposits in your account.")
-        setShowAlert(true);
-      
+      else {
+        if (!userHasDeposits) {
+          console.log("User doesn't have any cards!! Show alert.")
+          setAlertMsg("You don't have any deposits in your account.")
+          setShowAlert(true);
+        }
+
       }
     }
     console.log("In useEffect")
