@@ -20,11 +20,11 @@ export default function AboutUs() {
     return (
         <div className="AboutUs">
             <Bar />
-            <div style={{ zIndex: "99", height: "5%", backgroundColor: "rgba(0, 32, 96, 0.5)", marginTop: "10%", color: "rgb(223, 221, 53)", position: "fixed", width: "100%", padding: "1%" }}>
+            <div style={{ zIndex: "99", height: "5%", backgroundColor: "rgba(0, 32, 96, 0.5)", marginTop: "10%", color: "rgb(223, 221, 53)", position: "fixed", width: "100%", padding: "1.5%" }}>
                 <Toolbar
                     component="nav"
                     variant="dense"
-                    sx={{ justifyContent: 'space-between', overflowX: 'auto' }}
+                    sx={{ justifyContent: 'space-between', overflowX: 'auto'}}
                 >
                     {sections.map((section) => (
                         <Link
@@ -40,14 +40,16 @@ export default function AboutUs() {
                     ))}
                 </Toolbar>
             </div>
+                    {/*<div className="flexPictures">
+                        <img className="AboutPicture" src="https://www.roseandcrownpa.com/wp-content/uploads/2023/01/%D7%94%D7%A9%D7%A7%D7%A2%D7%94-%D7%9B%D7%A1%D7%A4%D7%99%D7%AA-1.png" />
+                        <img className="AboutPicture" src="https://img.freepik.com/free-photo/saving-money-concept-preset-by-male-hand-putting-money-coin-stack-growing-business-arrange-coins-into-heaps-with-hands-content-about-money_1150-45705.jpg?size=626&ext=jpg" />
+                    </div>*/}
             <div className="Container">
                 <div className="Container1" style={{ marginTop: "13%" }}>
-                    <img className="AboutPicture" src="https://www.roseandcrownpa.com/wp-content/uploads/2023/01/%D7%94%D7%A9%D7%A7%D7%A2%D7%94-%D7%9B%D7%A1%D7%A4%D7%99%D7%AA-1.png" />
-
                     <div className="AboutContent">
                         <div className="about-us">
-                            <h2>About Us</h2>
-                            <p>Welcome to PlusMinus - Empowering Through Compassion!</p>
+                           
+                            <h2>Welcome to PlusMinus - Empowering Through Compassion!</h2>
 
                             <p>
                                 At PlusMinus, we are dedicated to the principles of gemilut chasadim, acts of loving-kindness,

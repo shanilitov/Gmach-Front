@@ -130,7 +130,7 @@ export default function Graphes() {
                     ))}
                 </Toolbar>
             </div>
-            <div style={{ padding: "2%", width: "50%", display: "grid", alignContent: " space-between" }}></div>
+            <div style={{ padding: "2%", width: "80%", display: "flex", flexWrap: "nowrap",alignContent: " space-between" }}></div>
             <div className="p_chart" >
                 <p >Number of people who take loans from 'PlusMinus' in the last quarter</p>
             </div>
