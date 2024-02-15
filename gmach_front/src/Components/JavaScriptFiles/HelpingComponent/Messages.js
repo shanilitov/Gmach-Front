@@ -24,7 +24,7 @@ export default function Messages(props) {
     return (
 
         <div style={{ color: 'rgb(0, 32, 96)', width: '300%'}}>
-            {id === 20 ?
+            {props.color % 2 === 0 ?
                 <div className='adminMessages'>
                     <SnackbarContent message={message} sx={{ width: "50%", backgroundColor: "rgb(0, 32, 96)", marginTop: "2%", marginBottom: "2%" }} />
                 </div>
