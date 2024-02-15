@@ -57,9 +57,9 @@ export default function Deposits(props) {
         setDeposits(cards);
       }
       else {
-        if (!userHasDeposits) {
-          console.log("User doesn't have any cards!! Show alert.")
-          setAlertMsg("You don't have any deposits in your account.")
+        if (userHasDeposits == false || cards == undefined) {
+          console.log("useEffect :: User doesn't have any cards!! Show alert. 🤐: "+userHasDeposits)
+          setAlertMsg("useEffect :: You don't have any deposits in your account.")
           setShowAlert(true);
         }
 

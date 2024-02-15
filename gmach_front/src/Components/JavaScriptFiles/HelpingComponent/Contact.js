@@ -75,7 +75,6 @@ function Contact() {
                     console.log(data)
                     if (data > 0) {
                         console.log('Success! the message id: ', data);
-
                         setTimeout(() => {
                             setWait(false)
                             setContent('send')

@@ -234,7 +234,7 @@ function LogIn() {
                                         setname(ev.target.value); // Set the valid input to the name variable
                                     }
                                 }}
-                                key="textField"
+                                key="textField1"
                             />
 
 
@@ -262,7 +262,7 @@ function LogIn() {
                                         setpassword(ev.target.value); // Set the valid input to the name variable
                                     }
                                 }}
-                                key="textField"
+                                key="textField2"
                             />
                         </div>
                         <div onClick={loginClicked}><BasicButtons value="LogIn" /></div>

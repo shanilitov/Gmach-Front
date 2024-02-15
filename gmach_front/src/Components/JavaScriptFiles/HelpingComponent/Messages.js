@@ -14,21 +14,25 @@ import "../../../CSSFiles/StylePage.css";
 export default function Messages(props) {
     const id = props.id;
     const message = props.message
+    const token = localStorage.getItem('token')
+
+
     //const viewed = props.viewed
 
+ 
     console.log('in messages')
     return (
 
-        <div style={{ color: 'rgb(0, 32, 96)', width: '300%', '@media (max-width: 600px)': { width: '100%' } }}>
-            {id === 20 ? 
-            <div className='adminMessages'>
-                <SnackbarContent message={message} sx={{ width: "50%", backgroundColor: "rgb(0, 32, 96)", marginTop: "2%", marginBottom: "2%" }} />
-            </div> 
-            :
-            <div className='userMessages'>
-                <SnackbarContent message={message} sx={{ width: "50%", backgroundColor: "rgba(223, 221, 53)", marginTop: "2%", marginBottom: "2%", color: "rgb(0, 32, 96)" }} />
+        <div style={{ color: 'rgb(0, 32, 96)', width: '300%'}}>
+            {id === 20 ?
+                <div className='adminMessages'>
+                    <SnackbarContent message={message} sx={{ width: "50%", backgroundColor: "rgb(0, 32, 96)", marginTop: "2%", marginBottom: "2%" }} />
+                </div>
+                :
+                <div className='userMessages'>
+                    <SnackbarContent message={message} sx={{ width: "50%", backgroundColor: "rgba(223, 221, 53)", marginTop: "2%", marginBottom: "2%", color: "rgb(0, 32, 96)" }} />
 
-            </div>
+                </div>
             }
         </div>
 
