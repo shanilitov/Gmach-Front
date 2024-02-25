@@ -14,6 +14,7 @@ import "../../../CSSFiles/StylePage.css";
 export default function Messages(props) {
     const id = props.id;
     const message = props.message
+    const isHandled = props.isHandled
     const token = localStorage.getItem('token')
 
 
@@ -27,6 +28,7 @@ export default function Messages(props) {
             {props.color % 2 === 0 ?
                 <div className='adminMessages'>
                     <SnackbarContent message={message} sx={{ width: "50%", backgroundColor: "rgb(0, 32, 96)", marginTop: "2%", marginBottom: "2%" }} />
+                    
                 </div>
                 :
                 <div className='userMessages'>
