@@ -1,17 +1,17 @@
 import { json } from "react-router-dom";
 
-export default function GetUserNameById(id){
-    
+export default function GetUserNameById(id) {
+
     const token = localStorage.getItem('token');
 
-    try{
+    try {
         return fetchUserName(id)
     }
-    catch(err){
+    catch (err) {
         return ''
     }
 
-   async function fetchUserName(id) {
+    async function fetchUserName(id) {
         try {
             const response = await fetch(`https://localhost:7275/api/User/GetUserName/${id}`, {
                 method: 'GET',
@@ -19,17 +19,9 @@ export default function GetUserNameById(id){
                     'Authorization': `Bearer ${token}`
                 }
             });
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-    
-         if (response.headers.get('content-length') === '0' || !response.headers.get('content-type').includes('application/json')) {
-             throw new Error('Empty response or not a JSON');
-         }
-            const data = await response.json();
+            const data = await response.json(); // Use .json(), not JSON.parse()
             console.log("Data received:", data);
-            return data; // Returning JSON object instead of JSON string
+            return data;
         } catch (err) {
             console.error("Error fetching data:", err);
             throw err;
