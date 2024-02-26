@@ -115,12 +115,12 @@ export default function AllUserMessages(props) {
             fetchData().then((data) => {
                 console.log("Data got from server is: ", data);
                 setUserMessages(data);
-                
+
                 data.map(m => (
                     getUserNameFunc(m.fromUserId)
                 ))
 
-                if(isAdmin)
+                if (isAdmin)
                     setAllTheUsersMessages(data)
             });
         }
@@ -198,15 +198,18 @@ export default function AllUserMessages(props) {
     async function getUserNameFunc(_id) {
         if (_id != id) {
             let userName = await GetUserNameById(_id)
+            console.log('🍄🍄 userName is: ', userName)
+            userName = JSON.stringify(userName)
             let temp = userdic
-            temp[`${_id}`] = userName.userName
+            temp[`${_id}`] = JSON.parse(userName)['userName']
+            console.log('🍄🍄 temp is: ', temp)
             setUserdic(temp)
             console.log(userdic)
         }
         else {
-            let temp = userdic
-            temp[`${_id}`] = 'you'
-            setUserdic(temp)
+            let temp = userdic;
+            temp[`${_id}`] = 'you';
+            setUserdic(temp);
         }
     }
 
@@ -236,11 +239,6 @@ export default function AllUserMessages(props) {
                     },
                 });
 
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
                 const data = await response.json();
                 console.log('Data recived:', data)
                 if (data == true) {
@@ -265,9 +263,9 @@ export default function AllUserMessages(props) {
     }
 
     const handleUserChange = (userId) => {
-        console.log('in selection change function',userId)
+        console.log('in selection change function', userId)
         setSelectedUser(userId);
-        setUserMessages(AllTheUsersMessages.filter(m=> m.fromUserId ==selectedUser || m.toUserId == selectedUser))
+        setUserMessages(AllTheUsersMessages.filter(m => m.fromUserId == selectedUser || m.toUserId == selectedUser))
     };
 
     return (

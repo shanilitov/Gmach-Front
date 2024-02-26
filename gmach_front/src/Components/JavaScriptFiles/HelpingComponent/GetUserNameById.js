@@ -20,7 +20,7 @@ export default function GetUserNameById(id) {
                 }
             });
             const data = await response.json(); // Use .json(), not JSON.parse()
-            console.log("Data received:", data);
+            console.log("🍄🍄Data received:", data, " Type is: ", typeof(data));
             return data;
         } catch (err) {
             console.error("Error fetching data:", err);
