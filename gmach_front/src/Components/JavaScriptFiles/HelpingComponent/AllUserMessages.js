@@ -15,6 +15,10 @@ export default function AllUserMessages(props) {
     const token = localStorage.getItem('token');
     const [userdic, setUserdic] = useState({})
     const [myMessage, setMyMessage] = useState('')
+    //for admin state:
+    const isAdmin = id == 20
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [AllTheUsersMessages, setAllTheUsersMessages] = useState([])
 
 
     let messages = {}
@@ -111,9 +115,13 @@ export default function AllUserMessages(props) {
             fetchData().then((data) => {
                 console.log("Data got from server is: ", data);
                 setUserMessages(data);
-                /*data.map(m => (
+                
+                data.map(m => (
                     getUserNameFunc(m.fromUserId)
-                ))*/
+                ))
+
+                if(isAdmin)
+                    setAllTheUsersMessages(data)
             });
         }
         catch (err) {
@@ -168,7 +176,7 @@ export default function AllUserMessages(props) {
                 textAlign: m.fromUserId == id ? 'left' : 'right',
 
             }}>
-                {/*<label key={index}>{'Message From: ' + userdic[m.fromUserId]}</label>*/}
+                <label key={index}>{'Message From: ' + userdic[m.fromUserId]}</label>
                 <Messages id={m.fromUserId} color={index} message={m.text.toString()} isHandled={m.viewed} style={{
                     textAlign: m.fromUserId == id ? 'left' : 'right',
                     width: 'auto',
@@ -256,6 +264,12 @@ export default function AllUserMessages(props) {
         }
     }
 
+    const handleUserChange = (userId) => {
+        console.log('in selection change function',userId)
+        setSelectedUser(userId);
+        setUserMessages(AllTheUsersMessages.filter(m=> m.fromUserId ==selectedUser || m.toUserId == selectedUser))
+    };
+
     return (
         <div style={{
             width: "200%",
@@ -268,6 +282,17 @@ export default function AllUserMessages(props) {
             flexDirection: 'column'
 
         }}>
+            {isAdmin ?
+                <div>
+                    <select value={selectedUser} onChange={(ev) => handleUserChange(ev.target.value)}>
+                        <option value="">Select User</option>
+                        {Object.entries(userdic).map(([userId, userName]) => (
+                            <option key={userId} value={userId}>{userName}</option>
+                        ))}
+                    </select>
+                </div>
+                : <></>
+            }
             <h3>Your Messages</h3>
             <h3>you have messeges from:</h3>
             {/* {contectList} */}
