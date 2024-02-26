@@ -293,8 +293,7 @@ export default function AllUserMessages(props) {
                 </div>
                 : <></>
             }
-            <h3>Your Messages</h3>
-            <h3>you have messeges from:</h3>
+            <h3>You have messeges from:</h3>
             {/* {contectList} */}
             <div style={{
                 display: 'flex',

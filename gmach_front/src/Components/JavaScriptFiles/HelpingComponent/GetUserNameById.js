@@ -24,6 +24,9 @@ export default function GetUserNameById(id){
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
     
+         if (response.headers.get('content-length') === '0' || !response.headers.get('content-type').includes('application/json')) {
+             throw new Error('Empty response or not a JSON');
+         }
             const data = await response.json();
             console.log("Data received:", data);
             return data; // Returning JSON object instead of JSON string
