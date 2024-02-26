@@ -35,7 +35,7 @@ export default function AllUserMessages(props) {
                     }
                 });
                 const data = await response.json();
-                console.log("in GetAllUsersRequests. data before sent: ", data)
+                console.log("🚇In GetAllUsersRequests. data before sent: ", data)
                 return data;
             }
         }
@@ -45,7 +45,7 @@ export default function AllUserMessages(props) {
             setShowAlert(true);
             setTimeout(() => {
                 setShowAlert(false);
-            }, 3000);
+            }, 6000);
 
         }
     }
@@ -317,13 +317,15 @@ export default function AllUserMessages(props) {
                     setMyMessage(ev.target.value);
                 }}
                 onBlur={(ev) => {
-
-
                     setMyMessage(ev.target.value); // Set the valid input to the name variable
-
+                }}
+                onKeyPress={(ev) => {
+                    if (ev.key === 'Enter') {
+                        sendMessageClicked();
+                    }
                 }}
                 key="textField2" />
-            <div onClick={sendMessageClicked}><BasicButtons value="Send Message" /></div>
+            <BasicButtons label="Send" onClick={sendMessageClicked} />
         </div>
     )
 }
