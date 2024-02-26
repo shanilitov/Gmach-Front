@@ -16,7 +16,7 @@ export default function AllUserMessages(props) {
     const [userdic, setUserdic] = useState({})
     const [myMessage, setMyMessage] = useState('')
     //for admin state:
-    const isAdmin = id == 20
+    const isAdmin = id == 20;
     const [selectedUser, setSelectedUser] = useState(null);
     const [AllTheUsersMessages, setAllTheUsersMessages] = useState([])
 
@@ -176,7 +176,7 @@ export default function AllUserMessages(props) {
                 textAlign: m.fromUserId == id ? 'left' : 'right',
 
             }}>
-                <label key={index}>{'Message From: ' + userdic[m.fromUserId]}</label>
+                <label key={index}>{'Message From: ' + (userdic[m.fromUserId] === 'adPlusadMinus' ? 'PlusMinus Admin' : userdic[m.fromUserId])}</label>
                 <Messages id={m.fromUserId} color={index} message={m.text.toString()} isHandled={m.viewed} style={{
                     textAlign: m.fromUserId == id ? 'left' : 'right',
                     width: 'auto',
@@ -196,19 +196,20 @@ export default function AllUserMessages(props) {
     // ));
 
     async function getUserNameFunc(_id) {
+        console.log("🥑  "+ typeof (_id))
         if (_id != id) {
             let userName = await GetUserNameById(_id)
             console.log('🍄🍄 userName is: ', userName)
             userName = JSON.stringify(userName)
             let temp = userdic
-            temp[`${_id}`] = JSON.parse(userName)['userName']
+            temp[_id] = JSON.parse(userName)['userName']
             console.log('🍄🍄 temp is: ', temp)
             setUserdic(temp)
             console.log(userdic)
         }
         else {
             let temp = userdic;
-            temp[`${_id}`] = 'you';
+            temp[_id] = 'you';
             setUserdic(temp);
         }
     }
