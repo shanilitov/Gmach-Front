@@ -8,8 +8,8 @@ import BasicButtons from "./BasicButtons";
 export default function AllUserMessages(props) {
     const id = props.id
     const [userMessages, setUserMessages] = useState([]);
-    const [contactRequests, setContactRequests] = useState([]);
-    const [isRequest, setIsRequest] = useState(false);  //if there are contact requests
+    // const [contactRequests, setContactRequests] = useState([]);
+    // const [isRequest, setIsRequest] = useState(false);  //if there are contact requests
     const [showAlert, setShowAlert] = useState(false);
     const [alertMsg, setAlertMsg] = useState("");
     const token = localStorage.getItem('token');
@@ -51,46 +51,46 @@ export default function AllUserMessages(props) {
     }
 
     //This useEffect funtion gets all users contact requests and diplay them to admin.
-    useEffect(() => {
-        GetAllUsersRequests().then((data) => {
-            console.log('Contact requests: ', data)
-            if (data.length > 0) {
-                console.log('😎😎Mapped data: ', data)
-                setContactRequests(data);
-                console.log("End of fetch in admin message")
-            }
-            else {
-                console.log('😫 Error:', data);
-                setAlertMsg("Error in GetAllUsersRequests: " + data);
-                setShowAlert(true);
-                setTimeout(() => {
-                    setShowAlert(false);
-                }, 3000);
-            }
-        }
-        ).catch((error) => {
-            console.error('Error:', error);
-        }
-        )
+    // useEffect(() => {
+    //     GetAllUsersRequests().then((data) => {
+    //         console.log('Contact requests: ', data)
+    //         if (data.length > 0) {
+    //             console.log('😎😎Mapped data: ', data)
+    //             setContactRequests(data);
+    //             console.log("End of fetch in admin message")
+    //         }
+    //         else {
+    //             console.log('😫 Error:', data);
+    //             setAlertMsg("Error in GetAllUsersRequests: " + data);
+    //             setShowAlert(true);
+    //             setTimeout(() => {
+    //                 setShowAlert(false);
+    //             }, 3000);
+    //         }
+    //     }
+    //     ).catch((error) => {
+    //         console.error('Error:', error);
+    //     }
+    //     )
 
 
-    }, [])
+    // },[])
 
 
 
-    const ShowMessages = contactRequests.map((message, index) => {
-        /*<div key={index}>
-            {console.log(message.id + " :  " + message)}
-            <h3>{message.fullName.toString()} wrote:</h3>
-            <Messages id={0} message={`${message.header.toString()} -   ${message.text.toString()}`} />
-        </div>  
-        */
-        <div key={index}>
-            {console.log(message)}
-            <h3>{message.fullName} wrote:</h3>
-            <Messages id={message.fromUserId} color={index} message={`${message.header.toString()} -   ${message.text.toString()}`} />
-        </div>
-    })
+    // const ShowMessages = contactRequests.map((message, index) => {
+    //     /*<div key={index}>
+    //         {console.log(message.id + " :  " + message)}
+    //         <h3>{message.fullName.toString()} wrote:</h3>
+    //         <Messages id={0} message={`${message.header.toString()} -   ${message.text.toString()}`} />
+    //     </div>  
+    //     */
+    //     <div key={index}>
+    //         {console.log(message)}
+    //         <h3>{message.fullName} wrote:</h3>
+    //         <Messages id={message.fromUserId} color={index} message={`${message.header.toString()} -   ${message.text.toString()}`} />
+    //     </div>
+    // })
 
 
 
@@ -98,7 +98,7 @@ export default function AllUserMessages(props) {
     //This useEffect function run fetchData() and messagesDisplay() to display all user messages.
     useEffect(() => {
         setData()
-    }, [])
+    },[])
 
     function setData() {
         console.log("in alluserMessages")
@@ -106,14 +106,12 @@ export default function AllUserMessages(props) {
             fetchData().then((data) => {
                 console.log("Data got from server is: ", data);
                 setUserMessages(data);
-                
-                data.map(m => (
-                    getUserNameFunc(m.fromUserId)
-                ))
-
-                if(isAdmin)
+                // data.map(m => (
+                //     getUserNameFunc(m.fromUserId)
+                // ))
+                if (isAdmin)
                     setAllTheUsersMessages(data)
-            });
+            })
         }
         catch (err) {
             console.log("Error fetching data: ", err);
@@ -161,13 +159,14 @@ export default function AllUserMessages(props) {
         }}>
             {console.log("##")}
             {console.log(m, m.fromUserId == id)}
+            {console.log(userdic[m.fromUserId] == undefined ? getUserNameFunc(m.fromUserId): 'a')}
             <div style={{
                 display: "inline-block",
                 width: 'fit-content',
                 textAlign: m.fromUserId == id ? 'left' : 'right',
 
             }}>
-                <label key={index}>{'Message From: ' + userdic[m.fromUserId]}</label>
+                <label key={index}>{userdic[m.fromUserId]}</label>
                 <Messages id={m.fromUserId} color={index} message={m.text.toString()} isHandled={m.viewed} style={{
                     textAlign: m.fromUserId == id ? 'left' : 'right',
                     width: 'auto',
@@ -188,18 +187,17 @@ export default function AllUserMessages(props) {
 
     async function getUserNameFunc(_id) {
         if (_id != id) {
-            let userName = await GetUserNameById(_id)
-            let temp = userdic
-            temp[`${_id}`] = userName.userName
-            setUserdic(temp)
-            console.log(userdic)
-        }
-        else {
-            let temp = userdic
-            temp[`${_id}`] = 'you'
-            setUserdic(temp)
+            let userName = await GetUserNameById(_id);
+            setUserdic(prevUserdic => {
+                return {...prevUserdic, [_id]: userName.userName};
+            });
+        } else {
+            setUserdic(prevUserdic => {
+                return {...prevUserdic, [_id]: 'you'};
+            });
         }
     }
+    
 
     async function sendMessageClicked() {
         console.log('in send message click, message is: ' + myMessage)
@@ -213,7 +211,7 @@ export default function AllUserMessages(props) {
                 const message = {
                     "id": 0,
                     "fromUserId": id,
-                    "toUserId": 20,
+                    "toUserId": isAdmin? selectedUser : 20,
                     "text": myMessage,
                     "viewed": true
                 }
@@ -256,10 +254,16 @@ export default function AllUserMessages(props) {
     }
 
     const handleUserChange = (userId) => {
-        console.log('in selection change function',userId)
+        console.log('in selection change function', userId)
         setSelectedUser(userId);
-        setUserMessages(AllTheUsersMessages.filter(m=> m.fromUserId ==selectedUser || m.toUserId == selectedUser))
+        if (!(userId == 20 || userId == null || userId < 1)) {
+            console.log('Change the display source')
+            let filterList = AllTheUsersMessages.filter(m => m.fromUserId == userId || m.toUserId == userId)
+            console.log(filterList)
+            setUserMessages(filterList)
+        }
     };
+    
 
     return (
         <div style={{
@@ -300,8 +304,8 @@ export default function AllUserMessages(props) {
             {showAlert ? <Alert msg={alertMsg} type="error" /> : null}
 
 
-            {ShowMessages}
-            {isRequest ? messages : null}
+            {/*ShowMessages*/}
+            {/* {isRequest ? messages : null} */}
             {userMessages === undefined ?
                 <h1>You dont have any mesages yet</h1> : <></>}
 
