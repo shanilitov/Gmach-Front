@@ -50,7 +50,7 @@ export default function AllUserMessages(props) {
     useEffect(() => {
         GetAllUsersRequests().then((data) => {
             console.log('Contact requests: ', data)
-            if ( data != undefined) {
+            if (data != undefined) {
                 console.log('😎😎Mapped data: ', data)
                 setContactRequests(data);
                 ShowMessages = data.length > 0 ? data.map((message, index) => {
@@ -59,8 +59,8 @@ export default function AllUserMessages(props) {
                         <h3>{JSON.stringify(message.fullName)} wrote:</h3>
                         <Messages id={JSON.stringify(message.fromUserId)} color={index} message={JSON.stringify(message.header) + JSON.stringify(message.text)} />
                     </div>
-                
-            }) :<Alert msg="You don't have any mesages yet" type="info" />; 
+
+                }) : <Alert msg="You don't have any mesages yet" type="info" />;
                 setIsRequest(true);
                 console.log("End of fetch in admin message")
             }
@@ -83,23 +83,23 @@ export default function AllUserMessages(props) {
 
 
 
-    /*const ShowMessages = contactRequests.length > 0 ? contactRequests.map((message, index) => {
-            <div key={index}>
-                {console.log(message)}
-                <h3>{JSON.stringify(message.fullName)} wrote:</h3>
-                <Messages id={JSON.stringify(message.fromUserId)} color={index} message={JSON.stringify(message.header) + JSON.stringify(message.text)} />
-            </div>
-        
-    }) :<Alert msg="You don't have any mesages yet" type="info" />;*/
+    const ShowMessages = contactRequests.length > 0 ? contactRequests.map((message, index) => {
+        <div key={index}>
+            {console.log(message)}
+            <h3>{JSON.stringify(message.fullName)} wrote:</h3>
+            <Messages id={JSON.stringify(message.fromUserId)} color={index} message={JSON.stringify(message.header) + JSON.stringify(message.text)} />
+        </div>
 
-    
-        /*<div key={index}>
-            {console.log(message.id + " :  " + message)}
-            <h3>{message.fullName.toString()} wrote:</h3>
-            <Messages id={0} message={`${message.header.toString()} -   ${message.text.toString()}`} />
-        </div>  
-        */
-      
+    }) : <Alert msg="You don't have any mesages yet" type="info" />;
+
+
+    /*<div key={index}>
+        {console.log(message.id + " :  " + message)}
+        <h3>{message.fullName.toString()} wrote:</h3>
+        <Messages id={0} message={`${message.header.toString()} -   ${message.text.toString()}`} />
+    </div>  
+    */
+
     //This useEffect function run fetchData() and messagesDisplay() to display all user messages.
     useEffect(() => {
         setData()
@@ -111,9 +111,9 @@ export default function AllUserMessages(props) {
             fetchData().then((data) => {
                 console.log("Data got from server is: ", data);
                 setUserMessages(data);
-                data.map(m => (
+                /*data.map(m => (
                     getUserNameFunc(m.fromUserId)
-                ))
+                ))*/
             });
         }
         catch (err) {
@@ -154,23 +154,25 @@ export default function AllUserMessages(props) {
     //Display all messages of this user
     const messagesDisplay = userMessages.map((m, index) => (
         <div key={index} style={{
-            display: "flex", 
+            display: "flex",
             flexDirection: "column",
             alignItems: m.fromUserId == id ? "flex-start" : "flex-end",
-            width : 'auto',
-            textAlign : m.fromUserId == id ? 'left' : 'right',
+            width: 'auto',
+            textAlign: m.fromUserId == id ? 'left' : 'right',
         }}>
             {console.log("##")}
             {console.log(m, m.fromUserId == id)}
             <div style={{
                 display: "inline-block",
                 width: 'fit-content',
-                textAlign : m.fromUserId == id ? 'left' : 'right',
+                textAlign: m.fromUserId == id ? 'left' : 'right',
 
             }}>
-                <label key={index}>{'Message From: ' + userdic[m.fromUserId]}</label>
-                <Messages id={m.fromUserId} color={index} message={m.text.toString()} isHandled={m.viewed} style={{textAlign : m.fromUserId == id ? 'left' : 'right',
-            width : 'auto',}}/>
+                {/*<label key={index}>{'Message From: ' + userdic[m.fromUserId]}</label>*/}
+                <Messages id={m.fromUserId} color={index} message={m.text.toString()} isHandled={m.viewed} style={{
+                    textAlign: m.fromUserId == id ? 'left' : 'right',
+                    width: 'auto',
+                }} />
             </div>
         </div>
     ));
@@ -262,7 +264,7 @@ export default function AllUserMessages(props) {
             // alignContent: 'flex-start',
             // alignItems: 'flex-start',
             // 
-            
+
             flexDirection: 'column'
 
         }}>
@@ -295,13 +297,15 @@ export default function AllUserMessages(props) {
                     setMyMessage(ev.target.value);
                 }}
                 onBlur={(ev) => {
-
-
                     setMyMessage(ev.target.value); // Set the valid input to the name variable
-
+                }}
+                onKeyPress={(ev) => {
+                    if (ev.key === 'Enter') {
+                        sendMessageClicked();
+                    }
                 }}
                 key="textField2" />
-            <div onClick={sendMessageClicked}><BasicButtons value="Send Message" /></div>
+            <BasicButtons label="Send" onClick={sendMessageClicked} />
         </div>
     )
 }

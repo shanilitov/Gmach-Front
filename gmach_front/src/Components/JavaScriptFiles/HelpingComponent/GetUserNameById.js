@@ -11,7 +11,7 @@ export default function GetUserNameById(id){
         return ''
     }
 
-    async function fetchUserName(id) {
+   async function fetchUserName(id) {
         try {
             const response = await fetch(`https://localhost:7275/api/User/GetUserName/${id}`, {
                 method: 'GET',

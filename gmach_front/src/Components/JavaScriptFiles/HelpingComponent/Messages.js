@@ -32,7 +32,7 @@ export default function Messages(props) {
                 </div>
                 :
                 <div className='userMessages'>
-                    <SnackbarContent message={message} sx={{ width: "fit-content", backgroundColor: "rgba(223, 221, 53)", marginTop: "2%", marginBottom: "2%", color: "rgb(0, 32, 96)" }} />
+                    <SnackbarContent message={message} sx={{ width: "fit-content", backgroundColor: "rgba(223, 221, 53)", marginTop: "2%", marginBottom: "2%", color: "rgb(0, 32, 96)"}} />
 
                 </div>
             }
