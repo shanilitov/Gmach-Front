@@ -325,7 +325,7 @@ export default function AllUserMessages(props) {
                     }
                 }}
                 key="textField2" />
-            <BasicButtons label="Send" onClick={sendMessageClicked} />
+           <div onClick={sendMessageClicked}><BasicButtons value="Send Message" /></div>
         </div>
     )
 }
