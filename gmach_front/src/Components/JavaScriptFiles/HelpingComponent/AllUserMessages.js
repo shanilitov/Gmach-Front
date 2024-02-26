@@ -18,7 +18,7 @@ export default function AllUserMessages(props) {
 
 
     let messages = {}
-
+    let update = false
 
     async function GetAllUsersRequests() {
         try {
@@ -69,6 +69,7 @@ export default function AllUserMessages(props) {
         }
         )
 
+
     }, [])
 
 
@@ -92,12 +93,18 @@ export default function AllUserMessages(props) {
 
     //This useEffect function run fetchData() and messagesDisplay() to display all user messages.
     useEffect(() => {
+        setData()
+    }, [])
+
+    function setData() {
         console.log("in alluserMessages")
         try {
             fetchData().then((data) => {
                 console.log("Data got from server is: ", data);
                 setUserMessages(data);
-
+                data.map(m => (
+                    getUserNameFunc(m.fromUserId)
+                ))
             });
         }
         catch (err) {
@@ -108,7 +115,7 @@ export default function AllUserMessages(props) {
                 setShowAlert(false);
             }, 3000);
         }
-    }, [])
+    }
 
 
     //Return all messages of this user
@@ -137,76 +144,154 @@ export default function AllUserMessages(props) {
 
     //Display all messages of this user
     const messagesDisplay = userMessages.map((m, index) => (
-        <div key={index} >
+        <div key={index} style={{
+            display: "flex", 
+            flexDirection: "column",
+            alignItems: m.fromUserId == id ? "flex-start" : "flex-end",
+            width : 'auto',
+            textAlign : m.fromUserId == id ? 'left' : 'right',
+        }}>
             {console.log("##")}
-            {console.log(m)}
-            <div style={{ display: "inline-block" }}>
-            <label key={index}>{'Message From: ' + userdic[m.fromUserId]}</label>
-            <Messages id={m.fromUserId} color={index} message={m.text.toString()} isHandled={m.viewed} />
+            {console.log(m, m.fromUserId == id)}
+            <div style={{
+                display: "inline-block",
+                width: 'fit-content',
+                textAlign : m.fromUserId == id ? 'left' : 'right',
+
+            }}>
+                <label key={index}>{'Message From: ' + userdic[m.fromUserId]}</label>
+                <Messages id={m.fromUserId} color={index} message={m.text.toString()} isHandled={m.viewed} style={{textAlign : m.fromUserId == id ? 'left' : 'right',
+            width : 'auto',}}/>
             </div>
         </div>
     ));
 
 
-    const contectList =userMessages.map((m, index) => (
-        
-            <div key={index}>
-                {console.log('@' + m.fromUserId + '@' + getUserNameFunc(m.fromUserId))}
-                {console.log(getUserNameFunc(m.fromUserId))}
-                {userdic[m.fromUserId]}
-            </div>
-        ));
+    // const contectList = userMessages.map((m, index) => (
 
-    async function getUserNameFunc(id){
-        let userName = await GetUserNameById(id)
-        let temp = userdic
-        temp[`${id}`] = userName.userName
-        setUserdic(temp)
-        console.log(userdic)
+    //     <div key={index}>
+    //         {console.log('@' + m.fromUserId + '@' + getUserNameFunc(m.fromUserId))}
+    //         {console.log(getUserNameFunc(m.fromUserId))}
+    //         {userdic[m.fromUserId]}
+    //     </div>
+    // ));
+
+    async function getUserNameFunc(_id) {
+        if (_id != id) {
+            let userName = await GetUserNameById(_id)
+            let temp = userdic
+            temp[`${_id}`] = userName.userName
+            setUserdic(temp)
+            console.log(userdic)
+        }
+        else {
+            let temp = userdic
+            temp[`${_id}`] = 'you'
+            setUserdic(temp)
+        }
     }
 
-    const sendMessageClicked = ()=>{
-        console.log('in send message click, message is: '+ myMessage)
-        if (myMessage === '')
-        {
+    async function sendMessageClicked() {
+        console.log('in send message click, message is: ' + myMessage)
+        if (myMessage === '') {
             setAlertMsg('No message to send!')
             setShowAlert(true)
         }
-        else{
+        else {
             //send the message and update the messages list.
+            try {
+                const message = {
+                    "id": 0,
+                    "fromUserId": id,
+                    "toUserId": 20,
+                    "text": myMessage,
+                    "viewed": true
+                }
+                const response = await fetch("https://localhost:7275/api/Message/SendNewMessage", {
+                    method: 'POST',
+                    body: JSON.stringify(message),
+                    headers: {
+                        'accept': 'text/plain',
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                });
+
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Data recived:', data)
+                if (data == true) {
+                    console.log('$')
+                    setData()
+                    setMyMessage('')
+                    TextField.value = ''
+                }
+
+
+            }
+            catch (err) {
+                console.log("Error fetching data: ", err);
+                setAlertMsg("Error fetching data: " + err);
+                setShowAlert(true);
+                setTimeout(() => {
+                    setShowAlert(false);
+                }, 3000);
+
+            }
         }
     }
 
     return (
-        <div style={{ width: "250%" }}>
+        <div style={{
+            width: "200%",
+            display: 'flex',
+
+            // alignContent: 'flex-start',
+            // alignItems: 'flex-start',
+            // 
+            
+            flexDirection: 'column'
+
+        }}>
             <h3>Your Messages</h3>
             <h3>you have messeges from:</h3>
             {/* {contectList} */}
-            {messagesDisplay}
-
+            <div style={{
+                display: 'flex',
+                // justifyContent: 'flex-start', // אפשר לשנות ל flex-end או center או space-between או space-around על פי הצורך
+                // alignItems: 'flex-start',
+                flexDirection: 'column',
+                flexWrap: 'nowrap',
+            }}  >
+                {messagesDisplay}
+            </div>
 
             {showAlert ? <Alert msg={alertMsg} type="error" /> : null}
-            
-            
+
+
             {ShowMessages}
             {isRequest ? messages : null}
             {userMessages === undefined ?
                 <h1>You dont have any mesages yet</h1> : <></>}
 
-            <TextField 
-            header="Your message"
-            type="text"
-            label="Enter your message:"
-            onChange={(ev) => {     
-                setMyMessage(ev.target.value); 
-            }}
-            onBlur={(ev) => {
-                
-                    
+            <TextField
+                header="Your message"
+                type="text"
+                label="Enter your message:"
+                onChange={(ev) => {
+                    setMyMessage(ev.target.value);
+                }}
+                onBlur={(ev) => {
+
+
                     setMyMessage(ev.target.value); // Set the valid input to the name variable
-             
-            }}
-            key="textField2"/>
+
+                }}
+                key="textField2" />
             <div onClick={sendMessageClicked}><BasicButtons value="Send Message" /></div>
         </div>
     )
