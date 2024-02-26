@@ -10,7 +10,7 @@ export default function AllUserMessages(props) {
     const [showAlert, setShowAlert] = useState(false);
     const [alertMsg, setAlertMsg] = useState("");
     const token = localStorage.getItem('token');
-
+    let ShowMessages = null;
 
     let messages = {}
 
@@ -26,7 +26,7 @@ export default function AllUserMessages(props) {
                     }
                 });
                 const data = await response.json();
-                console.log("in GetAllUsersRequests. data before sent: ", data)
+                console.log("🚇In GetAllUsersRequests. data before sent: ", data)
                 return data;
             }
         }
@@ -36,7 +36,7 @@ export default function AllUserMessages(props) {
             setShowAlert(true);
             setTimeout(() => {
                 setShowAlert(false);
-            }, 3000);
+            }, 6000);
 
         }
     }
@@ -45,14 +45,23 @@ export default function AllUserMessages(props) {
     useEffect(() => {
         GetAllUsersRequests().then((data) => {
             console.log('Contact requests: ', data)
-            if (data.length > 0) {
+            if ( data != undefined) {
                 console.log('😎😎Mapped data: ', data)
                 setContactRequests(data);
+                ShowMessages = data.length > 0 ? data.map((message, index) => {
+                    <div key={index}>
+                        {console.log(message)}
+                        <h3>{JSON.stringify(message.fullName)} wrote:</h3>
+                        <Messages id={JSON.stringify(message.fromUserId)} color={index} message={JSON.stringify(message.header) + JSON.stringify(message.text)} />
+                    </div>
+                
+            }) :<Alert msg="You don't have any mesages yet" type="info" />; 
+                setIsRequest(true);
                 console.log("End of fetch in admin message")
             }
             else {
                 console.log('😫 Error:', data);
-                setAlertMsg("Error in GetAllUsersRequests: " + data);
+                setAlertMsg("Error in GetAllUsersRequests. data = " + data);
                 setShowAlert(true);
                 setTimeout(() => {
                     setShowAlert(false);
@@ -68,23 +77,23 @@ export default function AllUserMessages(props) {
 
 
 
-    const ShowMessages = contactRequests.map((message, index) => {
+    /*const ShowMessages = contactRequests.length > 0 ? contactRequests.map((message, index) => {
+            <div key={index}>
+                {console.log(message)}
+                <h3>{JSON.stringify(message.fullName)} wrote:</h3>
+                <Messages id={JSON.stringify(message.fromUserId)} color={index} message={JSON.stringify(message.header) + JSON.stringify(message.text)} />
+            </div>
+        
+    }) :<Alert msg="You don't have any mesages yet" type="info" />;*/
+
+    
         /*<div key={index}>
             {console.log(message.id + " :  " + message)}
             <h3>{message.fullName.toString()} wrote:</h3>
             <Messages id={0} message={`${message.header.toString()} -   ${message.text.toString()}`} />
         </div>  
         */
-        <div key={index}>
-            {console.log(message)}
-            <h3>{message.fullName} wrote:</h3>
-            <Messages id={message.fromUserId} color={index} message={`${message.header.toString()} -   ${message.text.toString()}`} />
-        </div>
-    })
-
-
-
-
+      
     //This useEffect function run fetchData() and messagesDisplay() to display all user messages.
     useEffect(() => {
         console.log("in alluserMessages")
