@@ -13,8 +13,9 @@ export default function AllUserMessages(props) {
     const [showAlert, setShowAlert] = useState(false);
     const [alertMsg, setAlertMsg] = useState("");
     const token = localStorage.getItem('token');
-    const [userdic, setUserdic] = useState({})
-    const [myMessage, setMyMessage] = useState('')
+    const [userdic, setUserdic] = useState({});
+    const [myMessage, setMyMessage] = useState('');
+
     //for admin state:
     const isAdmin = id == 20;
     const [selectedUser, setSelectedUser] = useState(null);
@@ -24,7 +25,7 @@ export default function AllUserMessages(props) {
     let messages = {}
     let update = false
 
-    async function GetAllUsersRequests() {
+   /*  async function GetAllUsersRequests() {
         try {
             if (token != undefined) {
                 console.log('in admin messages')
@@ -48,7 +49,7 @@ export default function AllUserMessages(props) {
             }, 6000);
 
         }
-    }
+    } 
 
     //This useEffect funtion gets all users contact requests and diplay them to admin.
     useEffect(() => {
@@ -83,18 +84,18 @@ export default function AllUserMessages(props) {
         )
 
 
-    }, [])
+    }, [])*/
 
 
 
-    const ShowMessages = contactRequests.length > 0 ? contactRequests.map((message, index) => {
+    /*const ShowMessages = contactRequests.length > 0 ? contactRequests.map((message, index) => {
         <div key={index}>
             {console.log(message)}
             <h3>{JSON.stringify(message.fullName)} wrote:</h3>
             <Messages id={JSON.stringify(message.fromUserId)} color={index} message={JSON.stringify(message.header) + JSON.stringify(message.text)} />
         </div>
 
-    }) : <Alert msg="You don't have any mesages yet" type="info" />;
+    }) : <Alert msg="You don't have any mesages yet" type="info" />;*/
 
 
     /*<div key={index}>
@@ -196,13 +197,14 @@ export default function AllUserMessages(props) {
     // ));
 
     async function getUserNameFunc(_id) {
-        console.log("🥑  "+ typeof (_id))
+        console.log("🥑  " + typeof (_id))
         if (_id != id) {
             let userName = await GetUserNameById(_id)
             console.log('🍄🍄 userName is: ', userName)
-            userName = JSON.stringify(userName)
+            //userName = JSON.stringify(userName)
+            console.log('🍄🍄 userName is: ', userName)
             let temp = userdic
-            temp[_id] = JSON.parse(userName)['userName']
+            temp[_id] = userName['userName']
             console.log('🍄🍄 temp is: ', temp)
             setUserdic(temp)
             console.log(userdic)
@@ -307,7 +309,7 @@ export default function AllUserMessages(props) {
             {showAlert ? <Alert msg={alertMsg} type="error" /> : null}
 
 
-            {ShowMessages}
+            {/*ShowMessages*/}
             {isRequest ? messages : null}
             {userMessages === undefined ?
                 <h1>You dont have any mesages yet</h1> : <></>}
