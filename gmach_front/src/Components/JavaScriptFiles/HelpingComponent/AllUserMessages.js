@@ -122,6 +122,9 @@ export default function AllUserMessages(props) {
 
                 if (isAdmin)
                     setAllTheUsersMessages(data)
+                    setSelectedUser(20)
+                    handleUserChange(20)
+
             });
         }
         catch (err) {
@@ -161,6 +164,7 @@ export default function AllUserMessages(props) {
 
     //Display all messages of this user
     const messagesDisplay = userMessages.map((m, index) => (
+        
         <div key={index} style={{
             display: "flex",
             flexDirection: "column",
@@ -168,15 +172,18 @@ export default function AllUserMessages(props) {
             width: 'auto',
             textAlign: m.fromUserId == id ? 'left' : 'right',
         }}>
+            
             {console.log("##")}
             {console.log(m, m.fromUserId == id)}
+            {console.log('User Dic', userdic)}
+            {console.log(userdic[m.fromUserId] === undefined ? 'raed the user name' + getUserNameFunc(m.fromUserId) : userdic[m.fromUserId])}
             <div style={{
                 display: "inline-block",
                 width: 'fit-content',
                 textAlign: m.fromUserId == id ? 'left' : 'right',
 
             }}>
-                <label key={index}>{'Message From: ' + (userdic[m.fromUserId] === 'adPlusadMinus' ? 'PlusMinus Admin' : userdic[m.fromUserId])}</label>
+                <label key={index}>{'Message From: ' + (userdic[m.fromUserId])}</label>
                 <Messages id={m.fromUserId} color={index} message={m.text.toString()} isHandled={m.viewed} style={{
                     textAlign: m.fromUserId == id ? 'left' : 'right',
                     width: 'auto',
@@ -196,21 +203,25 @@ export default function AllUserMessages(props) {
     // ));
 
     async function getUserNameFunc(_id) {
-        console.log("🥑  "+ typeof (_id))
-        if (_id != id) {
-            let userName = await GetUserNameById(_id)
-            console.log('🍄🍄 userName is: ', userName)
-            userName = JSON.stringify(userName)
-            let temp = userdic
-            temp[_id] = JSON.parse(userName)['userName']
-            console.log('🍄🍄 temp is: ', temp)
-            setUserdic(temp)
-            console.log(userdic)
-        }
-        else {
-            let temp = userdic;
-            temp[_id] = 'you';
-            setUserdic(temp);
+        console.log("🥑  " + typeof (_id))
+        console.log(userdic[_id])
+        if (userdic[_id] === undefined) {
+            if (_id != id) {
+                let userName = await GetUserNameById(_id)
+                console.log('🍄🍄 userName is: ', userName)
+                if (userName != undefined) {
+                    let temp = userdic
+                    temp[_id] = userName.userName
+                    console.log('🍄🍄 temp is: ', temp)
+                    setUserdic(temp)
+                    console.log(userdic)
+                }
+            }
+            else {
+                let temp = userdic;
+                temp[_id] = 'you';
+                setUserdic(temp);
+            }
         }
     }
 
@@ -226,7 +237,7 @@ export default function AllUserMessages(props) {
                 const message = {
                     "id": 0,
                     "fromUserId": id,
-                    "toUserId": 20,
+                    "toUserId": isAdmin ? selectedUser : 20,
                     "text": myMessage,
                     "viewed": true
                 }
@@ -266,7 +277,7 @@ export default function AllUserMessages(props) {
     const handleUserChange = (userId) => {
         console.log('in selection change function', userId)
         setSelectedUser(userId);
-        setUserMessages(AllTheUsersMessages.filter(m => m.fromUserId == selectedUser || m.toUserId == selectedUser))
+        setUserMessages(AllTheUsersMessages.filter(m => m.fromUserId == userId || m.toUserId == userId))
     };
 
     return (
@@ -284,7 +295,7 @@ export default function AllUserMessages(props) {
             {isAdmin ?
                 <div>
                     <select value={selectedUser} onChange={(ev) => handleUserChange(ev.target.value)}>
-                        <option value="">Select User</option>
+                        <option value={selectedUser}>{userdic[selectedUser]}</option>
                         {Object.entries(userdic).map(([userId, userName]) => (
                             <option key={userId} value={userId}>{userName}</option>
                         ))}
@@ -292,7 +303,7 @@ export default function AllUserMessages(props) {
                 </div>
                 : <></>
             }
-            <h3>You have messeges from:</h3>
+            <h3>Your messeges:</h3>
             {/* {contectList} */}
             <div style={{
                 display: 'flex',
