@@ -117,9 +117,9 @@ export default function AllUserMessages(props) {
                 console.log("Data got from server is: ", data);
                 setUserMessages(data);
 
-                data.map(m => (
-                    getUserNameFunc(m.fromUserId)
-                ))
+                // data.map(m => (
+                //     getUserNameFunc(m.fromUserId)
+                // ))
 
                 if (isAdmin)
                     setAllTheUsersMessages(data)
@@ -201,13 +201,14 @@ export default function AllUserMessages(props) {
         if (_id != id) {
             let userName = await GetUserNameById(_id)
             console.log('🍄🍄 userName is: ', userName)
-            //userName = JSON.stringify(userName)
-            console.log('🍄🍄 userName is: ', userName)
-            let temp = userdic
-            temp[_id] = userName['userName']
-            console.log('🍄🍄 temp is: ', temp)
-            setUserdic(temp)
-            console.log(userdic)
+            if (userName != undefined) {
+                userName = JSON.stringify(userName)
+                let temp = userdic
+                temp[_id] = userName["userName"]
+                console.log('🍄🍄 temp is: ', temp)
+                setUserdic(temp)
+                console.log(userdic)
+            }
         }
         else {
             let temp = userdic;
@@ -215,6 +216,7 @@ export default function AllUserMessages(props) {
             setUserdic(temp);
         }
     }
+
 
     async function sendMessageClicked() {
         console.log('in send message click, message is: ' + myMessage)
