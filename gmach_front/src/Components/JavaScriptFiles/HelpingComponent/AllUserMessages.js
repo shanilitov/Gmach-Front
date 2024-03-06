@@ -19,10 +19,10 @@ export default function AllUserMessages(props) {
     const isAdmin = id == 20;
     const [selectedUser, setSelectedUser] = useState(null);
     const [AllTheUsersMessages, setAllTheUsersMessages] = useState([])
-
+    const [update, setUpdate] = useState(1)
 
     let messages = {}
-    let update = false
+ 
 
     // async function GetAllUsersRequests() {
     //     try {
@@ -107,33 +107,38 @@ export default function AllUserMessages(props) {
     //This useEffect function run fetchData() and messagesDisplay() to display all user messages.
     useEffect(() => {
         setData()
-    }, [])
+        
+    }, 10000000000)
 
     function setData() {
-        console.log("in alluserMessages")
-        try {
-            fetchData().then((data) => {
-                console.log("Data got from server is: ", data);
-                setUserMessages(data);
+        if (update) {
 
-                data.map(m => (
-                    getUserNameFunc(m.fromUserId)
-                ))
 
-                if (isAdmin)
+            console.log("in alluserMessages")
+            try {
+                fetchData().then((data) => {
+                    console.log("Data got from server is: ", data);
+                    setUserMessages(data);
+
+                    data.map(m => (
+                        getUserNameFunc(m.fromUserId)
+                    ))
                     setAllTheUsersMessages(data)
-                    setSelectedUser(20)
-                    handleUserChange(20)
+                    if (isAdmin) {
+                        setSelectedUser(20)
+                        handleUserChange(20)
+                    }
 
-            });
-        }
-        catch (err) {
-            console.log("Error fetching data: ", err);
-            setAlertMsg("Error fetching data: " + err);
-            setShowAlert(true);
-            setTimeout(() => {
-                setShowAlert(false);
-            }, 3000);
+                });
+            }
+            catch (err) {
+                console.log("Error fetching data: ", err);
+                setAlertMsg("Error fetching data: " + err);
+                setShowAlert(true);
+                setTimeout(() => {
+                    setShowAlert(false);
+                }, 3000);
+            }
         }
     }
 
@@ -164,7 +169,7 @@ export default function AllUserMessages(props) {
 
     //Display all messages of this user
     const messagesDisplay = userMessages.map((m, index) => (
-        
+
         <div key={index} style={{
             display: "flex",
             flexDirection: "column",
@@ -172,7 +177,7 @@ export default function AllUserMessages(props) {
             width: 'auto',
             textAlign: m.fromUserId == id ? 'left' : 'right',
         }}>
-            
+
             {console.log("##")}
             {console.log(m, m.fromUserId == id)}
             {console.log('User Dic', userdic)}
@@ -284,14 +289,9 @@ export default function AllUserMessages(props) {
         <div style={{
             width: "200%",
             display: 'flex',
-
-            // alignContent: 'flex-start',
-            // alignItems: 'flex-start',
-            // 
-
             flexDirection: 'column'
-
         }}>
+
             {isAdmin ?
                 <div>
                     <select value={selectedUser} onChange={(ev) => handleUserChange(ev.target.value)}>
@@ -303,12 +303,11 @@ export default function AllUserMessages(props) {
                 </div>
                 : <></>
             }
+
             <h3>Your messeges:</h3>
-            {/* {contectList} */}
+
             <div style={{
                 display: 'flex',
-                // justifyContent: 'flex-start', // אפשר לשנות ל flex-end או center או space-between או space-around על פי הצורך
-                // alignItems: 'flex-start',
                 flexDirection: 'column',
                 flexWrap: 'nowrap',
             }}  >
@@ -317,9 +316,6 @@ export default function AllUserMessages(props) {
 
             {showAlert ? <Alert msg={alertMsg} type="error" /> : null}
 
-
-            {/* {ShowMessages}
-            {isRequest ? messages : null} */}
             {userMessages === undefined ?
                 <h1>You dont have any mesages yet</h1> : <></>}
 
@@ -339,6 +335,7 @@ export default function AllUserMessages(props) {
                     }
                 }}
                 key="textField2" />
+
             <div onClick={sendMessageClicked}><BasicButtons value="Send Message" /></div>
         </div>
     )

@@ -50,8 +50,8 @@ export default function NewDeposit() {
   const [card, setCard] = React.useState(""); // A card number from the DB
   const [successed, setSuccessed] = React.useState(false)//If deposit entered to DB successfuly 
   const [error, setError] = React.useState("")
-  const { id } = useParams();
-  const { name } = useParams();
+  const id = useParams();
+  const name = useParams();
 
   const steps = ['Payment details', 'Amount and date', 'Review details'];
   const token = localStorage.getItem('token')
@@ -185,22 +185,34 @@ export default function NewDeposit() {
     console.log("cvv: ", cvv);
     console.log("depositAmount: ", depositAmount);
     console.log("depositReturnDate: ", depositReturnDate);
+    console.log("userId: ", id);
     if (cardName && cardNumber && expDate && cvv && depositAmount && depositReturnDate) {
       const card = {
         cardId: 0,
-        userId: parseInt(id),
+        userId: parseInt(id.userId),
         creditCardNumber: _cardNumber,
         ownersName: cardName,
-        validity: expDate,
-        CVV: cvv,
+        cvv: cvv,
+        validity:new Date(expDate).toISOString() ,
+        
+
+        /*
+        "cardId": 0,
+  "userId": 0,
+  "creditCardNumber": "string",
+  "ownersName": "string",
+  "cvv": "string",
+  "validity": "2024-03-06T12:35:11.750Z"
+        */
       }
-      console.log("card: ", card);
-      let URL = "https://localhost:7275/api/CreditCard/AddACreditCard";
+      console.log("card: ", JSON.stringify(card));
+      let URL = "https://localhost:7275/api/Card/AddNewCard";
       fetch(URL, {
         method: "POST",
         headers: {
-          'Authorization': `Bearer ${token}`,
           "Content-Type": "application/json",
+          'accept': 'text/plain',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(card),
       })
@@ -214,10 +226,10 @@ export default function NewDeposit() {
               alert("Your card was added successfully!")
               setCard(data)
               let depositData = {
-                DepositId: 0,
-                UserId: parseInt(id),
-                Sum: parseInt(depositAmount),
-                DateToPull: new Date(depositReturnDate).toISOString().split('T')[0],
+                depositId: 0,
+                userId: parseInt(id.userId),
+                sum: parseInt(depositAmount),
+                dateToPull: new Date(depositReturnDate).toISOString().split('T')[0],
                 /*cardName: cardName,
                 cardNumber: _cardNumber,
                 expDate: expDate,
