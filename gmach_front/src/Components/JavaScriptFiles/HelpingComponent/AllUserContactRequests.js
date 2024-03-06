@@ -50,6 +50,9 @@ export default function AllUserContactRequest() {
                 const data = await response.json();
                 console.log("🚇In GetAllUsersRequests. data before sent: ", data)
                 setContactRequests(data)
+                if (data.length >0){
+                    setIsRequest(true)
+                }
                 return data;
             }
         }
