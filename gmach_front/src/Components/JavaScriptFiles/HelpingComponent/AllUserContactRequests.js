@@ -160,7 +160,7 @@ export default function AllUserContactRequest() {
                 color: "rgb(0, 32, 96)"
             }}>{`From: ${contact.fullName}`}</div>
             <div>
-                <h3>{contact.text}</h3>
+                <h3>{contact.header}</h3>
                 <p>{contact.text}</p>
             </div>
             {contact.handled == false ?
