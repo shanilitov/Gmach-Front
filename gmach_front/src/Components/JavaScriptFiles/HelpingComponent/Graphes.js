@@ -15,7 +15,7 @@ export default function Graphes() {
         { title: 'About us', url: '/AboutUs' },//Blog1- talking about the company.
         { title: 'Activity', url: '/Graphes' }, //Grafes- show the activity in company in grafs.
         //{ title: 'Searches', url: '/Searches' }, //Blog2- talking about searches in economy.
-       // { title: 'Our services', url: '/Services' },//Blog3- talking about the services that we give.
+        // { title: 'Our services', url: '/Services' },//Blog3- talking about the services that we give.
         { title: 'Contact us', url: '/ContactUs' },//Blog4- details how to contact us.
         { title: 'Articles', url: '/Articles' },//Articles that talking about economy etc.
     ];
@@ -26,44 +26,94 @@ export default function Graphes() {
     //Canvas 2 :
     const chart2Ref = useRef(null);
     const chart2InstanceRef = useRef(null); // Add a reference to the second chart instance
+    const token = localStorage.getItem('token');
 
     useEffect(() => {
-        const xValues = ["Yanuar", "Februar", "Merch", "April"];
-        const yValues = [55, 42, 49, 33];
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth() + 1;
+        const xValues = [];
+        const yValues = [];
+
+        //Set the xValues to be the names of the last 4 months
+        for (let i = currentMonth - 3; i <= currentMonth; i++) {
+            const month = i <= 0 ? i + 12 : i;
+            const monthName = new Date(currentDate.getFullYear(), month - 1, 1).toLocaleString('en-US', { month: 'long', locale: 'en-US' });
+            console.log(monthName);
+            xValues.push(monthName);
+        }
+
+        //Get the yValues from the server
+        const getAllLoans = async () => {
+            try {
+                const response = await fetch('https://localhost:7275/api/LoanDetails/GetAllApprovaledLoans')
+                const data = await response.json();
+                console.log("✍ data from server is: " + data);
+
+                const sumTimes = xValues.reduce((acc, month) => {
+                    const loansInMonth = xValues.filter(loan => {
+                        const loanMonth = new Date(loan.date).getMonth() + 1;
+                        console.log("loanMonth === month: " + loanMonth === month);
+                        return loanMonth === month;
+                    });
+                    acc[month] = loansInMonth.length;
+                    console.log("acc: " + acc);
+                    return acc;
+                }, {});
+
+                console.log(sumTimes);
+                const yValues = data.map(loan => loan);
+                return yValues.length;
+            }
+            catch (error) {
+                console.error(error);
+                return [];
+            }
+        };
+
+        const fetchData = async () => {
+            yValues = await getAllLoans();
+            console.log(yValues);
+        };
+
+        fetchData();
+
         const barColors = ["rgb(0, 32, 96)", "rgb(223, 221, 53)", "rgba(0, 32, 96, 0.5)", "rgba(223, 221, 53, 0.5)"];
 
-        if (chartRef.current) {
-            // Destroy the existing chart if it exists
-            if (chartInstanceRef.current) {
-                chartInstanceRef.current.destroy();
-            }
-
-            // Create a new chart instance
-            chartInstanceRef.current = new Chart(chartRef.current, {
-                type: "bar",
-                data: {
-                    labels: xValues,
-                    datasets: [{
-                        backgroundColor: barColors,
-                        data: yValues
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+        setTimeout(() => {
+            if (chartRef.current) {
+                // Destroy the existing chart if it exists
+                if (chartInstanceRef.current) {
+                    chartInstanceRef.current.destroy();
+                }
+    
+                // Create a new chart instance
+                chartInstanceRef.current = new Chart(chartRef.current, {
+                    type: "bar",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: yValues
+                        }]
                     },
-                    plugins: {
-                        legend: { display: false },
-                        title: {
-                            display: true,
-                            text: ""
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            title: {
+                                display: true,
+                                text: ""
+                            }
                         }
                     }
-                }
-            });
-        }
+                });
+            }
+        }, 2000);
+        
 
 
 
@@ -110,7 +160,7 @@ export default function Graphes() {
     return (
         <div>
             <Bar />,
-            <div style={{ zIndex: "99", height: "5%", backgroundColor:"rgba(0, 32, 96, 0.5)", marginTop: "9%", color: "rgb(223, 221, 53)", position: "fixed", width: "100%", padding: "1%"}}>
+            <div style={{ zIndex: "99", height: "5%", backgroundColor: "rgba(0, 32, 96, 0.5)", marginTop: "9%", color: "rgb(223, 221, 53)", position: "fixed", width: "100%", padding: "1%" }}>
                 <Toolbar
                     component="nav"
                     variant="dense"
@@ -130,7 +180,7 @@ export default function Graphes() {
                     ))}
                 </Toolbar>
             </div>
-            <div style={{ padding: "2%", width: "80%", display: "flex", flexWrap: "nowrap",alignContent: " space-between" }}></div>
+            <div style={{ padding: "2%", width: "80%", display: "flex", flexWrap: "nowrap", alignContent: " space-between" }}></div>
             <div className="p_chart" >
                 <p ><em><strong>Number of people who take loans from 'PlusMinus' in the last quarter</strong></em></p>
             </div>
@@ -140,7 +190,7 @@ export default function Graphes() {
                 <p  ><em><strong>The average loan amount in the last quarter</strong></em></p>
             </div>
             <canvas ref={chart2Ref} id="myChart2" style={{ width: '90%', maxWidth: '90%', height: "80px", margin: "3%" }}></canvas>
-        <Footer/>
+            <Footer />
         </div>
     )
 }
