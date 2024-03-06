@@ -75,7 +75,7 @@ export default function AboutUs() {
 
                             <h3>Our Community</h3>
                             <p>
-                                [Your Organization's Name] operates as a community-driven initiative, bringing together individuals who are
+                                PlusMinus operates as a community-driven initiative, bringing together individuals who are
                                 willing to contribute to the well-being of others. The sense of responsibility and commitment within our
                                 community is the driving force behind our success. Every member, whether providing financial support or
                                 receiving assistance, is an integral part of a network built on trust, compassion, and shared values.
@@ -91,7 +91,7 @@ export default function AboutUs() {
                             <h3>Get Involved</h3>
                             <p>
                                 Join us on our mission to make a meaningful impact in the lives of individuals and families. Whether you are
-                                seeking assistance or looking to contribute, [Your Organization's Name] welcomes you to be part of our
+                                seeking assistance or looking to contribute, PlusMinus welcomes you to be part of our
                                 compassionate community.
                             </p>
 

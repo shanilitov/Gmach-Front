@@ -13,8 +13,9 @@ export default function AllUserMessages(props) {
     const [showAlert, setShowAlert] = useState(false);
     const [alertMsg, setAlertMsg] = useState("");
     const token = localStorage.getItem('token');
-    const [userdic, setUserdic] = useState({})
-    const [myMessage, setMyMessage] = useState('')
+    const [userdic, setUserdic] = useState({});
+    const [myMessage, setMyMessage] = useState('');
+
     //for admin state:
     const isAdmin = id == 20;
     const [selectedUser, setSelectedUser] = useState(null);

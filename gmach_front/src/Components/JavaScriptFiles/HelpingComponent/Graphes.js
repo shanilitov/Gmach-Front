@@ -132,14 +132,14 @@ export default function Graphes() {
             </div>
             <div style={{ padding: "2%", width: "80%", display: "flex", flexWrap: "nowrap",alignContent: " space-between" }}></div>
             <div className="p_chart" >
-                <p >Number of people who take loans from 'PlusMinus' in the last quarter</p>
+                <p ><em><strong>Number of people who take loans from 'PlusMinus' in the last quarter</strong></em></p>
             </div>
-            <canvas ref={chartRef} id="myChart" style={{ width: '100%', maxWidth: '500px', marginTop: "3%", height: "90px" }}></canvas>
+            <canvas ref={chartRef} id="myChart" style={{ width: '90%', maxWidth: '90%', margin: "3%", height: "90px" }}></canvas>
 
             <div className="p_chart">
-                <p  >The average loan amount in the last quarter</p>
+                <p  ><em><strong>The average loan amount in the last quarter</strong></em></p>
             </div>
-            <canvas ref={chart2Ref} id="myChart2" style={{ width: '80%', maxWidth: '700px', height: "80px", marginTop: "3%" }}></canvas>
+            <canvas ref={chart2Ref} id="myChart2" style={{ width: '90%', maxWidth: '90%', height: "80px", margin: "3%" }}></canvas>
         <Footer/>
         </div>
     )
