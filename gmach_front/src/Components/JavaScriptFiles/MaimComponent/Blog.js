@@ -21,6 +21,7 @@ import Slider from '../HelpingComponent/Slider';
 import { useState, useEffect } from 'react';
 
 
+
 const sections = [
   { title: 'About us', url: '/AboutUs' },//Blog1- talking about the company.
   { title: 'Activity', url: '/Graphes' }, //Grafes- show the activity in company in grafs.
