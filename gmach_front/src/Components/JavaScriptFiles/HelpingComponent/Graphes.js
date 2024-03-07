@@ -38,11 +38,11 @@ export default function Graphes() {
     const reason = [
         {
             data: [
-                { id: 0, value: 30, label: 'Start of month' },
-                { id: 1, value: 12, label: 'Religious' },
-                { id: 2, value: 4, label: 'Secular' },
-                { id: 3, value: 4, label: 'Secular' },
-                { id: 4, value: 4, label: 'Secular' },
+                { id: 0, value: 4, label: 'Beginning of the month' },
+                { id: 1, value: 16, label: 'Middle of the month' },
+                { id: 2, value: 21, label: 'End of month' },
+                
+              
             ],
         },
     ];
@@ -186,7 +186,7 @@ export default function Graphes() {
     return (
         <div>
             <Bar />,
-            <div style={{ zIndex: "99", height: "5%", backgroundColor: "rgba(0, 32, 96, 0.5)", marginTop: "9%", color: "rgb(223, 221, 53)", position: "fixed", width: "100%", padding: "1%" }}>
+            <div style={{ zIndex: "99", height: "7%", backgroundColor: "rgba(0, 32, 96, 0.5)", marginTop: "9%", color: "rgb(223, 221, 53)", position: "fixed", width: "100%", padding: "1%" }}>
                 <Toolbar
                     component="nav"
                     variant="dense"
@@ -206,46 +206,45 @@ export default function Graphes() {
                     ))}
                 </Toolbar>
             </div>
-
-            <div style={{ padding: "2%", width: "90%", display: "flex", flexWrap: "nowrap", alignContent: " space-between" }}></div>
-            <div style={{ display: "inline-block" }}>
+            <div style={{ padding: "5%", width: "90%", display: "flex", flexWrap: "nowrap", alignContent: " space-between" }}>
+            <div style={{ display: "inline-block", marginLeft: "5%",paddingRight:"15%" }}>
                 <div style={{ padding: "8%", width: "50%", display: "flex", flexWrap: "nowrap", alignContent: " space-between" }}></div>
                 <div className="p_chart" >
                     <p ><em><strong>Divison of the total loan given in the last month by sectornn                </strong></em></p>
                 </div>
-
                 <Stack>
-
                     <PieChart
                         series={series}
-                        slotProps={{ legend: { hidden: false } }}
-                        width={400}
-                        height={200}
+                        slotProps={{ legend: { hidden: false ,  vertical: 'bottom', } }}
+                        width={500}
+                        height={300}
                         colors={["rgb(223, 221, 53)", "rgb(0, 32, 96)", "rgba(0, 32, 96, 0.5)"]}
                     />
                 </Stack>
             </div>
-            <div style={{ display: "inline-block" }}>
-                <div style={{ padding: "8%", width: "90%", display: "flex", flexWrap: "nowrap", alignContent: " space-between" }}></div>
+            <div style={{ marginLeft: "5%", paddingRight:"15%", display:"inline-block" }}>
+            <div style={{  width: "90%", display: "flex", flexWrap: "nowrap" }}></div>
                 <div className="p_chart" >
-                    <p ><em><strong>Time of ask for a loan</strong></em></p>
+                    <p style={{paddingTop:"45%", marginBottom:"-10%"}}><em><strong>Distribution of time for taking loans in the last month</strong></em></p>
                 </div>
-                <PieChart
-                    margin={{ top: 100, bottom: 100, left: 100, right: 100 }}
-                    series={reason}
-                    height={300}
-                     width={300}
-                    slotProps={{
-                        legend: {
-                            direction: 'row',
-                            height: 300,    
-                            width: 300,
-                            position: { vertical: 'middle', horizontal: 'right' },
-                            padding: NaN,
-                        },
-                    }}
-                />
+                    <PieChart
+                        marginTop={0}
+                        series={reason}
+                        height={400}
+                        width={400}
+                        slotProps={{
+                            legend: {
+                                direction: 'row',
+                                position: { vertical: 'bottom', horizontal: 'right' },
+                                padding: 0,
+                                
+                            },
+                        }}
+                    colors={["rgb(223, 221, 53)", "rgb(0, 32, 96)", "rgba(0, 32, 96, 0.5)"]}
+                    />
             </div>
+            </div>
+            
             <div style={{ padding: "2%", width: "80%", display: "flex", flexWrap: "nowrap", alignContent: " space-between" }}></div>
             <div className="p_chart" >
                 <p ><em><strong>Number of people who take loans from 'PlusMinus' in the last quarter</strong></em></p>

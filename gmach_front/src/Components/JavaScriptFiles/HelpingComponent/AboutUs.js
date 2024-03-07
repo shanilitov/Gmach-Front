@@ -20,7 +20,7 @@ export default function AboutUs() {
     return (
         <div className="AboutUs">
             <Bar />
-            <div style={{ zIndex: "99", height: "5%", backgroundColor: "rgba(0, 32, 96, 0.5)", marginTop: "10%", color: "rgb(223, 221, 53)", position: "fixed", width: "100%", padding: "1.5%" }}>
+            <div style={{ zIndex: "99", height: "7%", backgroundColor: "rgba(0, 32, 96, 0.5)", marginTop: "10%", color: "rgb(223, 221, 53)", position: "fixed", width: "100%", padding: "1%" }}>
                 <Toolbar
                     component="nav"
                     variant="dense"
