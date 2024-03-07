@@ -79,9 +79,8 @@ function LogIn() {
                                         expirationDate.setTime(expirationDate.getTime() + (1 * 60 * 60 * 1000)); // 1 hour
                                         localStorage.setItem("admin", true);
                                         localStorage.setItem("adminExpiration", expirationDate.getTime());
-                                        setTimeout(() => {
-                                            NavigateFunc(data.userId, data.userName)
-                                        }, 2000)
+                                        NavigateFunc(data.userId, data.userName)
+
                                     }
                                     else {
                                         NavigateFunc(data.userId, data.userName)
