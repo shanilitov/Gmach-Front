@@ -6,6 +6,9 @@ import "../../../CSSFiles/StylePage.css";
 import Toolbar from '@mui/material/Toolbar';
 import Link from '@mui/material/Link';
 import Footer from './Footer';
+import { PieChart } from '@mui/x-charts/PieChart';
+import Stack from '@mui/material/Stack';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 
 
@@ -20,23 +23,47 @@ export default function Graphes() {
         { title: 'Articles', url: '/Articles' },//Articles that talking about economy etc.
     ];
 
+    //canvas 0:
+    const series = [
+        {
+            data: [
+                { id: 0, value: 30, label: 'Orthodox' },
+                { id: 1, value: 12, label: 'Religious' },
+                { id: 2, value: 4, label: 'Secular' },
+            ],
+        },
+    ];
+
+    //Canvas:
+    const reason = [
+        {
+            data: [
+                { id: 0, value: 30, label: 'Start of month' },
+                { id: 1, value: 12, label: 'Religious' },
+                { id: 2, value: 4, label: 'Secular' },
+                { id: 3, value: 4, label: 'Secular' },
+                { id: 4, value: 4, label: 'Secular' },
+            ],
+        },
+    ];
+
     //Canvas 1 :
     const chartRef = useRef(null);
     const chartInstanceRef = useRef(null); // Add a reference to the chart instance
+    const xValues = [];
+    const yValues = [53, 50, 46, 42];
     //Canvas 2 :
     const chart2Ref = useRef(null);
     const chart2InstanceRef = useRef(null); // Add a reference to the second chart instance
-    const token = localStorage.getItem('token');
-    const currentDate = new Date();
-    const currentMonth = currentDate.getMonth() + 1;
-    const xValues = [];
-    const yValues = [5,10,7,9];
     const x2Values = ["01/2023", "02/2023", "03/2023", "04/2023", "05/2023", "06/2023", "06/2023", "07/2023", "08/2023", "09/2023", "10/2023", "11/2023", "12/2023"];
     const y2Values = [5, 13, 7, 15, 13, 11, 24, 30, 29, 32, 45, 50, 53];
-    const barColors = ["rgb(0, 32, 96)", "rgb(223, 221, 53)", "rgba(0, 32, 96, 0.5)", "rgba(223, 221, 53, 0.5)"];
 
+    const barColors = ["rgb(0, 32, 96)", "rgb(223, 221, 53)", "rgba(0, 32, 96, 0.5)", "rgba(223, 221, 53, 0.5)"];
+    const token = localStorage.getItem('token');
 
     useEffect(() => {
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth() + 1;
         xValues.length = 0;
 
         //Set the xValues to be the names of the last 4 months
@@ -48,34 +75,34 @@ export default function Graphes() {
         }
 
         //Get the yValues from the server
-       /*const getAllLoans = async () => {
-            try {
-                const response = await fetch('https://localhost:7275/api/LoanDetails/GetAllApprovaledLoans')
-                let data = await response.json();
-                console.log("✍ data from server is: " + data);
-                data = data.filter(loan => new Date(loan.dateToGetBack).getMonth() + 1 >= currentMonth - 3);
-                console.log(data)
-                const sumTimes = Object.values(data.reduce((acc, loan) => {
-                    const loanMonth = new Date(loan.dateToGetBack).getMonth() + 1;
-                    const monthName = new Date(loan.dateToGetBack).toLocaleString('en-US', { month: 'long', locale: 'en-US' });
-                    acc[monthName] = (acc[monthName] || 0) + 1;
-                    console.log(monthName + ", " + acc[monthName]);
-                    yValues.push(acc[monthName]);
-                    
-                }, {}));
-            }
-            catch (error) {
-                console.error(error);
-                return [];
-            }
-        };
-
-        const fetchData = async () => {
-            yValues = await getAllLoans();
-            console.log("End of fetchData: " + yValues);
-        };
-
-        fetchData();*/
+        /*const getAllLoans = async () => {
+             try {
+                 const response = await fetch('https://localhost:7275/api/LoanDetails/GetAllApprovaledLoans')
+                 let data = await response.json();
+                 console.log("✍ data from server is: " + data);
+                 data = data.filter(loan => new Date(loan.dateToGetBack).getMonth() + 1 >= currentMonth - 3);
+                 console.log(data)
+                 const sumTimes = Object.values(data.reduce((acc, loan) => {
+                     const loanMonth = new Date(loan.dateToGetBack).getMonth() + 1;
+                     const monthName = new Date(loan.dateToGetBack).toLocaleString('en-US', { month: 'long', locale: 'en-US' });
+                     acc[monthName] = (acc[monthName] || 0) + 1;
+                     console.log(monthName + ", " + acc[monthName]);
+                     yValues.push(acc[monthName]);
+                     
+                 }, {}));
+             }
+             catch (error) {
+                 console.error(error);
+                 return [];
+             }
+         };
+ 
+         const fetchData = async () => {
+             yValues = await getAllLoans();
+             console.log("End of fetchData: " + yValues);
+         };
+ 
+         fetchData();*/
 
 
     }, []);
@@ -178,6 +205,46 @@ export default function Graphes() {
                         </Link>
                     ))}
                 </Toolbar>
+            </div>
+
+            <div style={{ padding: "2%", width: "90%", display: "flex", flexWrap: "nowrap", alignContent: " space-between" }}></div>
+            <div style={{ display: "inline-block" }}>
+                <div style={{ padding: "8%", width: "50%", display: "flex", flexWrap: "nowrap", alignContent: " space-between" }}></div>
+                <div className="p_chart" >
+                    <p ><em><strong>Divison of the total loan given in the last month by sectornn                </strong></em></p>
+                </div>
+
+                <Stack>
+
+                    <PieChart
+                        series={series}
+                        slotProps={{ legend: { hidden: false } }}
+                        width={400}
+                        height={200}
+                        colors={["rgb(223, 221, 53)", "rgb(0, 32, 96)", "rgba(0, 32, 96, 0.5)"]}
+                    />
+                </Stack>
+            </div>
+            <div style={{ display: "inline-block" }}>
+                <div style={{ padding: "8%", width: "90%", display: "flex", flexWrap: "nowrap", alignContent: " space-between" }}></div>
+                <div className="p_chart" >
+                    <p ><em><strong>Time of ask for a loan</strong></em></p>
+                </div>
+                <PieChart
+                    margin={{ top: 100, bottom: 100, left: 100, right: 100 }}
+                    series={reason}
+                    height={300}
+                     width={300}
+                    slotProps={{
+                        legend: {
+                            direction: 'row',
+                            height: 300,    
+                            width: 300,
+                            position: { vertical: 'middle', horizontal: 'right' },
+                            padding: NaN,
+                        },
+                    }}
+                />
             </div>
             <div style={{ padding: "2%", width: "80%", display: "flex", flexWrap: "nowrap", alignContent: " space-between" }}></div>
             <div className="p_chart" >
