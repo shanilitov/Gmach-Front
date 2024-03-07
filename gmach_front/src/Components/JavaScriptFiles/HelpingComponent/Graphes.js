@@ -49,9 +49,9 @@ export default function Graphes() {
                 const data = await response.json();
                 console.log("✍ data from server is: " + data);
 
-                const sumTimes = xValues.reduce((acc, month) => {
+                const sumTimes = response.reduce((acc, month) => {
                     const loansInMonth = xValues.filter(loan => {
-                        const loanMonth = new Date(loan.date).getMonth() + 1;
+                        let loanMonth = new Date(loan.date).getMonth() + 1;
                         console.log("loanMonth === month: " + loanMonth === month);
                         return loanMonth === month;
                     });
