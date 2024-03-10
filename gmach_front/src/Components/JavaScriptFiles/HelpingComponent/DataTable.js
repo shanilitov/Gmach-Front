@@ -113,14 +113,16 @@ export default function DataTable(props) {
     console.log("Report a problem");
     const _problem = problem;
     try {
-      const response = await fetch(`api`, {
+      const response = await fetch(`https://localhost:7275/api/Message/ReportLoan`, {
         method: "POST",
         headers: {
           'Authorization': `Bearer ${token}`,
           "Content-Type": "application/json",
+          "accept": "*/*",
+
         },
         body: JSON.stringify({
-          loanId: currentLoanId,
+          loanID: currentLoanId,
           problem: _problem,
         }),
       });
@@ -128,9 +130,9 @@ export default function DataTable(props) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       else {
-        const data = await response.json();
-        console.log("Reported problem successfully:", data);
-        return data;
+        // const data = await response.json();
+        console.log("Reported problem successfully:")//, data);
+        //return data;
       }
     } catch (error) {
       console.error("Error reporting problem:", error);
