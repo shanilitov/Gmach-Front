@@ -177,9 +177,10 @@ export default function DataTable(props) {
       });
   }
 
+  //Function to report a problem in the loan request. like: "The user didn't enter all the details"
   const handleCloseReport = () => {
     console.log("Problem is: ", problem);
-    var ans = reportAProblem();
+    let ans = reportAProblem();
     if (ans) {
       setThereProblem(false);
       setWait(true);
@@ -560,7 +561,7 @@ export default function DataTable(props) {
                         data[0].map((row, index) => {
                           return (
                             <>
-                              <TableRow hover role="checkbox" tabIndex={-1} key={index}>{/*onClick={() => ClickOnDeposit(row)} */}
+                              <TableRow hover tabIndex={-1} key={index}>{/*onClick={() => ClickOnDeposit(row)} */}
                                 {columns.map((column) => {
                                   console.log(column.id)
                                   const value = row[depositsOrder[column.id]];
