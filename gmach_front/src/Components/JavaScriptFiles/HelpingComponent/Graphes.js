@@ -23,7 +23,7 @@ export default function Graphes() {
         { title: 'Articles', url: '/Articles' },//Articles that talking about economy etc.
     ];
 
-    //canvas 0:
+    //canvas A:
     const series = [
         {
             data: [
@@ -34,15 +34,13 @@ export default function Graphes() {
         },
     ];
 
-    //Canvas:
+    //Canvas B:
     const reason = [
         {
             data: [
                 { id: 0, value: 4, label: 'Beginning of the month' },
                 { id: 1, value: 16, label: 'Middle of the month' },
                 { id: 2, value: 21, label: 'End of month' },
-                
-              
             ],
         },
     ];
@@ -51,7 +49,7 @@ export default function Graphes() {
     const chartRef = useRef(null);
     const chartInstanceRef = useRef(null); // Add a reference to the chart instance
     const xValues = [];
-    const yValues = [53, 50, 46, 42];
+    const yValues = [46, 50, 54, 42];
     //Canvas 2 :
     const chart2Ref = useRef(null);
     const chart2InstanceRef = useRef(null); // Add a reference to the second chart instance
@@ -206,55 +204,52 @@ export default function Graphes() {
                     ))}
                 </Toolbar>
             </div>
-            <div style={{ padding: "5%", width: "90%", display: "flex", flexWrap: "nowrap", alignContent: " space-between" }}>
-            <div style={{ display: "inline-block", marginLeft: "5%",paddingRight:"15%" }}>
-                <div style={{ padding: "8%", width: "50%", display: "flex", flexWrap: "nowrap", alignContent: " space-between" }}></div>
-                <div className="p_chart" >
-                    <p ><em><strong>Divison of the total loan given in the last month by sectornn                </strong></em></p>
+            <div style={{ padding: "5%", marginBottom: "1%", width: "90%", display: "flex", flexWrap: "nowrap", alignContent: " space-between" }}>
+                <div style={{ display: "inline-block", marginLeft: "5%", paddingRight: "15%" }}>
+                    <div style={{ padding: "8%", width: "50%", display: "flex", flexWrap: "nowrap", alignContent: " space-between" }}></div>
+                    <div className="p_chart" >
+                        <p ><em><strong>Divison of the total loan given in the last month by sectornn                </strong></em></p>
+                    </div>
+                    <Stack>
+                        <PieChart
+                            series={series}
+                            slotProps={{ legend: { hidden: false, vertical: 'right' } }}
+                            width={500}
+                            height={300}
+                            outerRadius = {100}
+                            paddingAngle={2}
+                            cornerRadius={5}
+                            colors={["rgb(223, 221, 53)", "rgb(0, 32, 96)", "rgba(0, 32, 96, 0.5)"]}
+                        />
+                    </Stack>
                 </div>
-                <Stack>
+                <div style={{ display: "inline-block" }}>
+                    <div style={{ padding: "8%", width: "50%", display: "flex", flexWrap: "nowrap", alignContent: " space-between" }}></div>
+                    <div className="p_chart" >
+                        <p ><em><strong>Distribution of time for taking loans in the last month</strong></em></p>
+                    </div>
+
                     <PieChart
-                        series={series}
-                        slotProps={{ legend: { hidden: false ,  vertical: 'bottom', } }}
-                        width={500}
+                        series={reason}
+                        slotProps={{ legend: { hidden: false, vertical: 'bottom' } }}
+                        width={400}
                         height={300}
+                        paddingAngle={2}
+                        cornerRadius={5}
                         colors={["rgb(223, 221, 53)", "rgb(0, 32, 96)", "rgba(0, 32, 96, 0.5)"]}
                     />
-                </Stack>
-            </div>
-            <div style={{ marginLeft: "5%", paddingRight:"15%", display:"inline-block" }}>
-            <div style={{  width: "90%", display: "flex", flexWrap: "nowrap" }}></div>
-                <div className="p_chart" >
-                    <p style={{paddingTop:"45%", marginBottom:"-10%"}}><em><strong>Distribution of time for taking loans in the last month</strong></em></p>
                 </div>
-                    <PieChart
-                        marginTop={0}
-                        series={reason}
-                        height={400}
-                        width={400}
-                        slotProps={{
-                            legend: {
-                                direction: 'row',
-                                position: { vertical: 'bottom', horizontal: 'right' },
-                                padding: 0,
-                                
-                            },
-                        }}
-                    colors={["rgb(223, 221, 53)", "rgb(0, 32, 96)", "rgba(0, 32, 96, 0.5)"]}
-                    />
             </div>
-            </div>
-            
-            <div style={{ padding: "2%", width: "80%", display: "flex", flexWrap: "nowrap", alignContent: " space-between" }}></div>
+
             <div className="p_chart" >
-                <p ><em><strong>Number of people who take loans from 'PlusMinus' in the last quarter</strong></em></p>
+                <p style={{ marginLeft: "5%" }}><em><strong>Number of people who take loans from 'PlusMinus' in the last quarter</strong></em></p>
             </div>
-            <canvas ref={chartRef} id="myChart" style={{ width: '90%', maxWidth: '90%', margin: "3%", height: "90px" }}></canvas>
+            <canvas ref={chartRef} id="myChart" style={{ width: '90%', maxWidth: '90%', marginLeft: "3%", margin: "3%", height: "90px" }}></canvas>
 
             <div className="p_chart">
-                <p  ><em><strong>The average loan amount in the last year</strong></em></p>
+                <p style={{ marginLeft: "5%" }} ><em><strong>The average loan amount in the last year</strong></em></p>
             </div>
-            <canvas ref={chart2Ref} id="myChart2" style={{ width: '90%', maxWidth: '90%', height: "80px", margin: "3%" }}></canvas>
+            <canvas ref={chart2Ref} id="myChart2" style={{ width: '90%', maxWidth: '90%', marginLeft: "3%", height: "80px", margin: "3%" }}></canvas>
             <Footer />
         </div>
     )
