@@ -23,7 +23,8 @@ export default function AllUserMessages(props) {
     const [update, setUpdate] = useState(1)
 
     let messages = {}
- 
+    let userNames = {}
+
 
     // async function GetAllUsersRequests() {
     //     try {
@@ -108,26 +109,30 @@ export default function AllUserMessages(props) {
     //This useEffect function run fetchData() and messagesDisplay() to display all user messages.
     useEffect(() => {
         setData()
-        
+
     }, 10000000000)
 
     function setData() {
         if (update) {
-
-
             console.log("in alluserMessages")
             try {
                 fetchData().then((data) => {
                     console.log("Data got from server is: ", data);
                     setUserMessages(data);
-
                     data.map(m => (
-                        getUserNameFunc(m.fromUserId)
+                        //getUserNameFunc(m.fromUserId)
+                        fetch(`https://localhost:7275/api/User/GetName/${m.fromUserId}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log("Name is: ", data)
+                                userNames[m.fromUserId].push(data.userName)
+                            })
                     ))
-                    setAllTheUsersMessages(data)
+                    console.log("userNames: ", userNames)
                     if (isAdmin) {
                         setSelectedUser(20)
                         handleUserChange(20)
+                        setAllTheUsersMessages(data)
                     }
 
                 });
@@ -170,7 +175,6 @@ export default function AllUserMessages(props) {
 
     //Display all messages of this user
     const messagesDisplay = userMessages.map((m, index) => (
-
         <div key={index} style={{
             display: "flex",
             flexDirection: "column",
@@ -181,15 +185,15 @@ export default function AllUserMessages(props) {
 
             {console.log("##")}
             {console.log(m, m.fromUserId == id)}
-            {console.log('User Dic', userdic)}
-            {console.log(userdic[m.fromUserId] === undefined ? 'raed the user name' + getUserNameFunc(m.fromUserId) : userdic[m.fromUserId])}
+            {console.log('userNames', userNames)}
+            {console.log(userdic[m.fromUserId] === undefined ? 'read the user name'  : userNames[m.fromUserId])}
             <div style={{
                 display: "inline-block",
                 width: 'fit-content',
                 textAlign: m.fromUserId == id ? 'left' : 'right',
 
             }}>
-                <label key={index}>{'Message From: ' + (userdic[m.fromUserId])}</label>
+                <label key={index}>{'Message From: ' + (userNames[m.fromUserId])}</label>
                 <Messages id={m.fromUserId} color={index} message={m.text.toString()} isHandled={m.viewed} style={{
                     textAlign: m.fromUserId == id ? 'left' : 'right',
                     width: 'auto',

@@ -21,6 +21,7 @@ import { useParams } from 'react-router-dom';
 import { TextField } from '@mui/material';
 import "../../../CSSFiles/StylePage.css";
 import Messages from './Messages';
+import Checkbox from '@mui/material/Checkbox';
 
 
 function createData(deposit) {
@@ -319,7 +320,7 @@ export default function DataTable(props) {
 
           //If it's a loan requests table
           <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer sx={{ maxHeight: 440 }}>
+            <TableContainer sx={{ maxHeight: 440 }} >
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                   <TableRow>
@@ -342,7 +343,7 @@ export default function DataTable(props) {
                         <TableRow hover role="button" onClick={() => handleClickOpen(row)} tabIndex={-1} key={index}>                      {columns.map((column) => {
                           const value = row[column.id];
                           return (
-                            <TableCell key={column.id} align={column.align}>
+                            <TableCell key={column.id} align={column.align} >
                               {column.format && typeof value === 'number'
                                 ? column.format(value)
                                 : column.id === 2  // Check if it's the 'Return date' column
@@ -535,15 +536,18 @@ export default function DataTable(props) {
 
             {
               (<div className='depositsTable'><h3 color='rgb(0, 32, 96)'>Deposits in PlusMinus account</h3><Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                <TableContainer sx={{ maxHeight: 440 }}>
+                <TableContainer sx={{ maxHeight: 440 }} >
                   <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                       <TableRow>
+                        
                         {columns.map((column) => (
+                          
                           <TableCell
                             key={column.id}
                             align={column.align}
                             style={{ minWidth: column.minWidth, backgroundColor: "rgba(223, 221, 53, 0.5)" }}
+
                           >
                             {column.label}
                           </TableCell>
@@ -561,7 +565,9 @@ export default function DataTable(props) {
                                   console.log(column.id)
                                   const value = row[depositsOrder[column.id]];
                                   console.log(value)
+                                  
                                   return (
+                                 
                                     <TableCell key={column.id} align={column.align}>
                                       {column.format && typeof value === 'number'
                                         ? column.format(value)
@@ -691,7 +697,7 @@ export default function DataTable(props) {
 
             {
               (<div className='depositsTable'><h3 color='rgb(0, 32, 96)'>Deposits already returned </h3><Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                <TableContainer sx={{ maxHeight: 440 }}>
+                <TableContainer sx={{ maxHeight: 440 }} >
                   <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                       <TableRow>
@@ -716,7 +722,7 @@ export default function DataTable(props) {
                                 {columns.map((column) => {
                                   const value = row[depositsOrder[column.id]];
                                   return (
-                                    <TableCell key={column.id} align={column.align}>
+                                    <TableCell key={column.id} align={column.align} >
                                       {column.format && typeof value === 'number'
                                         ? column.format(value)
                                         : column.id === 2  // Check if it's the 'Return date' column

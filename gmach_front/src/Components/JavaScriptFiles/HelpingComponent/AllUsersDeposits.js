@@ -34,7 +34,7 @@ function AllUsersDeposits(props) {
                 console.log("Data got from server is: ", data);
                 setDeposits(data);
                 let loansSum = 0;
-                if (data.length > 0) {
+                if (data) {
                     let sum = sumAllDeposits(data);
                     getLoans().then((fetchedLoans) => {
                         console.log("💒💒 loans that were fetched: ", fetchedLoans);
