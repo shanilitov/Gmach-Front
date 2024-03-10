@@ -107,7 +107,7 @@ export default function Blog() {
   }, []);
   return (
     <>
-      <CustomBar />
+      <CustomBar blue='yes'/>
       <div style={{ marginTop: '22%' }}>
       <div style={{height:"50%"}}>
       {/*<Slider/>*/}
