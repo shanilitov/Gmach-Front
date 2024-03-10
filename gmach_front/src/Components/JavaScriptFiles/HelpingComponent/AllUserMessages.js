@@ -25,7 +25,10 @@ export default function AllUserMessages(props) {
     let messages = {}
     let userNames = {}
 
+    const [flag, setFlag] = useState(0)
 
+
+ 
     // async function GetAllUsersRequests() {
     //     try {
     //         if (token != undefined) {
@@ -109,8 +112,13 @@ export default function AllUserMessages(props) {
     //This useEffect function run fetchData() and messagesDisplay() to display all user messages.
     useEffect(() => {
         setData()
+        setTimeout(() => {
+            userdic[20] = "admin"
+            setUserMessages(userMessages)
+        }, 3000);
+    
 
-    }, 10000000000)
+    }, [flag])
 
     function setData() {
         if (update) {
@@ -120,15 +128,12 @@ export default function AllUserMessages(props) {
                     console.log("Data got from server is: ", data);
                     setUserMessages(data);
                     data.map(m => (
-                        //getUserNameFunc(m.fromUserId)
-                        fetch(`https://localhost:7275/api/User/GetName/${m.fromUserId}`)
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log("Name is: ", data)
-                                userNames[m.fromUserId].push(data.userName)
-                            })
+                        AddUserNameToUserDic(m.fromUserId)
                     ))
-                    console.log("userNames: ", userNames)
+                    setTimeout(() => {
+                        console.log("userNames: ", userdic)
+                    }, 3000);
+
                     if (isAdmin) {
                         setSelectedUser(20)
                         handleUserChange(20)
@@ -145,6 +150,26 @@ export default function AllUserMessages(props) {
                     setShowAlert(false);
                 }, 3000);
             }
+        }
+    }
+
+
+    async function AddUserNameToUserDic(userId) {
+        try {
+            fetch(`https://localhost:7275/api/User/GetUserName/${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Name is: ", data)
+                    userdic[userId] = data.userName
+                })
+        }
+        catch (err) {
+            console.log("Error fetching data: ", err);
+            setAlertMsg("Error fetching data: " + err);
+            setShowAlert(true);
+            setTimeout(() => {
+                setShowAlert(false);
+            }, 3000);
         }
     }
 
@@ -186,14 +211,14 @@ export default function AllUserMessages(props) {
             {console.log("##")}
             {console.log(m, m.fromUserId == id)}
             {console.log('userNames', userNames)}
-            {console.log(userdic[m.fromUserId] === undefined ? 'read the user name'  : userNames[m.fromUserId])}
+            {console.log(userdic[m.fromUserId] === undefined ? 'read the user name' : userdic[m.fromUserId])}
             <div style={{
                 display: "inline-block",
                 width: 'fit-content',
                 textAlign: m.fromUserId == id ? 'left' : 'right',
 
             }}>
-                <label key={index}>{'Message From: ' + (userNames[m.fromUserId])}</label>
+                <label key={index}>{'Message From: ' + (userdic[m.fromUserId])}</label>
                 <Messages id={m.fromUserId} color={index} message={m.text.toString()} isHandled={m.viewed} style={{
                     textAlign: m.fromUserId == id ? 'left' : 'right',
                     width: 'auto',
@@ -288,11 +313,12 @@ export default function AllUserMessages(props) {
         console.log('in selection change function', userId)
         setSelectedUser(userId);
         setUserMessages(AllTheUsersMessages.filter(m => m.fromUserId == userId || m.toUserId == userId))
+        setUpdate(true)
     };
 
     return (
         <div style={{
-            width: "200%",
+            width: "auto",
             display: 'flex',
             flexDirection: 'column'
         }}>
