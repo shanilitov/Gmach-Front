@@ -220,7 +220,7 @@ export default function Graphes() {
                             paddingAngle={2}
                             cornerRadius={5}
                             colors={["rgb(223, 221, 53)", "rgb(0, 32, 96)", "rgba(0, 32, 96, 0.5)"]}
-                        />
+                        />cd
                     </Stack>
                 </div>
                 <div style={{ display: "inline-block" }}>
