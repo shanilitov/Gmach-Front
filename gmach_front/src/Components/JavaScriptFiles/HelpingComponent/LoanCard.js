@@ -16,10 +16,12 @@ export default function LoanCard(props) {
     console.log("I'm in LoanCard");
     const [showAlert, setShowAlert] = useState(false);
     const admin = props.admin;
-    let title = "Loan";
-    let loan = props.loan;
-    let LoanDate = props.date;
-
+    
+    const loan = props.loan;
+    const LoanDate = props.date;
+    const title = loan.loanId;
+   
+     
     React.useEffect(() => {
         if (LoanDate<(moment())) {
             setShowAlert(true);
@@ -43,7 +45,7 @@ export default function LoanCard(props) {
                     <Avatar alt="ProfileImg" src="https://digital-finance.co.il/wp-content/uploads/2021/01/%D7%94%D7%9C%D7%95%D7%95%D7%90%D7%94-%D7%9C%D7%A4%D7%99-%D7%A1%D7%9B%D7%95%D7%9D.jpg" />
                 </ListItemAvatar>
                 <ListItemText
-                    primary={title}
+                    primary={`Loan Number ${title}`}
                     secondary={
                         <React.Fragment>
                             <Typography
@@ -52,7 +54,7 @@ export default function LoanCard(props) {
                                 variant="body2"
                                 color="text.primary"
                             >
-                                {title}
+                                {`Has to be retuned in ${daysBetween(LoanDate)} days`}
                             </Typography>
                             <h2>Loan amount: {(loan.sum) + "$"}</h2>
                             <h3>Debt maturity date: {LoanDate}</h3>

@@ -25,10 +25,10 @@ export default function AllUserMessages(props) {
     let messages = {}
     let userNames = {}
 
-    const [flag, setFlag] = useState(0)
+    const [flag, setFlag] = useState(true)
 
 
- 
+
     // async function GetAllUsersRequests() {
     //     try {
     //         if (token != undefined) {
@@ -111,14 +111,13 @@ export default function AllUserMessages(props) {
 
     //This useEffect function run fetchData() and messagesDisplay() to display all user messages.
     useEffect(() => {
-        setData()
-        setTimeout(() => {
-            userdic[20] = "admin"
-            setUserMessages(userMessages)
-        }, 3000);
-    
-
-    }, [flag])
+        if (flag) {
+            setData()
+           
+            setFlag(false)
+        }
+        
+    },[])
 
     function setData() {
         if (update) {
@@ -211,7 +210,7 @@ export default function AllUserMessages(props) {
             {console.log("##")}
             {console.log(m, m.fromUserId == id)}
             {console.log('userNames', userNames)}
-            {console.log(userdic[m.fromUserId] === undefined ? 'read the user name' : userdic[m.fromUserId])}
+            {console.log(userdic[m.fromUserId] === undefined ? `read the user name`: userdic[m.fromUserId])}
             <div style={{
                 display: "inline-block",
                 width: 'fit-content',

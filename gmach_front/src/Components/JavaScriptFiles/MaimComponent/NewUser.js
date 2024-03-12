@@ -58,7 +58,7 @@ function NewUser() {
   const [validPassword, setValidPassword] = useState("");
 
   function checkNewUser() {
-
+   
     //help consols:
     console.log("userName: " + userName);
     console.log("phone: " + phone);
@@ -85,7 +85,7 @@ function NewUser() {
         UserName: userName,
         Password: password,
       };
-
+     
       let URL = "https://localhost:7275/api/User/SignIn";
       let data = NewUser;
 
@@ -115,12 +115,21 @@ function NewUser() {
             .then((response) => {
               response.json().then((data) => {
                 console.log("Server responsed!! Data: " + JSON.stringify(data));
-                if (data.userId === 0) {
+                if (data === 0) {
                   console.log("User Exist!")
+                  setMessage("User Exist!");
+                    alert = true;
+                    setShowAlert(true);
                 }
                 else {
-                  if (data.userId < 0) {
+                  if (data < 0) {
                     console.log("Error in server!")
+                    setMessage(data == -6 ? "User with this id already exist!" : "Error in server!");
+                    alert = true;
+                    setShowAlert(true);
+                    setTimeout(() => {
+                      setShowAlert(false)
+                    }, 4000);
                   }
                   else {
                     console.log("data: ", data, "JSON.stringify(data): ", JSON.stringify(data));
