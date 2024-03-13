@@ -148,7 +148,7 @@ export default function NewDeposit() {
     setCardIdFromDB(true);
   }
 
-  
+
   //This function is for the button. It checks if all the fields are full and if so, it shows the button.
   const handleButtonShow = () => {
     console.log("The handleButtonShow run at father!");
@@ -158,12 +158,14 @@ export default function NewDeposit() {
     console.log("cvv: ", cvv);
     console.log("depositAmount: ", depositAmount);
     console.log("depositReturnDate: ", depositReturnDate);
+   
     if (activeStep === 0) {
       if (cardName && cardNumber && expDate && cvv && !allFields) {
         console.log("All fields are full!");
         setAllFields(true);
       }
     }
+
     else {
       if (depositAmount && depositReturnDate && !allFields) {
         console.log("All fields are full!");
@@ -171,7 +173,6 @@ export default function NewDeposit() {
       }
     }
     console.log("activeStep === steps.length: ", activeStep === steps.length, " activeStep: ", activeStep, " steps.length: ", steps.length);
-
   }
 
 
