@@ -143,8 +143,8 @@ export default function DataTable(props) {
 
 
   const ClickOnDeposit = (row) => {
-    setOpen(true);
     console.log("Row is: ", row);
+    setOpen(true);
     console.log("Open dialog");
     setCurrentRequest(row)
     setCurrentLoanId(row[0]);
@@ -258,7 +258,10 @@ export default function DataTable(props) {
   }
 
   function formatSum(sum) {
-    return sum.toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d{2}$/, '');
+    if (sum) {
+      return sum.toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d{2}$/, '');
+    }
+    console.log("in formatSum, sum is: ", sum)
   }
 
   const titles = props.titles;
@@ -567,7 +570,7 @@ export default function DataTable(props) {
                         data[0].map((row, index) => {
                           return (
                             <>
-                              <TableRow hover tabIndex={-1} key={index}  >{/*onClick={() => ClickOnDeposit(row)} */}
+                              <TableRow hover tabIndex={-1} key={index} onClick={() => ClickOnDeposit(row)} >
                                 {DepositsColumns.map((column) => {
                                   console.log(column.id)
                                   let value = row[depositsOrder[column.id]];
@@ -582,7 +585,7 @@ export default function DataTable(props) {
                                       value = "No 🟢";
                                     }
                                   }
-                                  if(column.id === 4){
+                                  if (column.id === 4) {
                                     value = row[depositsOrder[3]]
                                   }
                                   console.log(value)
@@ -608,15 +611,15 @@ export default function DataTable(props) {
                                 <DialogTitle id="responsive-dialog-title">{"Release deposit"}</DialogTitle>
                                 <DialogContent>
                                   <DialogContentText>
-                                    User number {currentRequest[3]} needs to get his deposit back.
+                                    User needs to get his deposit back.
                                   </DialogContentText>
                                   <DialogContentText>
-                                    Deposit id: {currentRequest[0]}
+                                    Is this deposit returned to the depositor?
                                   </DialogContentText>
                                   {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
                                   <DialogActions>
-                                    <Button autoFocus onClick={ReleaseDeposit}>Release</Button>
-                                    <Button autoFocus onClick={CloseReleaseDeposit}>Close</Button>
+                                    <Button autoFocus onClick={ReleaseDeposit}>Yes, returned</Button>
+                                    <Button autoFocus onClick={CloseReleaseDeposit}>Not yet</Button>
 
                                   </DialogActions>
                                 </DialogContent>
@@ -672,7 +675,7 @@ export default function DataTable(props) {
                                         ? column.format(value)
                                         : column.id === 2  // Check if it's the 'Return date' column
                                           ? formatDate(value) // Call the formatDate function
-                                          : value}
+                                          : column.id == 1 ? formatSum(value) : value}
                                     </TableCell>
                                   );
                                 })}
