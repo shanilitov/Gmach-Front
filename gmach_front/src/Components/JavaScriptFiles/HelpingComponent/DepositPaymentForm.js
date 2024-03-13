@@ -21,7 +21,7 @@ export default function DepositPaymentForm(props) {
   const [cardNumber, setCardNumber] = React.useState("");
   const [expDate, setExpDate] = React.useState("");
   const [cvv, setCvv] = React.useState("");
-  const [allFields, setAllFields] = React.useState(false); 
+  const [allFields, setAllFields] = React.useState(false);
   const [check, setChecked] = React.useState(true); // If user want to save the credit card details or not. 
   const [Payment, set_Payment] = React.useState(1); // Set the initial value to 1. 1 = Add a new payment details, 2 = Use an exist card.
 
@@ -58,7 +58,7 @@ export default function DepositPaymentForm(props) {
   }
 
   const expDateChangeHandler = () => {
-        props.onExpDate(expDate);
+    props.onExpDate(expDate);
   }
 
   const cvvChangeHandler = () => {
@@ -76,22 +76,25 @@ export default function DepositPaymentForm(props) {
   const handlePayment = (value) => {
     console.log("handlePayment run!");
     console.log(value)
-    if(value === 1){  
+    if (value === 1) {
       handleCard("");
       set_Payment(value);
     }
-    else{
+    else {
       set_Payment(value);
       console.log("PaymentHandler run! value is: ", value, " Payment is: ", Payment);
     }
-    
   }
 
   const handleCard = (value) => {
-    console.log("vCard value ", value ," value == null: ", value == null, " value == '': ", value == "")
+    console.log("vCard value ", value, " value == null: ", value == null, " value == '': ", value == "")
     props.onExistingCard(value);
   }
 
+  const handleCardId = (value) => {
+    console.log("😉 in handleCardId at DepositPaymentForm")
+    props.onCardId(value);
+  }
 
 
 
@@ -99,7 +102,7 @@ export default function DepositPaymentForm(props) {
   return (
     <div>
       <React.Fragment>
-        <div  style={{marginBottom: "5%"}}>
+        <div style={{ marginBottom: "5%" }}>
           <Typography variant="h6" gutterBottom style={{ display: "inline-block", marginTop: "2%" }}>
             Payment method
           </Typography>
@@ -260,7 +263,7 @@ export default function DepositPaymentForm(props) {
             {error ? (<ErrorAlert msg={errorMsg} />) : (<></>)}
           </Grid>
         </Grid>) : (<>
-          <CreditCardDisplay numbers={creditCardsArray} setCard={handleCard} userID={userID} />;
+          <CreditCardDisplay numbers={creditCardsArray} setCard={handleCard} setCardId={handleCardId} userID={userID} />
           <Grid item xs={12} md={6}>
           </Grid>
         </>)}
