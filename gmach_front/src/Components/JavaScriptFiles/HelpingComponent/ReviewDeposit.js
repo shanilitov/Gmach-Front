@@ -32,6 +32,8 @@ const products = [
 ];
 
 const addresses = ['1 MUI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
+
+
 export default function Review(props) {
     const payments = [
         { name: 'Card number', detail: `xxxx-xxxx-xxxx-${props.cardNumber.slice(-4)}` },

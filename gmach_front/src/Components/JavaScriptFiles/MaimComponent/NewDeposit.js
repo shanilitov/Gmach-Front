@@ -53,6 +53,8 @@ export default function NewDeposit() {
   const id = useParams();
   const name = useParams();
 
+  const [fullCard, setFullCard] = React.useState({})
+
   const steps = ['Payment details', 'Amount and date', 'Review details'];
   const token = localStorage.getItem('token')
 
