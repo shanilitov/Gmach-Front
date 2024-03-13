@@ -58,6 +58,8 @@ export default function NewDeposit() {
   const steps = ['Payment details', 'Amount and date', 'Review details'];
   const token = localStorage.getItem('token')
 
+  let CardId = "";
+
   const handleNext = () => {
     setActiveStep(activeStep + 1);
     if (activeStep > 1) {
@@ -78,7 +80,7 @@ export default function NewDeposit() {
     switch (step) {
       case 0:
         // return <Details />;
-        return <DepositPaymentForm onCardName={cardNameHandler} onCardNumber={cardNumberHandler} onExpDate={expDateHandler} onCvv={cvvHandler} onFields={handleButtonShow} checkBox={CheckboxHandler} userID={id}  onCardId={handleCardId} onExistingCard={handleCard} />;
+        return <DepositPaymentForm onCardName={cardNameHandler} onCardNumber={cardNumberHandler} onExpDate={expDateHandler} onCvv={cvvHandler} onFields={handleButtonShow} checkBox={CheckboxHandler} userID={id} onCardId={handleCardId} onExistingCard={handleCard} />;
       case 1:
         return <DepositDateAndAmount onAmount={depositAmountHandler} onDate={depositReturnDateHandler} onFields={handleButtonShow} />;
       case 2:
@@ -135,19 +137,60 @@ export default function NewDeposit() {
 
   const handleCard = (card) => {
     console.log("Father. handleCard run!", card)
-    if (card != "") {
+    if (typeof card == "object") {
+      console.log("Card is object")
       setCard(card);
-      setCardNumber(card);
-
+      setCardNumber(card.creditCardNumber);
     }
+    else {
+      if (card != "") {
+        setCard(card);
+        setCardNumber(card);
+
+      }
+    }
+
   }
 
   const handleCardId = (cardId) => {
     console.log("Father. handleCardId run!", cardId)
     setCardId(cardId);
     setCardIdFromDB(true);
+    CardId = cardId;
   }
 
+
+  const AddDeposit = (depositData) => {
+    fetch('https://localhost:7275/api/Deposit/AddADeposit', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(depositData)
+    }).then(response => {
+      console.log("Response is: ", response);
+      console.log("Res message: ", response.message)
+      return response.json();
+    }).then(data => {
+      console.log("Data is: ", data);
+      if (data == -2) {
+        alert("You're not logged in. Please log in and try again.")
+      }
+      if (data > 0) {
+        alert("Your deposit was added successfully!")
+        console.log("🟩◻🟩  Your deposit was added successfully!")
+        setSuccessed(true)
+
+      }
+      else if (data == -1) {
+        alert("Error. Please try again.")
+      }
+
+    }).catch(err => {
+      console.log("Error is: ", err);
+    })
+  }
 
   //This function is for the button. It checks if all the fields are full and if so, it shows the button.
   const handleButtonShow = () => {
@@ -158,7 +201,7 @@ export default function NewDeposit() {
     console.log("cvv: ", cvv);
     console.log("depositAmount: ", depositAmount);
     console.log("depositReturnDate: ", depositReturnDate);
-   
+
     if (activeStep === 0) {
       if (cardName && cardNumber && expDate && cvv && !allFields) {
         console.log("All fields are full!");
@@ -197,12 +240,27 @@ export default function NewDeposit() {
     console.log("depositAmount: ", depositAmount);
     console.log("depositReturnDate: ", depositReturnDate);
     console.log("userId: ", id);
-    let cardId = 0;
-    if (cardIdFromDB) { 
-      cardId = cardId;
+
+    //If there is a card is from the DB
+    if (cardIdFromDB) {
+      //CardId = cardId;
+      const depositData = {
+        depositId: 0,
+        userId: parseInt(id.userId),
+        sum: parseInt(depositAmount),
+        dateToPull: new Date(depositReturnDate).toISOString().split('T')[0],
+        creditCardNumber: cardId
+      }
+      console.log("cardIdFromDB:: depositData: ", depositData);
+      AddDeposit(depositData);
     }
+
+    //If drpositor entered a new card
     else {
-      if (cardName && cardNumber && expDate && cvv && depositAmount && depositReturnDate) {
+      if (!(cardName && cardNumber && expDate && cvv && depositAmount && depositReturnDate)) {
+        setError("Please fill all the fields.")
+      }
+      else {
         const card = {
           cardId: 0,
           userId: parseInt(id.userId),
@@ -212,78 +270,54 @@ export default function NewDeposit() {
           validity: new Date(expDate).toISOString(),
         }
         console.log("card: ", JSON.stringify(card));
-  let URL = "https://localhost:7275/api/Card/AddNewCard";
-  fetch(URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      'accept': 'text/plain',
-      'Authorization': `Bearer ${token}`
-    },
-    body: JSON.stringify(card),
-  })
-    .then((response) => {
-      response.json().then((data) => {
-        console.log("Server responsed!! Data: " + JSON.stringify(data));
-        if (data == -3) {
-          setError("You're not logged in. Please log in and try again.")
-        }
-        if (data > 0) {
-          alert("Your card was added successfully!")
-          setCard(data)
-          let depositData = {
-            depositId: 0,
-            userId: parseInt(id.userId),
-            sum: parseInt(depositAmount),
-            dateToPull: new Date(depositReturnDate).toISOString().split('T')[0],
-            /*cardName: cardName,
-            cardNumber: _cardNumber,
-            expDate: expDate,
-            cvv: cvv,
-            depositAmount: depositAmount,
-            depositReturnDate: depositReturnDate,*/
-          }
-          console.log("depositData: ", depositData);
-          fetch('https://localhost:7275/api/Deposit/AddADeposit', {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(depositData)
-          }).then(response => {
-            console.log("Response is: ", response);
-            console.log("Res message: ", response.message)
-            return response.json();
-          }).then(data => {
-            console.log("Data is: ", data);
-            if (data == -2) {
-              alert("You're not logged in. Please log in and try again.")
-            }
-            if (data > 0) {
-              alert("Your deposit was added successfully!")
-              setSuccessed(true)
-            }
-            else if (data == -1) {
-              alert("Error. Please try again.")
-            }
-
-          }).catch(err => {
-            console.log("Error is: ", err);
-          })
-        }
-        else if (data == -1) {
-          setError("Error. Please try again.")
-        }
-      })
-        .catch((error) => {
-          console.error('Error:', error);
-          setError("Error: " + error)
+        let URL = "https://localhost:7275/api/Card/AddNewCard";
+        fetch(URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            'accept': 'text/plain',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(card),
         })
-        .finally(() => {
-          console.log("Finally");
-        });
-    })
+          .then((response) => {
+            response.json().then((data) => {
+              console.log("Server responsed!! Data: " + JSON.stringify(data));
+              if (data == -3) {
+                setError("You're not logged in. Please log in and try again.")
+              }
+              if (data > 0) {
+                alert("Your card was added successfully!")
+                setCard(data)
+                let depositData = {
+                  depositId: 0,
+                  userId: parseInt(id.userId),
+                  sum: parseInt(depositAmount),
+                  dateToPull: new Date(depositReturnDate).toISOString().split('T')[0],
+                  creditCardNumber: data
+                  /*cardName: cardName,
+                  cardNumber: _cardNumber,
+                  expDate: expDate,
+                  cvv: cvv,
+                  depositAmount: depositAmount,
+                  depositReturnDate: depositReturnDate,*/
+
+                }
+                console.log("depositData: ", depositData);
+                AddDeposit(depositData);
+              }
+              else if (data == -1) {
+                setError("Error. Please try again.")
+              }
+            })
+              .catch((error) => {
+                console.error('Error:', error);
+                setError("Error: " + error)
+              })
+              .finally(() => {
+                console.log("Finally");
+              });
+          })
 
         /*
               "cardId": 0,
@@ -294,14 +328,11 @@ export default function NewDeposit() {
   "validity": "2024-03-06T12:35:11.750Z"
         */
 
-  
-      }
-      else {
 
-        setError("Please fill all the fields.")
+
       }
 
-     
+
 
     }
 
@@ -360,7 +391,7 @@ export default function NewDeposit() {
 
                   </Typography>
                   <div style={{ marginTop: "3%", marginLeft: "1%", padding: "3%" }}>
-                    <BasicButtons value="Back to your personal area" function={() => { window.location.href = `/Register/${id}/${name}`; }} />
+                    <BasicButtons value="Back to your personal area" function={() => { window.location.href = `/Register/${id.useId}/${id.userName}`; }} />
                   </div>
                 </React.Fragment>
               ) : (<React.Fragment>
@@ -376,10 +407,9 @@ export default function NewDeposit() {
                   <Typography variant="subtitle1">
                     Please try again.  (If the problem repeat- write for us and we will check it as soon as we can.)
                   </Typography>
-                  <Button onClick={
-                    setTimeout(() => {
-                      setActiveStep(0)
-                    }, 3000)}>Try again</Button>
+                  <Button onClick={() =>
+                    setActiveStep(0)
+                  }>Try again</Button>
                 </Typography>
               </React.Fragment>)
             ) : (

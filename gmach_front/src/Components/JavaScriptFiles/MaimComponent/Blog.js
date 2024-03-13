@@ -125,8 +125,7 @@ export default function Blog() {
                 ))}
               </Grid>
               <Grid container spacing={5} sx={{ mt: 3 }}>
-                  {readme1Content && <Main title="AA" content={readme1Content} />}
-                  {readme2Content && <Main title="BB" content={readme2Content} />}
+                  
 
                <Main title="From the firehose" posts={posts} />
            {/*   <Sidebar
