@@ -27,9 +27,11 @@ import Checkbox from '@mui/material/Checkbox';
 function createData(deposit) {
   const DepositId = deposit.depositId;
   const amount = deposit.sum.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-  const date = new Date(deposit.dateToPull).toLocaleDateString('en-US');
+  const date = new Date(deposit.dateToPull).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const formattedDate = `${date.slice(3, 5)}/${date.slice(0, 2)}/${date.slice(6)}`;
+  console.log("in createData, date is: ", formattedDate)
   const userId = deposit.userId;
-  return [DepositId, amount, date, userId];
+  return [DepositId, amount, formattedDate, userId];
 }
 
 function createData2(loan) {
@@ -239,40 +241,16 @@ export default function DataTable(props) {
 
   if (deposits != null || deposits != undefined) {
     data = deposits.map((deposit) => createData(deposit));
-    // Create an array for deposits that haven't returned yet (dateToPull < today)
-    const depositsNotReturned = deposits.filter(deposit => new Date(deposit.dateToPull) > new Date());
-    // Create an array for deposits that return today (dateToPull = today)
-    const depositsReturnToday = deposits.filter(deposit => {
-      const today = new Date();
-      const depositDate = new Date(deposit.dateToPull);
-      return depositDate.getFullYear() === today.getFullYear() &&
-        depositDate.getMonth() === today.getMonth() &&
-        depositDate.getDate() === today.getDate();
-    });
+    // Create an array for deposits that haven't returned yet (dateToPull <= today)
+    const depositsNotReturned = deposits.filter(deposit => new Date(deposit.dateToPull) >= new Date());
+
     // Create an array for deposits that have already returned (dateToPull > today)
     const depositsReturned = deposits.filter(deposit => new Date(deposit.dateToPull) < new Date());
     console.log("🚴‍♂️  depositsNotReturned is: ", depositsNotReturned);
-    console.log("🚴‍♂️🚴‍♂️  depositsReturnToday is: ", depositsReturnToday);
     console.log("🚴‍♂️🚴‍♂️🚴‍♂️  depositsReturned is: ", depositsReturned);
-    data = [
-      depositsNotReturned.map(deposit => {
-        const depositDate = new Date(deposit.dateToPull);
-        const formattedDate = depositDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        return { ...deposit, dateToPull: formattedDate };
-      }),
-      depositsReturnToday.map(deposit => {
-        const depositDate = new Date(deposit.dateToPull);
-        const formattedDate = depositDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        return { ...deposit, dateToPull: formattedDate };
-      }),
-      depositsReturned.map(deposit => {
-        const depositDate = new Date(deposit.dateToPull);
-        const formattedDate = depositDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        return { ...deposit, dateToPull: formattedDate };
-      })
-    ];
+    data = [depositsNotReturned, depositsReturned];
     console.log("🚴‍♂️🚴‍♂️🚴‍♂️🚴‍♂️  data is: ", data);
-    //data = [depositsNotReturned, depositsReturnToday, depositsReturned];
+    //data = [depositsNotReturned, depositsReturned];
   }
   if (loanRequests != null || loanRequests != undefined) {
     data = loanRequests.map((loan) => createData2(loan));
@@ -543,9 +521,9 @@ export default function DataTable(props) {
                   <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                       <TableRow>
-                        
+
                         {columns.map((column) => (
-                          
+
                           <TableCell
                             key={column.id}
                             align={column.align}
@@ -568,9 +546,9 @@ export default function DataTable(props) {
                                   console.log(column.id)
                                   const value = row[depositsOrder[column.id]];
                                   console.log(value)
-                                  
+
                                   return (
-                                 
+
                                     <TableCell key={column.id} align={column.align}>
                                       {column.format && typeof value === 'number'
                                         ? column.format(value)
@@ -622,7 +600,7 @@ export default function DataTable(props) {
 
 
             {
-              (<div className='depositsTable'><h3 color='rgb(0, 32, 96)'>Deposits need to returned today</h3><Paper sx={{ width: '100%', overflow: 'hidden' }}>
+              (<div className='depositsTable'><h3 color='rgb(0, 32, 96)'>Deposits already returned </h3><Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 440 }}>
                   <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -696,88 +674,6 @@ export default function DataTable(props) {
                   onRowsPerPageChange={handleChangeRowsPerPage}
                 />
               </Paper></div>)}
-
-
-            {
-              (<div className='depositsTable'><h3 color='rgb(0, 32, 96)'>Deposits already returned </h3><Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                <TableContainer sx={{ maxHeight: 440 }} >
-                  <Table stickyHeader aria-label="sticky table">
-                    <TableHead>
-                      <TableRow>
-                        {columns.map((column) => (
-                          <TableCell
-                            key={column.id}
-                            align={column.align}
-                            style={{ minWidth: column.minWidth, backgroundColor: "rgba(223, 221, 53, 0.5)" }}
-                          >
-                            {column.label}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {data[2] && data[2].length > 0 && (
-
-                        data[2].map((row, index) => {
-                          return (
-                            <>
-                              <TableRow hover role="checkbox" tabIndex={-1} key={index}>{/*onClick={() => ClickOnDeposit(row)} */}
-                                {columns.map((column) => {
-                                  const value = row[depositsOrder[column.id]];
-                                  return (
-                                    <TableCell key={column.id} align={column.align} >
-                                      {column.format && typeof value === 'number'
-                                        ? column.format(value)
-                                        : column.id === 2  // Check if it's the 'Return date' column
-                                          ? formatDate(value) // Call the formatDate function
-                                          : value}
-                                    </TableCell>
-                                  );
-                                })}
-                              </TableRow>
-                              <Dialog fullScreen={fullScreen}
-                                open={open}
-                                onClose={CloseReleaseDeposit}
-                                aria-labelledby="responsive-dialog-title">
-
-                                <DialogTitle id="responsive-dialog-title">{"Release deposit"}</DialogTitle>
-                                <DialogContent>
-                                  <DialogContentText>
-                                    User number {currentRequest[3]} needs to get his deposit back.
-                                  </DialogContentText>
-                                  <DialogContentText>
-                                    Deposit id: {currentRequest[0]}
-                                  </DialogContentText>
-                                  {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
-                                  <DialogActions>
-                                    <Button autoFocus onClick={ReleaseDeposit}>Release</Button>
-                                    <Button autoFocus onClick={CloseReleaseDeposit}>Close</Button>
-
-                                  </DialogActions>
-                                </DialogContent>
-                              </Dialog>
-                            </>
-                          );
-                        })
-                      )}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <TablePagination
-                  rowsPerPageOptions={[10, 25, 100]}
-                  component="div"
-                  count={data.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-              </Paper></div>)
-
-
-            }
-
-
 
           </div>
 

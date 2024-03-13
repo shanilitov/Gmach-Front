@@ -18,7 +18,7 @@ export default function AllUserMessages(props) {
 
     //for admin state:
     const isAdmin = id == 20;
-    const [selectedUser, setSelectedUser] = useState(null);
+    const [selectedUser, setSelectedUser] = useState("");
     const [AllTheUsersMessages, setAllTheUsersMessages] = useState([])
     const [update, setUpdate] = useState(1)
 
@@ -113,11 +113,11 @@ export default function AllUserMessages(props) {
     useEffect(() => {
         if (flag) {
             setData()
-           
+
             setFlag(false)
         }
-        
-    },[])
+
+    }, [])
 
     function setData() {
         if (update) {
@@ -210,7 +210,7 @@ export default function AllUserMessages(props) {
             {console.log("##")}
             {console.log(m, m.fromUserId == id)}
             {console.log('userNames', userNames)}
-            {console.log(userdic[m.fromUserId] === undefined ? `read the user name`: userdic[m.fromUserId])}
+            {console.log(userdic[m.fromUserId] === undefined ? `read the user name` : userdic[m.fromUserId])}
             <div style={{
                 display: "inline-block",
                 width: 'fit-content',
@@ -291,7 +291,7 @@ export default function AllUserMessages(props) {
                     console.log('$')
                     setData()
                     setMyMessage('')
-                    TextField.value = ''
+                    window.location.reload();
                 }
 
 
@@ -362,6 +362,7 @@ export default function AllUserMessages(props) {
                 onKeyPress={(ev) => {
                     if (ev.key === 'Enter') {
                         sendMessageClicked();
+                        ev.value = '';
                     }
                 }}
                 key="textField2" />
