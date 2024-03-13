@@ -329,7 +329,7 @@ export default function DataTable(props) {
         loanRequests !== undefined ?
 
           //If it's a loan requests table
-          <Paper sx={{ width: '95%', overflow: 'hidden' }}>
+          <Paper sx={{ width: '100%', overflow: 'hidden' }}>
             <TableContainer sx={{ maxHeight: 440 }} >
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
@@ -359,7 +359,6 @@ export default function DataTable(props) {
                                 : column.id === 2  // Check if it's the 'Return date' column
                                   ? formatDate(value) // Call the formatDate function
                                   : value}
-                              {column.id === 3 ? <Checkbox color="primary" checked={new Date(value) <= new Date()} /> : null}
                             </TableCell>
                           );
                         })}
@@ -614,7 +613,13 @@ export default function DataTable(props) {
                                     User needs to get his deposit back.
                                   </DialogContentText>
                                   <DialogContentText>
-                                    Is this deposit returned to the depositor?
+                                    Deposit sum is : {formatSum(row.sum)}.
+                                  </DialogContentText>
+                                  <DialogContentText> 
+                                  __________________________________
+                                  </DialogContentText>
+                                  <DialogContentText>
+                                    <strong>Is this deposit returned to the depositor?</strong>
                                   </DialogContentText>
                                   {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
                                   <DialogActions>
@@ -680,7 +685,7 @@ export default function DataTable(props) {
                                   );
                                 })}
                               </TableRow>
-                              <Dialog fullScreen={fullScreen}
+                              {/*<Dialog fullScreen={fullScreen}
                                 open={open}
                                 onClose={CloseReleaseDeposit}
                                 aria-labelledby="responsive-dialog-title">
@@ -700,7 +705,7 @@ export default function DataTable(props) {
 
                                   </DialogActions>
                                 </DialogContent>
-                              </Dialog>
+                              </Dialog>*/}
                             </>
                           );
                         })
