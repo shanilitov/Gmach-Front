@@ -52,7 +52,7 @@ export default function CreditCardDisplay(props) {
             });
             const data = await response.json().then(data => {
                 console.log(data)
-                console.log("Data is: ", data);
+                console.log("Cards are: ", data);
 
                 if (data.length > 0) {
                     console.log(data)
@@ -99,27 +99,21 @@ export default function CreditCardDisplay(props) {
                         key={element.cardId}
                     >
                         <Item elevation={elevation} selected={selectedCard === element}>
-                            {console.log('element is: ', element)}
+                            {console.log('element .cardId is: ', element.cardId)}
+                            {props.setCardId(element.cardId)}
                             <div style={{
-                                margin:"0px",
+                                margin: "0px",
                             }}>
                                 {`XXXX-XXXX-XXXX-${element.creditCardNumber.slice(-4)}`}
-                              
-                                
-                            </div>
-                            <div>
-                            {`${element.ownersName} `}
-                            </div>
-                            <div>
-                            {`\n${element.cvv}                           \t${element.validity}`}
-                            </div>
 
+
+                            </div>
                         </Item>
                     </div>
                 )) : 'No cards found.'}
 
         </Grid>
-    );
+    )
 }
 //          {creditCards ? <CreditCardDisplay numbers={UserCards} setCard={handleCard} /> : 'Loading...'}
 /**

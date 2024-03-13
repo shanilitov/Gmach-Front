@@ -48,6 +48,8 @@ export default function NewDeposit() {
   const [depositReturnDate, setDepositReturnDate] = React.useState("");
   const [check, setChecked] = React.useState(true); // Define the 'checked' variable
   const [card, setCard] = React.useState(""); // A card number from the DB
+  const [cardId, setCardId] = React.useState("");// A cardId of card from the DB
+  const [cardIdFromDB, setCardIdFromDB] = React.useState(false);// If there is a card in the DB
   const [successed, setSuccessed] = React.useState(false)//If deposit entered to DB successfuly 
   const [error, setError] = React.useState("")
   const id = useParams();
@@ -76,7 +78,7 @@ export default function NewDeposit() {
     switch (step) {
       case 0:
         // return <Details />;
-        return <DepositPaymentForm onCardName={cardNameHandler} onCardNumber={cardNumberHandler} onExpDate={expDateHandler} onCvv={cvvHandler} onFields={handleButtonShow} checkBox={CheckboxHandler} userID={id} onExistingCard={handleCard} />;
+        return <DepositPaymentForm onCardName={cardNameHandler} onCardNumber={cardNumberHandler} onExpDate={expDateHandler} onCvv={cvvHandler} onFields={handleButtonShow} checkBox={CheckboxHandler} userID={id}  onCardId={handleCardId} onExistingCard={handleCard} />;
       case 1:
         return <DepositDateAndAmount onAmount={depositAmountHandler} onDate={depositReturnDateHandler} onFields={handleButtonShow} />;
       case 2:
@@ -139,6 +141,14 @@ export default function NewDeposit() {
 
     }
   }
+
+  const handleCardId = (cardId) => {
+    console.log("Father. handleCardId run!", cardId)
+    setCardId(cardId);
+    setCardIdFromDB(true);
+  }
+
+  
   //This function is for the button. It checks if all the fields are full and if so, it shows the button.
   const handleButtonShow = () => {
     console.log("The handleButtonShow run at father!");
@@ -186,103 +196,114 @@ export default function NewDeposit() {
     console.log("depositAmount: ", depositAmount);
     console.log("depositReturnDate: ", depositReturnDate);
     console.log("userId: ", id);
-    if (cardName && cardNumber && expDate && cvv && depositAmount && depositReturnDate) {
-      const card = {
-        cardId: 0,
-        userId: parseInt(id.userId),
-        creditCardNumber: _cardNumber,
-        ownersName: cardName,
-        cvv: cvv,
-        validity:new Date(expDate).toISOString() ,
-        
+    let cardId = 0;
+    if (cardIdFromDB) { 
+      cardId = cardId;
+    }
+    else {
+      if (cardName && cardNumber && expDate && cvv && depositAmount && depositReturnDate) {
+        const card = {
+          cardId: 0,
+          userId: parseInt(id.userId),
+          creditCardNumber: _cardNumber,
+          ownersName: cardName,
+          cvv: cvv,
+          validity: new Date(expDate).toISOString(),
+        }
+        console.log("card: ", JSON.stringify(card));
+  let URL = "https://localhost:7275/api/Card/AddNewCard";
+  fetch(URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      'accept': 'text/plain',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(card),
+  })
+    .then((response) => {
+      response.json().then((data) => {
+        console.log("Server responsed!! Data: " + JSON.stringify(data));
+        if (data == -3) {
+          setError("You're not logged in. Please log in and try again.")
+        }
+        if (data > 0) {
+          alert("Your card was added successfully!")
+          setCard(data)
+          let depositData = {
+            depositId: 0,
+            userId: parseInt(id.userId),
+            sum: parseInt(depositAmount),
+            dateToPull: new Date(depositReturnDate).toISOString().split('T')[0],
+            /*cardName: cardName,
+            cardNumber: _cardNumber,
+            expDate: expDate,
+            cvv: cvv,
+            depositAmount: depositAmount,
+            depositReturnDate: depositReturnDate,*/
+          }
+          console.log("depositData: ", depositData);
+          fetch('https://localhost:7275/api/Deposit/AddADeposit', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(depositData)
+          }).then(response => {
+            console.log("Response is: ", response);
+            console.log("Res message: ", response.message)
+            return response.json();
+          }).then(data => {
+            console.log("Data is: ", data);
+            if (data == -2) {
+              alert("You're not logged in. Please log in and try again.")
+            }
+            if (data > 0) {
+              alert("Your deposit was added successfully!")
+              setSuccessed(true)
+            }
+            else if (data == -1) {
+              alert("Error. Please try again.")
+            }
+
+          }).catch(err => {
+            console.log("Error is: ", err);
+          })
+        }
+        else if (data == -1) {
+          setError("Error. Please try again.")
+        }
+      })
+        .catch((error) => {
+          console.error('Error:', error);
+          setError("Error: " + error)
+        })
+        .finally(() => {
+          console.log("Finally");
+        });
+    })
 
         /*
-        "cardId": 0,
+              "cardId": 0,
   "userId": 0,
   "creditCardNumber": "string",
   "ownersName": "string",
   "cvv": "string",
   "validity": "2024-03-06T12:35:11.750Z"
         */
+
+  
       }
-      console.log("card: ", JSON.stringify(card));
-      let URL = "https://localhost:7275/api/Card/AddNewCard";
-      fetch(URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          'accept': 'text/plain',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(card),
-      })
-        .then((response) => {
-          response.json().then((data) => {
-            console.log("Server responsed!! Data: " + JSON.stringify(data));
-            if (data == -3) {
-              setError("You're not logged in. Please log in and try again.")
-            }
-            if (data > 0) {
-              alert("Your card was added successfully!")
-              setCard(data)
-              let depositData = {
-                depositId: 0,
-                userId: parseInt(id.userId),
-                sum: parseInt(depositAmount),
-                dateToPull: new Date(depositReturnDate).toISOString().split('T')[0],
-                /*cardName: cardName,
-                cardNumber: _cardNumber,
-                expDate: expDate,
-                cvv: cvv,
-                depositAmount: depositAmount,
-                depositReturnDate: depositReturnDate,*/
-              }
-              console.log("depositData: ", depositData);
-              fetch('https://localhost:7275/api/Deposit/AddADeposit', {
-                method: 'POST',
-                headers: {
-                  'Authorization': `Bearer ${token}`,
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(depositData)
-              }).then(response => {
-                console.log("Response is: ", response);
-                console.log("Res message: ", response.message)
-                return response.json();
-              }).then(data => {
-                console.log("Data is: ", data);
-                if (data == -2) {
-                  alert("You're not logged in. Please log in and try again.")
-                }
-                if (data > 0) {
-                  alert("Your deposit was added successfully!")
-                  setSuccessed(true)
-                }
-                else if (data == -1) {
-                  alert("Error. Please try again.")
-                }
+      else {
 
-              }).catch(err => {
-                console.log("Error is: ", err);
-              })
-            }
-            else if (data == -1) {
-              setError("Error. Please try again.")
-            }
-          })
-            .catch((error) => {
-              console.error('Error:', error);
-              setError("Error: " + error)
-            })
-            .finally(() => {
-              console.log("Finally");
-            });
-        })
+        setError("Please fill all the fields.")
+      }
+
+     
 
     }
-    else {
-      setError("Please fill all the fields.")
-    }
+
   }
 
 
