@@ -257,12 +257,14 @@ export default function DataTable(props) {
     //console.log("22222")
   }
 
+  function formatSum(sum) {
+    return sum.toLocaleString('en-US', { style: 'currency', currency: 'USD' }).replace(/\.\d{2}$/, '');
+  }
 
-  //console.log("deposit data is: ", deposits, "loan data is: ", loanRequests)
   const titles = props.titles;
   const columns = [
     { id: 0, label: titles[0], minWidth: 80, format: (value) => value.toString() },
-    { id: 1, label: titles[1], minWidth: 100 },
+    { id: 1, label: titles[1], minWidth: 80 },
     {
       id: 2,
       label: titles[2],
@@ -276,7 +278,31 @@ export default function DataTable(props) {
     },
   ];
 
-  const handleChangePage = (event, newPage) => {
+
+  const DepositsColumns = [
+    { id: 0, label: titles[0], minWidth: 120, format: (value) => value.toString() },
+    { id: 1, label: titles[1], minWidth: 120 },
+    {
+      id: 2,
+      label: titles[2],
+      minWidth: 120,
+    },
+    {
+      id: 3,
+      label: "Return today?",
+      minWidth: -50,
+      align: 'right',
+    },
+    {
+      id: 4,
+      label: titles[3],
+      minWidth: 20,
+      align: 'right',
+    },
+
+  ];
+
+  const handleChangePage = (ev, newPage) => {
     setPage(newPage);
   };
 
@@ -300,7 +326,7 @@ export default function DataTable(props) {
         loanRequests !== undefined ?
 
           //If it's a loan requests table
-          <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+          <Paper sx={{ width: '95%', overflow: 'hidden' }}>
             <TableContainer sx={{ maxHeight: 440 }} >
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
@@ -330,6 +356,7 @@ export default function DataTable(props) {
                                 : column.id === 2  // Check if it's the 'Return date' column
                                   ? formatDate(value) // Call the formatDate function
                                   : value}
+                              {column.id === 3 ? <Checkbox color="primary" checked={new Date(value) <= new Date()} /> : null}
                             </TableCell>
                           );
                         })}
@@ -513,16 +540,14 @@ export default function DataTable(props) {
           //If it's a deposits table
 
           <div>
-
-
             {
-              (<div className='depositsTable'><h3 color='rgb(0, 32, 96)'>Deposits in PlusMinus account</h3><Paper sx={{ width: '100%', overflow: 'hidden' }}>
+              (<div className='depositsTable'><h3 color='rgb(0, 32, 96)'>Deposits in PlusMinus account</h3><Paper sx={{ width: '85%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 440 }} >
-                  <Table stickyHeader aria-label="sticky table">
+                  <Table stickyHeader aria-label="sticky table</Table>">
                     <TableHead>
                       <TableRow>
 
-                        {columns.map((column) => (
+                        {DepositsColumns.map((column) => (
 
                           <TableCell
                             key={column.id}
@@ -533,6 +558,7 @@ export default function DataTable(props) {
                             {column.label}
                           </TableCell>
                         ))}
+
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -541,10 +567,24 @@ export default function DataTable(props) {
                         data[0].map((row, index) => {
                           return (
                             <>
-                              <TableRow hover tabIndex={-1} key={index}>{/*onClick={() => ClickOnDeposit(row)} */}
-                                {columns.map((column) => {
+                              <TableRow hover tabIndex={-1} key={index}  >{/*onClick={() => ClickOnDeposit(row)} */}
+                                {DepositsColumns.map((column) => {
                                   console.log(column.id)
-                                  const value = row[depositsOrder[column.id]];
+                                  let value = row[depositsOrder[column.id]];
+                                  if (column.id === 3) {
+                                    const today = new Date();
+                                    const returnDate = new Date(row[depositsOrder[2]]);
+                                    console.log("returnDate is: ", returnDate + "; today is: ", today + "today == returnDate is: ", today == returnDate)
+                                    if (returnDate.toDateString() === today.toDateString()) {
+                                      value = "Yes 🔴";
+                                    }
+                                    else {
+                                      value = "No 🟢";
+                                    }
+                                  }
+                                  if(column.id === 4){
+                                    value = row[depositsOrder[3]]
+                                  }
                                   console.log(value)
 
                                   return (
@@ -554,7 +594,8 @@ export default function DataTable(props) {
                                         ? column.format(value)
                                         : column.id === 2  // Check if it's the 'Return date' column
                                           ? formatDate(value) // Call the formatDate function
-                                          : value}
+                                          : column.id === 1 ?
+                                            formatSum(value) : value}
                                     </TableCell>
                                   );
                                 })}
@@ -600,7 +641,7 @@ export default function DataTable(props) {
 
 
             {
-              (<div className='depositsTable'><h3 color='rgb(0, 32, 96)'>Deposits already returned </h3><Paper sx={{ width: '100%', overflow: 'hidden' }}>
+              (<div className='depositsTable'><h3 color='rgb(0, 32, 96)'>Deposits already returned </h3><Paper sx={{ width: '85%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 440 }}>
                   <Table stickyHeader aria-label="sticky table">
                     <TableHead>
