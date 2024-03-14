@@ -145,44 +145,49 @@ export default function DataTable(props) {
 
 
   async function disagree() {
-    console.log("Disagree(). currentLoanId is: ", currentLoanId,"  currentRequest: ", currentRequest," userId: ", currentRequest[3], " name: ", name);
-    setWait(true);  
+    console.log("Disagree(). currentLoanId is: ", currentLoanId, "  currentRequest: ", currentRequest, " userId: ", currentRequest[3], " name: ", name);
+    setWait(true);
     try {
-      const response = await fetch(`https://localhost:7275/api/LoanDetails/${currentLoanId}`, { method: "DELETE" })
-      if (!response) {
-        setErrorMessage(`Request deleted failed.`);
+      //Send a message to the user that his request was rejected
+      const response = await fetch(`https://localhost:7275/api/Message/ReportLoan`, {
+        method: "POST",
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "accept": "*/*",
+
+        },
+        body: JSON.stringify({
+          loanID: currentLoanId,
+          problem: `Dear ${name}, We would like to inform you that your loan request was rejected. We are sorry for the inconvenience. Please contact us for more details. PlusMinus team.`,
+        }),
+      });
+      if (!response.ok) {
+        setWait(false);
+        setErrorMessage(`Email didn't send.`);
         setError(true);
         setTimeout(() => {
           setError(false);
           setErrorMessage("");
+          setOpen(false);
         }, 3000);
-
       }
       else {
-        //Send a message to the user that his request was rejected
-        const response = await fetch(`https://localhost:7275/api/Message/ReportLoan`, {
-          method: "POST",
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            "Content-Type": "application/json",
-            "accept": "*/*",
-  
-          },
-          body: JSON.stringify({
-            loanID: currentLoanId,
-            problem: `Dear ${name}, We would like to inform you that your loan request was rejected. We are sorry for the inconvenience. Please contact us for more details. PlusMinus team.`,
-          }),
-        });
-        if (!response.ok) {
-          setWait(false);
-          setErrorMessage(`Email didn't send.`);
+        //Delete loan request from the database
+        const response = await fetch(`https://localhost:7275/api/LoanDetails/${currentLoanId}`, { method: "DELETE" })
+        if (!response) {
+          //Delete failed
+          setErrorMessage(`Request deleted failed.`);
           setError(true);
           setTimeout(() => {
             setError(false);
             setErrorMessage("");
+          setOpen(false);
           }, 3000);
+
         }
         else {
+          //Delete succeeded
           setWait(false);
           setMessage("Request deleted successfully.");
           setAnswer(true);
@@ -191,21 +196,26 @@ export default function DataTable(props) {
             setMessage("");
             setOpen(false);
           }, 3000);
-
-          console.log("all procces runned successfully:")
-
+            console.log("all procces runned successfully:")
         }
-      }
+        
+      }     
       setWait(false);
       setOpen(false);
     } catch (error) {
-      console.error("Error reporting problem:", error);
-      setWait(false);
-      setOpen(false);           
-
+      console.error("Error in deleting loan request:", error);
+      setErrorMessage("Error in deleting loan request. ", error);
+      setError(true);
+      setTimeout(() => {
+        setWait(false);
+        setOpen(false);
+        setError(false);
+        setErrorMessage("");
+      }, 3000);
     }
-
   }
+
+  
   const ClickOnDeposit = (row) => {
     console.log("Row is: ", row);
     setOpen(true);
