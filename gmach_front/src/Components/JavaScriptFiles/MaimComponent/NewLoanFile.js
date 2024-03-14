@@ -64,7 +64,7 @@ export default function NewLoanFile(props) {
   const [LoanAmount, setLoanAmount] = useState("0");
   const [DeedOfGuarantee, setDeedOfGuarantee] = useState("");
   const [allFields, setAllFields] = useState(false);
-  const [code, setCode] = useState("");  
+  const [code, setCode] = useState("");
 
   //PaymentForm.js:
   const [rememberAccount, setRememberAccount] = React.useState(true);
@@ -237,61 +237,64 @@ export default function NewLoanFile(props) {
         console.log("AccountID is: ", result);
         console.log("Account added successfully. Now adding loan request...");
         console.log("User Id: ", id, "User {id}: ", { id })
-        //Now, add the loan request:
-        const URL2 = "https://localhost:7275/api/LoanDetails/AddNewLoan";
+        if (result > 0) {
+          //Now, add the loan request:
+          const URL2 = "https://localhost:7275/api/LoanDetails/AddNewLoan";
 
-        const Loan = {
-          loanId: 0,
-          LoanerId: id,
-          dateToGetBack: new Date(time).toISOString(),
-          sum: LoanAmount,
-          loanFile: DeedOfGuarantee,
-          isAprovied: false,
-          guarantors: [
-            {
-              id: 0,
-              loanId: 0,
-              identityNumber: "string",
-              name: GuarantorName1,
-              phoneNumber: GuarantorPhone1,
-              emailAddress: GuarantorEmail1,
-              address: "string",
-              check: check1
-            },
-            {
-              id: 0,
-              loanId: 0,
-              identityNumber: "string",
-              name: GuarantorName2,
-              phoneNumber: GuarantorPhone2,
-              emailAddress: GuarantorEmail2,
-              address: "string",
-              check: check2
+          const Loan = {
+            loanId: 0,
+            LoanerId: id,
+            dateToGetBack: new Date(time).toISOString(),
+            sum: LoanAmount,
+            loanFile: DeedOfGuarantee,
+            isAprovied: false,
+            guarantors: [
+              {
+                id: 0,
+                loanId: 0,
+                identityNumber: "string",
+                name: GuarantorName1,
+                phoneNumber: GuarantorPhone1,
+                emailAddress: GuarantorEmail1,
+                address: "string",
+                check: check1
+              },
+              {
+                id: 0,
+                loanId: 0,
+                identityNumber: "string",
+                name: GuarantorName2,
+                phoneNumber: GuarantorPhone2,
+                emailAddress: GuarantorEmail2,
+                address: "string",
+                check: check2
+              }
+            ],
+            accountId : result
+          };
+          try {
+            console.log("Before fetch. Loan: ", Loan)
+            const response = await fetch(URL2, {
+              method: "POST",
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(Loan)
+            });
+            if (response.ok) {
+              const result = await response.json();
+              console.log("result of fetch: ", result);
+              console.log("Loan added successfully.");
+              setCode(result);
+            } else {
+              console.error("Error:", response.status);
             }
-          ]
-        };
-        try {
-          console.log("Before fetch. Loan: ", Loan)
-          const response = await fetch(URL2, {
-            method: "POST",
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(Loan)
-          });
-          if (response.ok) {
-            const result = await response.json();
-            console.log("result of fetch: ", result);
-            console.log("Loan added successfully.");
-            setCode(result);
-          } else {
-            console.error("Error:", response.status);
+          } catch (error) {
+            console.error("Error:", error);
           }
-        } catch (error) {
-          console.error("Error:", error);
+          //If the account wasn't added successfully:
         }
-        //If the account wasn't added successfully:
       } else {
         console.error("Error:", response.status);
       }
@@ -435,10 +438,10 @@ export default function NewLoanFile(props) {
                 <br />
                 Apply number: <strong>#12D9e74#{code}</strong>
               </Typography>
-              <div  style = {{marginTop: "3%", marginLeft: "1%", padding: "3%"}}>
+              <div style={{ marginTop: "3%", marginLeft: "1%", padding: "3%" }}>
                 <BasicButtons value="Back to your personal area" function={() => { window.location.href = `/Register/${id}/${name}`; }} />
               </div>
-              
+
             </React.Fragment>
           ) : (
             <React.Fragment>
