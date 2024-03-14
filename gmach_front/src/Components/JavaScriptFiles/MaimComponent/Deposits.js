@@ -8,6 +8,7 @@ export default function Deposits(props) {
 
   const id = props.id
   const name = props.name
+  console.log("id: ", id, " name: ", name)
 
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("")
@@ -55,11 +56,12 @@ export default function Deposits(props) {
       console.log("Cards are: ", cards)
       if (cards) {
         setDeposits(cards);
+        setUserHasDeposits(true);
       }
       else {
-        if (userHasDeposits == false || cards == undefined) {
+        if (userHasDeposits == false ) {
           console.log("useEffect :: User doesn't have any cards!! Show alert. 🤐: "+userHasDeposits)
-          setAlertMsg("useEffect :: You don't have any deposits in your account.")
+          setAlertMsg("You don't have any deposits in your account.")
           setShowAlert(true);
         }
 
@@ -91,7 +93,7 @@ export default function Deposits(props) {
         
       </p>*/}
       {userHasDeposits ? depositInfo : null}
-      {showAlert ? <Alert type="info" msg={alertMsg} /> : null}
+      {!userHasDeposits ? <Alert type="info" msg={alertMsg} /> : null}
       <p>Want to add a amount for deposit? click <a href={`/NewDeposit/${id}/${name}`}>here</a>.</p>
     </div>
   )
