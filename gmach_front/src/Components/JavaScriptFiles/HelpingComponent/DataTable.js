@@ -145,6 +145,7 @@ export default function DataTable(props) {
 
 
   async function disagree() {
+    console.log("Disagree(). currentLoanId is: ", currentLoanId,"  currentRequest: ", currentRequest," userId: ", currentRequest[3], " name: ", name);
     setWait(true);  
     try {
       const response = await fetch(`https://localhost:7275/api/LoanDetails/${currentLoanId}`, { method: "DELETE" })
