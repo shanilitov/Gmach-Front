@@ -387,23 +387,7 @@ export default function AddressForm(props) {
       </Grid>
 
 
-        <Grid item xs={12}>
-          <div>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  color="secondary"
-                  name="saveAddress"
-                  value="yes"
-                  required={true}
-                />
-              }
-              label="I agree to save the data I entered in the association's database."
-            />
-          </div>
-          {showAlert == true ? <ErrorAlert msg={message} /> : <></>}
-
-        </Grid>
+     
       </Grid>
 
      
