@@ -59,7 +59,8 @@ export default function DataTable(props) {
   const fullScreen = useMediaQuery(theme.breakpoints.down('lg'));
   const [problem, setProblem] = React.useState(""); //The problem that the admin will report
   const [thereProblem, setThereProblem] = React.useState(false); //If true, show the text field for the problem
-  const [inProgress, setInProgress] = React.useState(false); //If true, show the progress component
+  const [error, setError] = React.useState(false); //If true, show the progress component
+  const [errorMessage, setErrorMessage] = React.useState(""); //The message that will be shown in the alert component
 
   const token = localStorage.getItem('token')
 
@@ -143,6 +144,67 @@ export default function DataTable(props) {
   };
 
 
+  async function disagree() {
+    setWait(true);  
+    try {
+      const response = await fetch(`https://localhost:7275/api/LoanDetails/${currentLoanId}`, { method: "DELETE" })
+      if (!response) {
+        setErrorMessage(`Request deleted failed.`);
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+          setErrorMessage("");
+        }, 3000);
+
+      }
+      else {
+        //Send a message to the user that his request was rejected
+        const response = await fetch(`https://localhost:7275/api/Message/ReportLoan`, {
+          method: "POST",
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            "Content-Type": "application/json",
+            "accept": "*/*",
+  
+          },
+          body: JSON.stringify({
+            loanID: currentLoanId,
+            problem: `Dear ${name}, We would like to inform you that your loan request was rejected. We are sorry for the inconvenience. Please contact us for more details. PlusMinus team.`,
+          }),
+        });
+        if (!response.ok) {
+          setWait(false);
+          setErrorMessage(`Email didn't send.`);
+          setError(true);
+          setTimeout(() => {
+            setError(false);
+            setErrorMessage("");
+          }, 3000);
+        }
+        else {
+          setWait(false);
+          setMessage("Request deleted successfully.");
+          setAnswer(true);
+          setTimeout(() => {
+            setAnswer(false);
+            setMessage("");
+            setOpen(false);
+          }, 3000);
+
+          console.log("all procces runned successfully:")
+
+        }
+      }
+      setWait(false);
+      setOpen(false);
+    } catch (error) {
+      console.error("Error reporting problem:", error);
+      setWait(false);
+      setOpen(false);           
+
+    }
+
+  }
   const ClickOnDeposit = (row) => {
     console.log("Row is: ", row);
     setOpen(true);
@@ -166,7 +228,7 @@ export default function DataTable(props) {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         return response.text();
       })
       .then((data) => {
@@ -179,7 +241,7 @@ export default function DataTable(props) {
           setOpen(false);
           setMessage("Deposit released successfully");
         }, 1000);
-       
+
       })
       .catch((error) => {
         console.log("Error in ReleaseDeposit(): ", error);
@@ -414,6 +476,7 @@ export default function DataTable(props) {
                           </DialogContent>
                           {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
                           {answer ? <div style={{ paddingBottom: "2%" }}><Alert type="info" msg={message} /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
+                          {error ? <div style={{ paddingBottom: "2%" }}><Alert type="error" msg={errorMessage} /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
                           {thereProblem ? <div>
                             <TextField type="text" onChange={(ev) => setProblem(ev.target.value)} sx={{ width: "70%", margin: "2%" }} />
                             <Button variant="contained" onClick={handleCloseReport} sx={{ marginTop: "2.5%", padding: "2.2%", width: "20%" }}>Report</Button>
@@ -514,7 +577,7 @@ export default function DataTable(props) {
                             <Button autoFocus onClick={() => { setThereProblem(true) }}>
                               Report a problem
                             </Button>
-                            <Button autoFocus onClick={handleClose}>
+                            <Button autoFocus onClick={disagree}>
                               Disagree
                             </Button>
                             <Button onClick={ApprovalLoan} autoFocus>
