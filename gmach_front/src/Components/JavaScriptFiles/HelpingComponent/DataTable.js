@@ -150,21 +150,21 @@ export default function DataTable(props) {
     setCurrentLoanId(row[0]);
   }
 
-  const ReleaseDeposit = () => {
+  const ReleaseDeposit = (id) => {
     console.log("Release deposit start. currentRequest is: ", currentRequest);
     setWait(true);
-    fetch(``, {
-      method: "POST",
+    fetch(`https://localhost:7275/api/Deposit/Return/${currentRequest.depositId}`, {
+      method: "GET",
       headers: {
         'Authorization': `Bearer ${token}`,
         "accept": "text/plain",
-        "Content-Type": "application/json"
       },
     })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
+        setOpen(false);
         return response.text();
       })
       .then((data) => {
@@ -242,10 +242,10 @@ export default function DataTable(props) {
   if (deposits != null || deposits != undefined) {
     data = deposits.map((deposit) => createData(deposit));
     // Create an array for deposits that haven't returned yet (dateToPull <= today)
-    const depositsNotReturned = deposits.filter(deposit => new Date(deposit.dateToPull) >= new Date());
+    const depositsNotReturned = deposits.filter(deposit => !deposit.isReturned );
 
     // Create an array for deposits that have already returned (dateToPull > today)
-    const depositsReturned = deposits.filter(deposit => new Date(deposit.dateToPull) < new Date());
+    const depositsReturned = deposits.filter(deposit => deposit.isReturned);
     console.log("🚴‍♂️  depositsNotReturned is: ", depositsNotReturned);
     console.log("🚴‍♂️🚴‍♂️🚴‍♂️  depositsReturned is: ", depositsReturned);
     data = [depositsNotReturned, depositsReturned];
@@ -623,7 +623,7 @@ export default function DataTable(props) {
                                   </DialogContentText>
                                   {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
                                   <DialogActions>
-                                    <Button autoFocus onClick={ReleaseDeposit}>Yes, returned</Button>
+                                    <Button autoFocus onClick={(ev)=>{ReleaseDeposit(row.id)}}>Yes, returned</Button>
                                     <Button autoFocus onClick={CloseReleaseDeposit}>Not yet</Button>
 
                                   </DialogActions>
