@@ -59,6 +59,7 @@ export default function DataTable(props) {
   const fullScreen = useMediaQuery(theme.breakpoints.down('lg'));
   const [problem, setProblem] = React.useState(""); //The problem that the admin will report
   const [thereProblem, setThereProblem] = React.useState(false); //If true, show the text field for the problem
+  const [inProgress, setInProgress] = React.useState(false); //If true, show the progress component
 
   const token = localStorage.getItem('token')
 
@@ -151,6 +152,7 @@ export default function DataTable(props) {
   }
 
   const ReleaseDeposit = (id) => {
+    //setInProgress(true);
     console.log("Release deposit start. currentRequest is: ", currentRequest);
     setWait(true);
     fetch(`https://localhost:7275/api/Deposit/Return/${currentRequest.depositId}`, {
@@ -164,17 +166,20 @@ export default function DataTable(props) {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        setOpen(false);
+        
         return response.text();
       })
       .then((data) => {
         console.log("‼ In ReleaseDepsit(), data is: ", data);
-
+        //setInProgress(false);
+        setWait(false);
         setTimeout(() => {
           setWait(false);
-          setMessage("Deposit released successfully");
           setAnswer(true);
-        }, 3000);
+          setOpen(false);
+          setMessage("Deposit released successfully");
+        }, 1000);
+       
       })
       .catch((error) => {
         console.log("Error in ReleaseDeposit(): ", error);
@@ -242,7 +247,7 @@ export default function DataTable(props) {
   if (deposits != null || deposits != undefined) {
     data = deposits.map((deposit) => createData(deposit));
     // Create an array for deposits that haven't returned yet (dateToPull <= today)
-    const depositsNotReturned = deposits.filter(deposit => !deposit.isReturned );
+    const depositsNotReturned = deposits.filter(deposit => !deposit.isReturned);
 
     // Create an array for deposits that have already returned (dateToPull > today)
     const depositsReturned = deposits.filter(deposit => deposit.isReturned);
@@ -615,15 +620,15 @@ export default function DataTable(props) {
                                   <DialogContentText>
                                     Deposit sum is : {formatSum(row.sum)}.
                                   </DialogContentText>
-                                  <DialogContentText> 
-                                  __________________________________
+                                  <DialogContentText>
+                                    __________________________________
                                   </DialogContentText>
                                   <DialogContentText>
                                     <strong>Is this deposit returned to the depositor?</strong>
                                   </DialogContentText>
                                   {wait ? <div style={{ marginLeft: "45%", paddingBottom: "2%" }}><WaitComponent /> </div> : <div style={{ padding: "2%", height: "3%" }}></div>}
                                   <DialogActions>
-                                    <Button autoFocus onClick={(ev)=>{ReleaseDeposit(row.id)}}>Yes, returned</Button>
+                                    <Button autoFocus onClick={(ev) => { ReleaseDeposit(row.id) }}>Yes, returned</Button>
                                     <Button autoFocus onClick={CloseReleaseDeposit}>Not yet</Button>
 
                                   </DialogActions>
