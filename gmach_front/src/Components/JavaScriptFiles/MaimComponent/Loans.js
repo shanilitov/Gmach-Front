@@ -14,7 +14,7 @@ export default function Loans(props) {
 
   const { id } = useParams()
   const { name } = useParams();
-  console.log("Id is: ", id)
+  console.log("Id is: ", id, " Name is: ", name)
 
   const [Dates, setDates] = useState([])
   const [Loans, setLoans] = useState([]);
@@ -95,7 +95,7 @@ export default function Loans(props) {
       {ShowAlert ? <Alert type="info" msg="You don't have any loans in your account." /> : null}
       {Error ? <Alert type="error" msg={ErrorMsg} /> : null}
 
-      <p>Need a loan? click <a href={`/AddLoan/${id}`}>here.</a></p>
+      <p>Need a loan? click <a href={`/AddLoan/${id}/${name}`}>here.</a></p>
     </div>
   )
 }

@@ -31,6 +31,10 @@ function NewUser() {
       setMessage("Password must contain at least 8 characters.");
       return false;
     }
+    if (password !== validPassword) {
+      setMessage("Passwords do not match.");
+      return false;
+    }
     if (phone.length !== 10) {
       setMessage("Not a valid phone number.");
       return false;

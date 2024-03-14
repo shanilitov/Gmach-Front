@@ -11,19 +11,29 @@ import Alert from './Alert';
 import { useState } from 'react';
 import moment from 'moment';
 import ErrorAlert from './Alert';
+import WaitComponent from './WaitComponent';
+import Button from '@mui/material/Button';
+import { data } from 'jquery';
 
 export default function LoanCard(props) {
     console.log("I'm in LoanCard");
     const [showAlert, setShowAlert] = useState(false);
+    const [alertMsg, setAlertMsg] = useState("")
+    const [showAlert2, setShowAlert2] = useState(false);
+    const [alertMsg2, setAlertMsg2] = useState("")
+    const [isDeleted, setIsDeleted] = useState(false);
+    const [inProgress, setInProgress] = useState(false);
     const admin = props.admin;
-    
+
     const loan = props.loan;
     const LoanDate = props.date;
     const title = loan.loanId;
-   
-     
+
+
     React.useEffect(() => {
-        if (LoanDate<(moment())) {
+        const today = moment();
+        if (moment(LoanDate, "DD/MM/YYYY") < today) {
+            setAlertMsg("Worng!! Date of return passed!!");
             setShowAlert(true);
         }
     })
@@ -31,10 +41,56 @@ export default function LoanCard(props) {
     function daysBetween(date) {
         const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
         const today = new Date();
+        if (today < date) {
+            setAlertMsg("Worng!! Date of return passed!!");
+            setShowAlert(true);
+        }
         const givenDate = moment(date, "DD/MM/YYYY").toDate();
         const diffDays = Math.round(Math.abs((today - givenDate) / oneDay));
         console.log("diffDays is: " + diffDays);
         return diffDays;
+    }
+
+    function deleteLoanRequest(loanId) {
+        setInProgress(true)
+        console.log("LoanId is: ", loanId);
+        fetch(`https://localhost:7275/api/LoanDetails/${loanId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    console.log('Success:', data);
+                    setIsDeleted(true);
+                    setInProgress(false);
+                }
+                else {
+                    setIsDeleted(false);
+                    setInProgress(false);
+                }
+            })
+
+        fetch(`https://localhost:7275/api/LoanDetails/${loanId}`, { method: 'DELETE' })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                    setAlertMsg("Error: Network response was not ok");
+                    setShowAlert(true);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data)
+                if (data) {
+                    setIsDeleted(true);
+                    setInProgress(false);
+                }
+                else {
+                    setIsDeleted(false);
+                    setInProgress(false);
+                }
+                console.log("isDeleted: ", isDeleted)
+            })
+
+            .catch(error => console.error('Error:', error));
     }
 
 
@@ -54,16 +110,21 @@ export default function LoanCard(props) {
                                 variant="body2"
                                 color="text.primary"
                             >
-                                {`Has to be retuned in ${daysBetween(LoanDate)} days`}
                             </Typography>
                             <h2>Loan amount: {(loan.sum) + "$"}</h2>
                             <h3>Debt maturity date: {LoanDate}</h3>
-                            {loan.isAprovied ? "Approved" : "Loan is not approved yet"}
+                            {loan.isAprovied ? "Approved\n" : "Loan is not approved yet"}
+                            {loan.isAprovied && !showAlert? `  Has to be retuned in ${daysBetween(LoanDate)} days` : <></>}
+                            {loan.isAprovied && showAlert? `   Time to retuned passed before ${daysBetween(LoanDate)} days` : <></>}
+                            {loan.isAprovied ? <></> : <div style={{ padding: "5%" }}><Button variant="contained" onClick={() => { deleteLoanRequest(loan.loanId) }} value="Delete" color="primary" >
+                                {inProgress ? <WaitComponent /> : 'Deleted'}</Button></div>}
                             {showAlert ? <Alert type="error" msg='Worng!! Date of return passed!!' /> : <></>}
-                            {daysBetween(LoanDate) < 7 && !admin? <ErrorAlert type="warning" msg="You have less than 7 days to return the loan" /> : <></>}
+                            {daysBetween(LoanDate) < 7 && !admin  ? <ErrorAlert type="warning" msg="You have less than 7 days to return the loan" /> : <></>}
+
                         </React.Fragment>
                     }
                 />
+                {showAlert2 ? <Alert type="error" msg={alertMsg2} /> : <></>}
             </ListItem>
             <Divider variant="inset" component="li" />
 

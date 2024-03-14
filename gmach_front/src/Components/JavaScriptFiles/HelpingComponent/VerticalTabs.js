@@ -105,12 +105,12 @@ export default function VerticalTabs(props) {
       >
         <Tab label="Deposits" {...a11yProps(0)} />
         <Tab label="Loans" {...a11yProps(1)} />
-        <Tab label="Messages" {...a11yProps(2)} />
-        {getCookie('admin') ? <Tab label="Users Deposits"  {...a11yProps(3)} /> : null}
+        <Tab label="User messages" {...a11yProps(2)} />
+        {getCookie('admin') ? <Tab label="User Deposits"  {...a11yProps(3)} /> : null}
         {/*getCookie('admin') ? <Tab label="Donations"  {...a11yProps(4)} /> : null*/}
-        {getCookie('admin') ? <Tab label="Users Loans" {...a11yProps(4)} /> : null}
-        {getCookie('admin') ? <Tab label="Loans requests" {...a11yProps(5)} /> : null}
-        {getCookie('admin') ? <Tab label="Users Request Contacts" {...a11yProps(6)} /> : null}
+        {getCookie('admin') ? <Tab label="User Loans" {...a11yProps(4)} /> : null}
+        {getCookie('admin') ? <Tab label="Loan requests" {...a11yProps(5)} /> : null}
+        {getCookie('admin') ? <Tab label="Website messages" {...a11yProps(6)} /> : null}
 
 
 

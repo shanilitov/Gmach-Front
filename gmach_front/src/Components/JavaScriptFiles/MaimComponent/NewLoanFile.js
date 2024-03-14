@@ -20,6 +20,9 @@ import ErrorAlert from "../HelpingComponent/ErrorAlert";
 import usePagination from "@mui/material/usePagination/usePagination";
 import { useParams } from "react-router-dom";
 import BasicButtons from "../HelpingComponent/BasicButtons";
+import { useNavigate } from "react-router-dom";
+import CreateSvgIcon from "../HelpingComponent/CreateSvgIcon";
+
 
 
 function Copyright() {
@@ -76,6 +79,7 @@ export default function NewLoanFile(props) {
 
   const token = localStorage.getItem('token')
 
+  const navigate = useNavigate();
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -354,6 +358,18 @@ export default function NewLoanFile(props) {
     }
   }
 
+  const changeNavigate = () => {
+    console.log("changeNavigate was called");
+    // Clear cookies if they exist
+    document.cookie.split(";").forEach((cookie) => {
+      document.cookie = cookie
+      .replace(/^ +/, "")
+      .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
+    });
+    navigate("/");
+  };
+
+
   //tryMe();
 
   function getStepContent(step) {
@@ -392,6 +408,7 @@ export default function NewLoanFile(props) {
         </Toolbar>
         <div id="space"></div>
         <div id="space2"></div>
+        
       </AppBar>
       <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
         <Paper
@@ -444,7 +461,7 @@ export default function NewLoanFile(props) {
                     {activeStep === steps.length - 1 ? "Send" : "Next"}
                   </Button>) : null
                 }
-                {val}
+               
               </Box>
             </React.Fragment>
           )}

@@ -256,9 +256,7 @@ export default function DepositPaymentForm(props) {
               }}
             />
           </Grid>
-          <Grid item xs={12} >
-            <FormControlLabel control={<Checkbox defaultChecked onChange={handleChange} />} label="Save my credit card details for re-use" />
-          </Grid>
+         
           <Grid item xs={12}>
             {error ? (<ErrorAlert msg={errorMsg} />) : (<></>)}
           </Grid>

@@ -334,7 +334,7 @@ export default function AllUserMessages(props) {
                 : <></>
             }
 
-            <h3>Your messeges:</h3>
+            <h3>Your messages:</h3>
 
             <div style={{
                 display: 'flex',

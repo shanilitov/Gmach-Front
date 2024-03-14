@@ -54,6 +54,7 @@ export default function NewDeposit() {
   const [error, setError] = React.useState("")
   const id = useParams();
   const name = useParams();
+  console.log("id: ", id, " name: ", name)
 
   const [fullCard, setFullCard] = React.useState({})
 
@@ -373,7 +374,8 @@ export default function NewDeposit() {
             ))}
           </Stepper>
           {activeStep === steps.length ?
-            (successed ?
+          
+             ( successed ?
               (
                 <React.Fragment>
                   <Typography variant="h5" gutterBottom>
@@ -393,7 +395,7 @@ export default function NewDeposit() {
 
                   </Typography>
                   <div style={{ marginTop: "3%", marginLeft: "1%", padding: "3%" }}>
-                    <BasicButtons value="Back to your personal area" function={() => { window.location.href = `/Register/${id.useId}/${id.userName}`; }} />
+                    <BasicButtons value="Back to your personal area" function={() => { window.location.href = `/Register/${id}/${name}`; window.location.reload();}} />
                   </div>
                 </React.Fragment>
               ) : (<React.Fragment>
@@ -414,6 +416,8 @@ export default function NewDeposit() {
                   }>Try again</Button>
                 </Typography>
               </React.Fragment>)
+           
+              
             ) : (
               <React.Fragment>
                 {[getStepContent(activeStep), handleButtonShow]}
@@ -425,7 +429,7 @@ export default function NewDeposit() {
                   )}
                   {allFields && handleButtonShow()}
                   {console.log("card: ", card, "card == '': ", card == '', "card == null: ", card == null)}
-                  {allFields || card != '' ?
+                  {/*allFields || card != '' ?
                     <Button
                       variant="contained"
                       onClick={() => {
@@ -437,8 +441,8 @@ export default function NewDeposit() {
                       {activeStep === steps.length - 1 ? 'End' : 'Next'}
 
                     </Button> : <></>
-                  }
-                  {activeStep === steps.length - 1 ?
+                    */}
+                  {allFields || card != ''|| activeStep === steps.length - 1 ?
                     <Button
                       variant="contained"
                       onClick={() => {

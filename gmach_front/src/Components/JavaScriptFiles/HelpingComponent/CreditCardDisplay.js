@@ -61,7 +61,7 @@ export default function CreditCardDisplay(props) {
                     setHasCard(true)
                 }
                 else {
-                    setAlertMsg("You don't have any credit cards saved in system.\n Please add a new credit card.")
+                    setAlertMsg("No cards found in system.")
                     setShowAlert(true);
                 }
             });
@@ -110,7 +110,7 @@ export default function CreditCardDisplay(props) {
                             </div>
                         </Item>
                     </div>
-                )) : 'No cards found.'}
+                )) : ''}
 
         </Grid>
     )
