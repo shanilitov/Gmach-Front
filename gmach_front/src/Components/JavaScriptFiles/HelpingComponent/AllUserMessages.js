@@ -291,7 +291,7 @@ export default function AllUserMessages(props) {
                     console.log('$')
                     setData()
                     setMyMessage('')
-                    window.location.reload();
+                 //   window.location.reload();
                 }
 
 

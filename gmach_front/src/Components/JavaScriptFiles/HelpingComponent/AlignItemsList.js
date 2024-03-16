@@ -81,13 +81,13 @@ export default function AlignItemsList(props) {
                 {props.name}
               </Typography>
               <p style={{color: 'rgb(0,32,96)', fontSize: '20'} }>Withdrawal date: {date}</p>
-              {showAlert ? <Alert type="info" msg="Deposit can be extended" /> : <></>}
+              {showAlert ? <Alert type="info" msg="Deposit already returned." /> : <></>}
             </React.Fragment>
           }
         />
       </ListItem>
-      {showAlert?
-     <div className='dialogBox'> <DialogOfDetails type="deposit" canBeWithdraw={showAlert}/></div> :null}
+      {/*showAlert?
+     <div className='dialogBox'> <DialogOfDetails type="deposit" canBeWithdraw={showAlert}/></div> :null*/}
      <Divider variant="inset" component="li" />
     </List>
     
