@@ -34,7 +34,7 @@ export default function AllUserMessages(props) {
             setData()
         setTimeout(() => {
             setUpdate(false)
-        }, 300);
+        }, 500);
 
     }, [])
 

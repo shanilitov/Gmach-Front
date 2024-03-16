@@ -18,6 +18,7 @@ import Messages from "./Messages";
 import { useParams } from "react-router-dom";
 import AllUserMessages from "./AllUserMessages";
 import AllUserContactRequest from "./AllUserContactRequests";
+import AllUsers from "./AllUsers";
 
 
 function TabPanel(props) {
@@ -111,7 +112,7 @@ export default function VerticalTabs(props) {
         {getCookie('admin') ? <Tab label="User Loans" {...a11yProps(4)} /> : null}
         {getCookie('admin') ? <Tab label="Loan requests" {...a11yProps(5)} /> : null}
         {getCookie('admin') ? <Tab label="Website messages" {...a11yProps(6)} /> : null}
-
+        {/* {getCookie('admin') ? <Tab label="All Users" {...a11yProps(7)} /> : null} */}
 
 
 
@@ -146,6 +147,11 @@ export default function VerticalTabs(props) {
       <TabPanel value={value} index={6}>
         <AllUserContactRequest />
       </TabPanel>
+
+{/*       
+      <TabPanel value={value} index={7}>
+        <AllUsers />
+      </TabPanel> */}
 
     </Box>
   );

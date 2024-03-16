@@ -23,12 +23,15 @@ export default function LoanCard(props) {
     const [alertMsg2, setAlertMsg2] = useState("")
     const [isDeleted, setIsDeleted] = useState(false);
     const [inProgress, setInProgress] = useState(false);
+    const [isInBlackList, setIsInBlackList] = useState(false)
     const admin = props.admin;
 
     const loan = props.loan;
     const LoanDate = props.date;
     const title = loan.loanId;
     const token = localStorage.getItem('token')
+
+    console.log('is Admin ',admin)
 
     React.useEffect(() => {
         const today = moment();
@@ -107,6 +110,26 @@ export default function LoanCard(props) {
     }
 
 
+    const addUserToWarningList = (userId) => {
+    
+            fetch(`https://localhost:7275/api/User/AddUserToBlackList/${userId}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'accept': 'text/plain'
+                    }
+                }
+            ).then(res => {
+                if (res.ok) {
+                    console.log('Success');
+                    setIsInBlackList(true)
+                }
+            }
+            ).catch(error => console.error('Error:', error));
+
+    }
+
     return (
         <List sx={{ width: '100%', maxWidth: 600, bgcolor: 'background.paper' }}>
             <ListItem alignItems="flex-start">
@@ -131,9 +154,14 @@ export default function LoanCard(props) {
                             {loan.isAprovied && showAlert ? `   Time to retuned passed before ${daysBetween(LoanDate)} days` : <></>}
                             {loan.isAprovied ? <></> : <div style={{ padding: "5%" }}><Button variant="contained" onClick={() => { deleteLoanRequest(loan.loanId) }} value="Delete" color="primary" >
                                 {inProgress ? <WaitComponent /> : 'Deleted'}</Button></div>}
-                            {showAlert ? <Alert type="error" msg='Worng!! Date of return passed!!' /> : <></>}
+                            {showAlert ? <Alert type="error" msg='Date of return passed' /> : <></>}
                             {daysBetween(LoanDate) < 7 && !admin ? <ErrorAlert type="warning" msg="You have less than 7 days to return the loan" /> : <></>}
-
+                            {showAlert && admin ?
+                                <div style={{ padding: "5%" }}>
+                                    <Button variant="contained" onClick={() => { addUserToWarningList(loan.loanerId) }} value="Add warning on the loan" color="primary" >
+                                        {isInBlackList? 'Added' : 'Add a warning on the loaner'}
+                                    </Button>
+                                </div> : <></>}
                         </React.Fragment>
                     }
                 />
