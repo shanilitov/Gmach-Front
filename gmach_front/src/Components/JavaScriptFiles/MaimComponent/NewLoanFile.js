@@ -46,8 +46,8 @@ const steps = [
 
 export default function NewLoanFile(props) {
 
-  const { id } = useParams();
-  const { name } = useParams();
+  const {id} = useParams();
+  const {name} = useParams();
   const [activeStep, setActiveStep] = React.useState(0);
   //Data from sons:
   //AddressForm file:
@@ -236,7 +236,7 @@ export default function NewLoanFile(props) {
         const result = await response.json();
         console.log("AccountID is: ", result);
         console.log("Account added successfully. Now adding loan request...");
-        console.log("User Id: ", id, "User {id}: ", { id })
+        console.log("User Id: ", id, "User {id}: ", { id }, name, {name})
         if (result > 0) {
           //Now, add the loan request:
           const URL2 = "https://localhost:7275/api/LoanDetails/AddNewLoan";
@@ -270,7 +270,7 @@ export default function NewLoanFile(props) {
                 check: check2
               }
             ],
-            accountId : result
+            accountId: result
           };
           try {
             console.log("Before fetch. Loan: ", Loan)
@@ -358,16 +358,7 @@ export default function NewLoanFile(props) {
     }
   }
 
-  const changeNavigate = () => {
-    console.log("changeNavigate was called");
-    // Clear cookies if they exist
-    document.cookie.split(";").forEach((cookie) => {
-      document.cookie = cookie
-      .replace(/^ +/, "")
-      .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
-    });
-    navigate("/");
-  };
+
 
 
   //tryMe();
@@ -386,6 +377,11 @@ export default function NewLoanFile(props) {
     }
   }
 
+
+  const changeNavigate = () => {
+    console.log(`in changeNavigate, id: ${id} name:${name}`)
+    navigate(`/Register/${id}/${name}`)
+  }
 
   return (
     <React.Fragment>
@@ -408,7 +404,7 @@ export default function NewLoanFile(props) {
         </Toolbar>
         <div id="space"></div>
         <div id="space2"></div>
-        
+
       </AppBar>
       <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
         <Paper
@@ -439,7 +435,7 @@ export default function NewLoanFile(props) {
                 Apply number: <strong>#12D9e74#{code}</strong>
               </Typography>
               <div style={{ marginTop: "3%", marginLeft: "1%", padding: "3%" }}>
-                <BasicButtons value="Back to your personal area" function={() => { window.location.href = `/Register/${id}/${name}`; }} />
+                <BasicButtons value="Back to your personal area" function={changeNavigate} />
               </div>
 
             </React.Fragment>
@@ -461,7 +457,7 @@ export default function NewLoanFile(props) {
                     {activeStep === steps.length - 1 ? "Send" : "Next"}
                   </Button>) : null
                 }
-               
+
               </Box>
             </React.Fragment>
           )}

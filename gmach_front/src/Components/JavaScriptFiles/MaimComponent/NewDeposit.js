@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import * as React from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useParams, useNavigate } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -341,7 +341,10 @@ export default function NewDeposit() {
 
   }
 
-
+  const navigate = useNavigate();
+  const NavigateFunc = () => {
+      navigate(`/Register/${id.userId}/${name.userName}`)
+  }
 
   return (
     <React.Fragment>
@@ -395,15 +398,15 @@ export default function NewDeposit() {
 
                   </Typography>
                   <div style={{ marginTop: "3%", marginLeft: "1%", padding: "3%" }}>
-                    <BasicButtons value="Back to your personal area" function={() => { window.location.href = `/Register/${id}/${name}`; window.location.reload();}} />
+                    <BasicButtons value="Back to your personal area" function={NavigateFunc} />
                   </div>
                 </React.Fragment>
               ) : (<React.Fragment>
                 <Typography variant="h5" gutterBottom>
-                  <strong>Hooooops...</strong>
+                  <strong>Waiting...</strong>
 
                   <Typography variant="subtitle1">
-                    Sorry, but something bad happend, and your giving doesn't enter to PlusMinus's accoumt.
+                    The server has not responsed yet.
                   </Typography>
                   <Typography variant="subtitle1">
                     {error}
