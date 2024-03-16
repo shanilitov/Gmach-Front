@@ -55,54 +55,55 @@ export default function LoanCard(props) {
         setInProgress(true)
         console.log("LoanId is: ", loanId);
         fetch(`https://localhost:7275/api/Message/DeleteLoneMessage?loanId=${loanId}`,
-        {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'accept': '*/*'
+            {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'accept': '*/*'
+                }
             }
-        }
         )
             .then(data => {
                 if (data.ok) {
                     console.log('Success');
                     setIsDeleted(true);
                     setInProgress(false);
+
+
+                    fetch(`https://localhost:7275/api/LoanDetails/${loanId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'accept': 'text/plain'
+                        }
+                    }).then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                            setAlertMsg("Error: Network response was not ok");
+                            setShowAlert(true);
+                        }
+                        return response.json();
+                    })
+                        .then(data => {
+                            console.log(data)
+                            if (data) {
+                                setIsDeleted(true);
+                                setInProgress(false);
+                            }
+                            else {
+                                setIsDeleted(false);
+                                setInProgress(false);
+                            }
+                            console.log("isDeleted: ", isDeleted)
+                        })
+
+                        .catch(error => console.error('Error:', error));
                 }
                 else {
                     setIsDeleted(false);
                     setInProgress(false);
                 }
             })
-
-        fetch(`https://localhost:7275/api/LoanDetails/${loanId}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'accept': 'text/plain'
-            }
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-                setAlertMsg("Error: Network response was not ok");
-                setShowAlert(true);
-            }
-            return response.json();
-        })
-            .then(data => {
-                console.log(data)
-                if (data) {
-                    setIsDeleted(true);
-                    setInProgress(false);
-                }
-                else {
-                    setIsDeleted(false);
-                    setInProgress(false);
-                }
-                console.log("isDeleted: ", isDeleted)
-            })
-
-            .catch(error => console.error('Error:', error));
     }
 
 
