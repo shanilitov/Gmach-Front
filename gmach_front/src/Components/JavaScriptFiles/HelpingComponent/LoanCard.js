@@ -68,6 +68,7 @@ export default function LoanCard(props) {
                 }
             })
 
+            
         fetch(`https://localhost:7275/api/LoanDetails/${loanId}`, { method: 'DELETE' })
             .then(response => {
                 if (!response.ok) {
