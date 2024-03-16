@@ -4,6 +4,7 @@ import Messages from "./Messages";
 import GetUserNameById from "./GetUserNameById";
 import TextField from '@mui/material/TextField';
 import BasicButtons from "./BasicButtons";
+import WaitComponent from './WaitComponent';
 
 export default function AllUserMessages(props) {
     const id = props.id
@@ -268,7 +269,7 @@ export default function AllUserMessages(props) {
 
                 {userMessages === undefined ?
                     <h1>You dont have any mesages yet</h1> : <></>}
-            </> : <></>}
+            </> : <WaitComponent />}
 
             <TextField
                 header="Your message"
