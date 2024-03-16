@@ -28,7 +28,7 @@ export default function LoanCard(props) {
     const loan = props.loan;
     const LoanDate = props.date;
     const title = loan.loanId;
-
+    const token = localStorage.getItem('token')
 
     React.useEffect(() => {
         const today = moment();
@@ -54,11 +54,18 @@ export default function LoanCard(props) {
     function deleteLoanRequest(loanId) {
         setInProgress(true)
         console.log("LoanId is: ", loanId);
-        fetch(`https://localhost:7275/api/LoanDetails/${loanId}`)
-            .then(response => response.json())
+        fetch(`https://localhost:7275/api/Message/DeleteLoneMessage?loanId=${loanId}`,
+        {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'accept': '*/*'
+            }
+        }
+        )
             .then(data => {
-                if (data) {
-                    console.log('Success:', data);
+                if (data.ok) {
+                    console.log('Success');
                     setIsDeleted(true);
                     setInProgress(false);
                 }
@@ -68,15 +75,20 @@ export default function LoanCard(props) {
                 }
             })
 
-        fetch(`https://localhost:7275/api/LoanDetails/${loanId}`, { method: 'DELETE' })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                    setAlertMsg("Error: Network response was not ok");
-                    setShowAlert(true);
-                }
-                return response.json();
-            })
+        fetch(`https://localhost:7275/api/LoanDetails/${loanId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'accept': 'text/plain'
+            }
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+                setAlertMsg("Error: Network response was not ok");
+                setShowAlert(true);
+            }
+            return response.json();
+        })
             .then(data => {
                 console.log(data)
                 if (data) {
@@ -114,12 +126,12 @@ export default function LoanCard(props) {
                             <h2>Loan amount: {(loan.sum) + "$"}</h2>
                             <h3>Debt maturity date: {LoanDate}</h3>
                             {loan.isAprovied ? "Approved\n" : "Loan is not approved yet"}
-                            {loan.isAprovied && !showAlert? `  Has to be retuned in ${daysBetween(LoanDate)} days` : <></>}
-                            {loan.isAprovied && showAlert? `   Time to retuned passed before ${daysBetween(LoanDate)} days` : <></>}
+                            {loan.isAprovied && !showAlert ? `  Has to be retuned in ${daysBetween(LoanDate)} days` : <></>}
+                            {loan.isAprovied && showAlert ? `   Time to retuned passed before ${daysBetween(LoanDate)} days` : <></>}
                             {loan.isAprovied ? <></> : <div style={{ padding: "5%" }}><Button variant="contained" onClick={() => { deleteLoanRequest(loan.loanId) }} value="Delete" color="primary" >
                                 {inProgress ? <WaitComponent /> : 'Deleted'}</Button></div>}
                             {showAlert ? <Alert type="error" msg='Worng!! Date of return passed!!' /> : <></>}
-                            {daysBetween(LoanDate) < 7 && !admin  ? <ErrorAlert type="warning" msg="You have less than 7 days to return the loan" /> : <></>}
+                            {daysBetween(LoanDate) < 7 && !admin ? <ErrorAlert type="warning" msg="You have less than 7 days to return the loan" /> : <></>}
 
                         </React.Fragment>
                     }
