@@ -209,6 +209,20 @@ export default function AddressForm(props) {
               }
               setGuarantorLastName1(ev.target.value);
             }}
+            onBlur={(ev) => {
+              const englishLettersRegex = /^[A-Za-z]+$/;
+              if (englishLettersRegex.test(ev.target.value)) {
+                props.alert(false)
+                setShowAlert(false)
+                props.glName1(ev.target.value);
+              }
+              else {
+                setMessage("Last name should contain only English letters")
+                setShowAlert(true)
+                props.alert(true)
+              }
+              setGuarantorLastName1(ev.target.value);
+            }}
           />
         </Grid>
         <Grid item xs={12}>
