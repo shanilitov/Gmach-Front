@@ -153,7 +153,7 @@ export default function LoanCard(props) {
                             {loan.isAprovied && !showAlert ? `  Has to be retuned in ${daysBetween(LoanDate)} days` : <></>}
                             {loan.isAprovied && showAlert ? `   Time to retuned passed before ${daysBetween(LoanDate)} days` : <></>}
                             {loan.isAprovied ? <></> : <div style={{ padding: "5%" }}><Button variant="contained" onClick={() => { deleteLoanRequest(loan.loanId) }} value="Delete" color="primary" >
-                                {inProgress ? <WaitComponent /> : 'Deleted'}</Button></div>}
+                                {inProgress ? <WaitComponent /> : 'Delete'}</Button></div>}
                             {showAlert ? <Alert type="error" msg='Date of return passed' /> : <></>}
                             {daysBetween(LoanDate) < 7 && !admin ? <ErrorAlert type="warning" msg="You have less than 7 days to return the loan" /> : <></>}
                             {showAlert && admin ?
